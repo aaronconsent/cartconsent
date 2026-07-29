@@ -1,0 +1,43 @@
+---
+interface Props {
+  value: number; // 0-100
+  label?: string;
+  size?: "sm" | "md";
+  showValue?: boolean;
+}
+const { value, label, size = "md", showValue = true } = Astro.props as Props;
+const v = Math.max(0, Math.min(100, value));
+// Color zones (chart palette)
+const color =
+  v >= 80 ? "#00E5A0" :    // brand mint
+  v >= 60 ? "#3B82F6" :    // chart blue
+  v >= 40 ? "#F59E0B" :    // chart orange
+  "#EC4899";               // chart pink
+const grade =
+  v >= 90 ? "A+" :
+  v >= 80 ? "A"  :
+  v >= 70 ? "B"  :
+  v >= 60 ? "C"  :
+  v >= 40 ? "D"  : "F";
+const trackH = size === "sm" ? "h-1.5" : "h-2";
+---
+
+<div class="w-full">
+  {(label || showValue) && (
+    <div class="mb-1.5 flex items-baseline justify-between gap-3 text-xs">
+      {label && <span class="font-medium text-[color:var(--color-ink-2)]">{label}</span>}
+      {showValue && (
+        <span class="flex items-baseline gap-1.5">
+          <span class="font-mono text-sm font-bold tabular-nums text-[color:var(--color-ink)]">{v}</span>
+          <span class="font-mono text-[10px] font-semibold uppercase tracking-[0.14em]" style={`color:${color}`}>{grade}</span>
+        </span>
+      )}
+    </div>
+  )}
+  <div class:list={["relative w-full overflow-hidden rounded-full bg-[color:var(--color-rule)]", trackH]}>
+    <div
+      class:list={["rounded-full transition-[width] duration-700", trackH]}
+      style={`width:${v}%; background:${color}`}
+    ></div>
+  </div>
+</div>

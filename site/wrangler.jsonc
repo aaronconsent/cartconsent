@@ -1,0 +1,12 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "cartconsent-website",
+  "compatibility_date": "2024-12-01",
+  // Static Astro marketing site served from ./dist via Workers static assets.
+  // The "working demo" is the WordPress store on the droplet (cart.consentresolve.com),
+  // so the marketing site needs no Worker, D1, or R2.
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  }
+}

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://cart.consentresolve.com/sitemap-index.xml

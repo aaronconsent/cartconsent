@@ -1,0 +1,102 @@
+---
+import { PRIMARY_NAV, SITE } from "~/lib/site";
+---
+
+<header class="sticky top-0 z-40 border-b border-[color:var(--color-rule)] bg-[color:var(--color-bg)]/85 backdrop-blur-md">
+  <nav class="container-content flex h-16 items-center justify-between gap-6" aria-label="Primary">
+    <a href="/" class="flex items-center gap-2 font-display text-lg font-extrabold tracking-tight text-[color:var(--color-ink)]">
+      <span
+        class="grid size-8 place-items-center rounded-lg text-[color:var(--color-on-brand)]"
+        style="background: var(--color-brand)"
+        aria-hidden="true"
+      >
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2.5 3h2.2l2.1 11.2a1.8 1.8 0 0 0 1.8 1.4h8.4a1.8 1.8 0 0 0 1.8-1.4L21 7H6"/></svg>
+      </span>
+      CartConsent
+    </a>
+
+    <ul class="hidden items-center gap-1 md:flex">
+      {
+        PRIMARY_NAV.map((item) =>
+          item.children ? (
+            <li class="group relative">
+              <a
+                href={item.href}
+                class="inline-flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium text-[color:var(--color-ink-2)] transition-colors hover:text-[color:var(--color-ink)]"
+              >
+                {item.label}
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" class="mt-0.5 transition-transform group-hover:rotate-180"><path d="M6 9l6 6 6-6" /></svg>
+              </a>
+              <div class="invisible absolute left-0 top-full w-80 pt-2 opacity-0 transition-all group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+                <div class="card-elevated overflow-hidden p-2">
+                  {item.children.map((c) => (
+                    <a href={c.href} class="block rounded-lg px-3 py-2.5 transition-colors hover:bg-[color:var(--color-brand-soft)]">
+                      <span class="block text-sm font-semibold text-[color:var(--color-ink)]">{c.label}</span>
+                      {c.desc && <span class="block text-xs text-[color:var(--color-ink-muted)]">{c.desc}</span>}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </li>
+          ) : (
+            <li>
+              <a
+                href={item.href}
+                class="inline-flex items-center rounded-lg px-3 py-2 text-sm font-medium text-[color:var(--color-ink-2)] transition-colors hover:text-[color:var(--color-ink)]"
+              >
+                {item.label}
+              </a>
+            </li>
+          )
+        )
+      }
+    </ul>
+
+    <div class="hidden items-center gap-2 md:flex">
+      <a href="/resources/docs/" class="btn-ghost !px-4 !py-2">Docs</a>
+      <a href="/pricing/#free" class="btn-primary !px-4 !py-2">Get the free plugin</a>
+    </div>
+
+    <!-- Mobile toggle -->
+    <button
+      id="cc-menu-btn"
+      class="inline-flex size-10 items-center justify-center rounded-lg border border-[color:var(--color-rule)] text-[color:var(--color-ink)] md:hidden"
+      aria-label="Open menu"
+      aria-expanded="false"
+      aria-controls="cc-mobile"
+    >
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18" /></svg>
+    </button>
+  </nav>
+
+  <!-- Mobile panel -->
+  <div id="cc-mobile" hidden class="border-t border-[color:var(--color-rule)] bg-[color:var(--color-bg-alt)] md:hidden">
+    <div class="container-content flex flex-col gap-1 py-4">
+      {
+        PRIMARY_NAV.flatMap((item) =>
+          item.children
+            ? [
+                <span class="px-3 pt-2 text-xs font-semibold uppercase tracking-wider text-[color:var(--color-ink-muted)]">{item.label}</span>,
+                ...item.children.map((c) => (
+                  <a href={c.href} class="rounded-lg px-3 py-2.5 text-sm font-medium text-[color:var(--color-ink-2)]">{c.label}</a>
+                )),
+              ]
+            : [<a href={item.href} class="rounded-lg px-3 py-2.5 text-sm font-medium text-[color:var(--color-ink-2)]">{item.label}</a>]
+        )
+      }
+      <a href="/pricing/#free" class="btn-primary mt-3">Get the free plugin</a>
+    </div>
+  </div>
+</header>
+
+<script>
+  const btn = document.getElementById("cc-menu-btn");
+  const panel = document.getElementById("cc-mobile");
+  btn?.addEventListener("click", () => {
+    const open = panel?.hasAttribute("hidden");
+    if (open) panel?.removeAttribute("hidden");
+    else panel?.setAttribute("hidden", "");
+    btn.setAttribute("aria-expanded", String(!!open));
+    btn.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+  });
+</script>

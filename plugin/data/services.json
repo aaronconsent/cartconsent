@@ -1,0 +1,869 @@
+{
+	"version": 2,
+	"services": [
+		{
+			"slug": "ga4",
+			"name": "Google Analytics 4",
+			"vendor": "Google LLC",
+			"category": "statistics",
+			"method": "consent_mode",
+			"patterns": [
+				"googletagmanager.com/gtag/js",
+				"google-analytics.com/g/collect",
+				"google-analytics.com/analytics.js"
+			],
+			"policy": "https://policies.google.com/privacy",
+			"cookies": [
+				"_ga",
+				"_ga_*",
+				"_gid",
+				"_gat"
+			],
+			"purpose": "Measures how visitors use the site."
+		},
+		{
+			"slug": "gtm",
+			"name": "Google Tag Manager",
+			"vendor": "Google LLC",
+			"category": "statistics",
+			"method": "consent_mode",
+			"patterns": [
+				"googletagmanager.com/gtm.js",
+				"googletagmanager.com/ns.html"
+			],
+			"policy": "https://policies.google.com/privacy",
+			"cookies": [
+				"_gcl_*"
+			],
+			"purpose": "Container that loads other tags you have configured."
+		},
+		{
+			"slug": "google-ads",
+			"name": "Google Ads",
+			"vendor": "Google LLC",
+			"category": "marketing",
+			"method": "consent_mode",
+			"patterns": [
+				"googleadservices.com",
+				"googlesyndication.com",
+				"google.com/pagead",
+				"googletagmanager.com/gtag/js?id=AW-"
+			],
+			"policy": "https://policies.google.com/privacy",
+			"cookies": [
+				"_gcl_au",
+				"_gcl_aw",
+				"IDE",
+				"test_cookie"
+			],
+			"purpose": "Measures ad conversions and builds advertising audiences."
+		},
+		{
+			"slug": "meta-pixel",
+			"name": "Meta Pixel",
+			"vendor": "Meta Platforms, Inc.",
+			"category": "marketing",
+			"method": "script",
+			"patterns": [
+				"connect.facebook.net/en_US/fbevents.js",
+				"connect.facebook.net",
+				"facebook.com/tr"
+			],
+			"policy": "https://www.facebook.com/privacy/policy/",
+			"cookies": [
+				"_fbp",
+				"_fbc",
+				"fr"
+			],
+			"purpose": "Tracks visitor actions to measure and target advertising."
+		},
+		{
+			"slug": "microsoft-uet",
+			"name": "Microsoft Advertising (UET)",
+			"vendor": "Microsoft Corporation",
+			"category": "marketing",
+			"method": "consent_mode",
+			"patterns": [
+				"bat.bing.com/bat.js",
+				"bat.bing.com/action"
+			],
+			"policy": "https://privacy.microsoft.com/privacystatement",
+			"cookies": [
+				"_uetsid",
+				"_uetvid",
+				"MUID"
+			]
+		},
+		{
+			"slug": "tiktok",
+			"name": "TikTok Pixel",
+			"vendor": "TikTok Inc.",
+			"category": "marketing",
+			"method": "script",
+			"patterns": [
+				"analytics.tiktok.com",
+				"sf16-website-login.neutral.ttwstatic.com"
+			],
+			"policy": "https://www.tiktok.com/legal/privacy-policy",
+			"cookies": [
+				"_ttp",
+				"ttwid"
+			]
+		},
+		{
+			"slug": "linkedin",
+			"name": "LinkedIn Insight Tag",
+			"vendor": "LinkedIn Corporation",
+			"category": "marketing",
+			"method": "script",
+			"patterns": [
+				"snap.licdn.com/li.lms-analytics",
+				"px.ads.linkedin.com"
+			],
+			"policy": "https://www.linkedin.com/legal/privacy-policy",
+			"cookies": [
+				"li_sugr",
+				"bcookie",
+				"lidc",
+				"UserMatchHistory"
+			]
+		},
+		{
+			"slug": "pinterest",
+			"name": "Pinterest Tag",
+			"vendor": "Pinterest, Inc.",
+			"category": "marketing",
+			"method": "script",
+			"patterns": [
+				"s.pinimg.com/ct/core.js",
+				"ct.pinterest.com"
+			],
+			"policy": "https://policy.pinterest.com/privacy-policy",
+			"cookies": [
+				"_pinterest_ct_ua",
+				"_pin_unauth"
+			]
+		},
+		{
+			"slug": "hotjar",
+			"name": "Hotjar",
+			"vendor": "Hotjar Ltd",
+			"category": "statistics",
+			"method": "script",
+			"patterns": [
+				"static.hotjar.com",
+				"script.hotjar.com"
+			],
+			"policy": "https://www.hotjar.com/legal/policies/privacy/",
+			"cookies": [
+				"_hjSessionUser_*",
+				"_hjSession_*",
+				"_hjid"
+			]
+		},
+		{
+			"slug": "clarity",
+			"name": "Microsoft Clarity",
+			"vendor": "Microsoft Corporation",
+			"category": "statistics",
+			"method": "script",
+			"patterns": [
+				"clarity.ms/tag",
+				"www.clarity.ms"
+			],
+			"policy": "https://privacy.microsoft.com/privacystatement",
+			"cookies": [
+				"_clck",
+				"_clsk",
+				"CLID"
+			]
+		},
+		{
+			"slug": "callrail",
+			"name": "CallRail",
+			"vendor": "CallRail, Inc.",
+			"category": "statistics",
+			"method": "script",
+			"patterns": [
+				"cdn.callrail.com"
+			],
+			"policy": "https://www.callrail.com/privacy-notice/",
+			"cookies": [
+				"_cr_*"
+			]
+		},
+		{
+			"slug": "calltrackingmetrics",
+			"name": "CallTrackingMetrics",
+			"vendor": "CallTrackingMetrics",
+			"category": "statistics",
+			"method": "script",
+			"patterns": [
+				"tctm.co",
+				"app.calltrackingmetrics.com"
+			],
+			"policy": "https://www.calltrackingmetrics.com/privacy-policy/",
+			"cookies": [
+				"__ctmid"
+			]
+		},
+		{
+			"slug": "podium",
+			"name": "Podium",
+			"vendor": "Podium Corp Inc.",
+			"category": "functional",
+			"method": "script",
+			"patterns": [
+				"connect.podium.com",
+				"assets.podium.com"
+			],
+			"policy": "https://legal.podium.com/",
+			"cookies": []
+		},
+		{
+			"slug": "birdeye",
+			"name": "Birdeye",
+			"vendor": "BirdEye, Inc.",
+			"category": "functional",
+			"method": "script",
+			"patterns": [
+				"birdeye.com/embed",
+				"cdn.birdeye.com"
+			],
+			"policy": "https://birdeye.com/privacy-policy/",
+			"cookies": []
+		},
+		{
+			"slug": "youtube",
+			"name": "YouTube",
+			"vendor": "Google LLC",
+			"category": "marketing",
+			"method": "iframe",
+			"patterns": [
+				"youtube.com/embed",
+				"youtube-nocookie.com/embed",
+				"youtu.be"
+			],
+			"policy": "https://policies.google.com/privacy",
+			"cookies": [
+				"VISITOR_INFO1_LIVE",
+				"YSC",
+				"PREF"
+			]
+		},
+		{
+			"slug": "vimeo",
+			"name": "Vimeo",
+			"vendor": "Vimeo, Inc.",
+			"category": "statistics",
+			"method": "iframe",
+			"patterns": [
+				"player.vimeo.com/video",
+				"vimeo.com/api"
+			],
+			"policy": "https://vimeo.com/privacy",
+			"cookies": [
+				"vuid",
+				"_abexps"
+			]
+		},
+		{
+			"slug": "wistia",
+			"name": "Wistia",
+			"vendor": "Wistia, Inc.",
+			"category": "statistics",
+			"method": "script",
+			"patterns": [
+				"fast.wistia.com",
+				"fast.wistia.net"
+			],
+			"policy": "https://wistia.com/privacy",
+			"cookies": [
+				"wistia-*"
+			]
+		},
+		{
+			"slug": "google-maps",
+			"name": "Google Maps",
+			"vendor": "Google LLC",
+			"category": "functional",
+			"method": "iframe",
+			"patterns": [
+				"maps.googleapis.com",
+				"google.com/maps/embed",
+				"maps.google.com"
+			],
+			"policy": "https://policies.google.com/privacy",
+			"cookies": [
+				"NID"
+			]
+		},
+		{
+			"slug": "mapbox",
+			"name": "Mapbox",
+			"vendor": "Mapbox, Inc.",
+			"category": "functional",
+			"method": "script",
+			"patterns": [
+				"api.mapbox.com",
+				"mapbox.com/mapbox-gl-js"
+			],
+			"policy": "https://www.mapbox.com/legal/privacy",
+			"cookies": []
+		},
+		{
+			"slug": "recaptcha",
+			"name": "Google reCAPTCHA",
+			"vendor": "Google LLC",
+			"category": "functional",
+			"method": "script",
+			"patterns": [
+				"google.com/recaptcha",
+				"gstatic.com/recaptcha"
+			],
+			"policy": "https://policies.google.com/privacy",
+			"cookies": [
+				"_GRECAPTCHA"
+			]
+		},
+		{
+			"slug": "turnstile",
+			"name": "Cloudflare Turnstile",
+			"vendor": "Cloudflare, Inc.",
+			"category": "functional",
+			"method": "script",
+			"patterns": [
+				"challenges.cloudflare.com/turnstile"
+			],
+			"policy": "https://www.cloudflare.com/privacypolicy/",
+			"cookies": [
+				"cf_clearance"
+			]
+		},
+		{
+			"slug": "stripe",
+			"name": "Stripe",
+			"vendor": "Stripe, Inc.",
+			"category": "functional",
+			"method": "script",
+			"patterns": [
+				"js.stripe.com",
+				"m.stripe.com"
+			],
+			"policy": "https://stripe.com/privacy",
+			"cookies": [
+				"__stripe_mid",
+				"__stripe_sid"
+			]
+		},
+		{
+			"slug": "square",
+			"name": "Square",
+			"vendor": "Block, Inc.",
+			"category": "functional",
+			"method": "script",
+			"patterns": [
+				"squareup.com",
+				"web.squarecdn.com"
+			],
+			"policy": "https://squareup.com/legal/privacy",
+			"cookies": []
+		},
+		{
+			"slug": "paypal",
+			"name": "PayPal",
+			"vendor": "PayPal, Inc.",
+			"category": "functional",
+			"method": "script",
+			"patterns": [
+				"paypal.com/sdk/js",
+				"paypalobjects.com"
+			],
+			"policy": "https://www.paypal.com/us/legalhub/privacy-full",
+			"cookies": [
+				"ts",
+				"tsrce",
+				"l7_az"
+			]
+		},
+		{
+			"slug": "klaviyo",
+			"name": "Klaviyo",
+			"vendor": "Klaviyo, Inc.",
+			"category": "marketing",
+			"method": "script",
+			"patterns": [
+				"static.klaviyo.com",
+				"a.klaviyo.com"
+			],
+			"policy": "https://www.klaviyo.com/legal/privacy",
+			"cookies": [
+				"__kla_id"
+			]
+		},
+		{
+			"slug": "mailchimp",
+			"name": "Mailchimp",
+			"vendor": "Intuit Inc.",
+			"category": "marketing",
+			"method": "script",
+			"patterns": [
+				"chimpstatic.com",
+				"list-manage.com",
+				"mailchimp.com"
+			],
+			"policy": "https://www.intuit.com/privacy/statement/",
+			"cookies": [
+				"_mcid"
+			]
+		},
+		{
+			"slug": "activecampaign",
+			"name": "ActiveCampaign",
+			"vendor": "ActiveCampaign, LLC",
+			"category": "marketing",
+			"method": "script",
+			"patterns": [
+				"prism.app-us1.com",
+				"trackcmp.net"
+			],
+			"policy": "https://www.activecampaign.com/legal/privacy-policy",
+			"cookies": []
+		},
+		{
+			"slug": "hubspot",
+			"name": "HubSpot",
+			"vendor": "HubSpot, Inc.",
+			"category": "marketing",
+			"method": "script",
+			"patterns": [
+				"js.hs-scripts.com",
+				"js.hs-analytics.net",
+				"js.hsforms.net",
+				"track.hubspot.com"
+			],
+			"policy": "https://legal.hubspot.com/privacy-policy",
+			"cookies": [
+				"__hstc",
+				"__hssc",
+				"__hssrc",
+				"hubspotutk"
+			]
+		},
+		{
+			"slug": "intercom",
+			"name": "Intercom",
+			"vendor": "Intercom, Inc.",
+			"category": "functional",
+			"method": "script",
+			"patterns": [
+				"widget.intercom.io",
+				"js.intercomcdn.com"
+			],
+			"policy": "https://www.intercom.com/legal/privacy",
+			"cookies": [
+				"intercom-*"
+			]
+		},
+		{
+			"slug": "drift",
+			"name": "Drift",
+			"vendor": "Drift.com, Inc.",
+			"category": "functional",
+			"method": "script",
+			"patterns": [
+				"js.driftt.com",
+				"driftt.com"
+			],
+			"policy": "https://www.salesloft.com/legal/privacy-notice",
+			"cookies": [
+				"drift_*"
+			]
+		},
+		{
+			"slug": "tawk",
+			"name": "Tawk.to",
+			"vendor": "tawk.to Inc.",
+			"category": "functional",
+			"method": "script",
+			"patterns": [
+				"embed.tawk.to"
+			],
+			"policy": "https://www.tawk.to/privacy-policy/",
+			"cookies": [
+				"__tawkuuid"
+			]
+		},
+		{
+			"slug": "gohighlevel",
+			"name": "GoHighLevel",
+			"vendor": "HighLevel Inc.",
+			"category": "marketing",
+			"method": "script",
+			"patterns": [
+				"widgets.leadconnectorhq.com",
+				"msgsndr.com"
+			],
+			"policy": "https://www.gohighlevel.com/privacy-policy",
+			"cookies": []
+		},
+		{
+			"slug": "yelp",
+			"name": "Yelp",
+			"vendor": "Yelp Inc.",
+			"category": "marketing",
+			"method": "iframe",
+			"patterns": [
+				"yelp.com/biz_badge_js",
+				"yelp.com/embed"
+			],
+			"policy": "https://www.yelp.com/tos/privacy_policy",
+			"cookies": []
+		},
+		{
+			"slug": "housecallpro",
+			"name": "Housecall Pro",
+			"vendor": "Codefied Inc.",
+			"category": "functional",
+			"method": "script",
+			"patterns": [
+				"online-booking.housecallpro.com",
+				"housecallpro.com/book"
+			],
+			"policy": "https://www.housecallpro.com/privacy-policy/",
+			"cookies": []
+		},
+		{
+			"slug": "servicetitan",
+			"name": "ServiceTitan",
+			"vendor": "ServiceTitan, Inc.",
+			"category": "functional",
+			"method": "script",
+			"patterns": [
+				"servicetitan.com/scheduler",
+				"sched.servicetitan.com"
+			],
+			"policy": "https://www.servicetitan.com/privacy",
+			"cookies": []
+		},
+		{
+			"slug": "jobber",
+			"name": "Jobber",
+			"vendor": "Octopusapp Inc.",
+			"category": "functional",
+			"method": "script",
+			"patterns": [
+				"clienthub.getjobber.com",
+				"getjobber.com"
+			],
+			"policy": "https://getjobber.com/privacy-policy/",
+			"cookies": []
+		},
+		{
+			"slug": "nicejob",
+			"name": "NiceJob",
+			"vendor": "NiceJob Inc.",
+			"category": "functional",
+			"method": "script",
+			"patterns": [
+				"nicejob.co",
+				"nicejob-cdn.co"
+			],
+			"policy": "https://get.nicejob.com/privacy",
+			"cookies": []
+		},
+		{
+			"slug": "twilio",
+			"name": "Twilio",
+			"vendor": "Twilio Inc.",
+			"category": "functional",
+			"method": "script",
+			"patterns": [
+				"sdk.twilio.com",
+				"media.twiliocdn.com"
+			],
+			"policy": "https://www.twilio.com/legal/privacy",
+			"cookies": []
+		},
+		{
+			"slug": "wpforms",
+			"name": "WPForms",
+			"vendor": "WPForms LLC",
+			"category": "functional",
+			"method": "script",
+			"patterns": [
+				"/wp-content/plugins/wpforms"
+			],
+			"policy": "https://wpforms.com/privacy-policy/",
+			"cookies": []
+		},
+		{
+			"slug": "gravityforms",
+			"name": "Gravity Forms",
+			"vendor": "Rocketgenius, Inc.",
+			"category": "functional",
+			"method": "script",
+			"patterns": [
+				"/wp-content/plugins/gravityforms"
+			],
+			"policy": "https://www.gravityforms.com/privacy/",
+			"cookies": []
+		},
+		{
+			"slug": "presto-player",
+			"name": "Presto Player",
+			"vendor": "PrestoPlayer",
+			"category": "statistics",
+			"method": "iframe",
+			"patterns": [
+				"/wp-content/plugins/presto-player"
+			],
+			"policy": "https://prestoplayer.com/privacy-policy/",
+			"cookies": []
+		},
+		{
+			"slug": "zapier",
+			"name": "Zapier",
+			"vendor": "Zapier, Inc.",
+			"category": "functional",
+			"method": "script",
+			"patterns": [
+				"zapier.com/apps/embed",
+				"cdn.zapier.com"
+			],
+			"policy": "https://zapier.com/privacy",
+			"cookies": []
+		},
+		{
+			"slug": "typeform",
+			"name": "Typeform",
+			"vendor": "TYPEFORM S.L.",
+			"category": "functional",
+			"method": "iframe",
+			"patterns": [
+				"embed.typeform.com",
+				"form.typeform.com"
+			],
+			"policy": "https://www.typeform.com/privacy-policy/",
+			"cookies": []
+		},
+		{
+			"slug": "calendly",
+			"name": "Calendly",
+			"vendor": "Calendly LLC",
+			"category": "functional",
+			"method": "iframe",
+			"patterns": [
+				"assets.calendly.com",
+				"calendly.com/embed"
+			],
+			"policy": "https://calendly.com/privacy",
+			"cookies": []
+		},
+		{
+			"slug": "instagram",
+			"name": "Instagram Embed",
+			"vendor": "Meta Platforms, Inc.",
+			"category": "marketing",
+			"method": "iframe",
+			"patterns": [
+				"instagram.com/embed.js",
+				"instagram.com/p/"
+			],
+			"policy": "https://privacycenter.instagram.com/policy",
+			"cookies": []
+		},
+		{
+			"slug": "x-twitter",
+			"name": "X (Twitter) Widgets",
+			"vendor": "X Corp.",
+			"category": "marketing",
+			"method": "script",
+			"patterns": [
+				"platform.twitter.com/widgets.js",
+				"static.ads-twitter.com"
+			],
+			"policy": "https://x.com/privacy",
+			"cookies": [
+				"personalization_id",
+				"guest_id"
+			]
+		},
+		{
+			"slug": "reddit",
+			"name": "Reddit Pixel",
+			"vendor": "Reddit, Inc.",
+			"category": "marketing",
+			"method": "script",
+			"patterns": [
+				"redditstatic.com/ads",
+				"pixel.reddit.com"
+			],
+			"policy": "https://www.reddit.com/policies/privacy-policy",
+			"cookies": [
+				"_rdt_uuid"
+			]
+		},
+		{
+			"slug": "snapchat",
+			"name": "Snap Pixel",
+			"vendor": "Snap Inc.",
+			"category": "marketing",
+			"method": "script",
+			"patterns": [
+				"sc-static.net/scevent.min.js",
+				"tr.snapchat.com"
+			],
+			"policy": "https://snap.com/en-US/privacy/privacy-policy",
+			"cookies": [
+				"_scid",
+				"sc_at"
+			]
+		},
+		{
+			"slug": "fullstory",
+			"name": "FullStory",
+			"vendor": "FullStory, Inc.",
+			"category": "statistics",
+			"method": "script",
+			"patterns": [
+				"edge.fullstory.com",
+				"fullstory.com/s/fs.js"
+			],
+			"policy": "https://www.fullstory.com/legal/privacy-policy/",
+			"cookies": [
+				"fs_uid"
+			]
+		},
+		{
+			"slug": "cloudflare-insights",
+			"name": "Cloudflare Web Analytics",
+			"vendor": "Cloudflare, Inc.",
+			"category": "statistics_anonymous",
+			"method": "script",
+			"patterns": [
+				"static.cloudflareinsights.com/beacon"
+			],
+			"policy": "https://www.cloudflare.com/privacypolicy/",
+			"cookies": []
+		},
+		{
+			"slug": "rb2b",
+			"name": "RB2B",
+			"vendor": "RB2B",
+			"category": "marketing",
+			"identity": true,
+			"method": "script",
+			"patterns": [
+				"b2bjs.com",
+				"rb2b.com"
+			],
+			"policy": "https://rb2b.com/privacy-policy/",
+			"cookies": [],
+			"purpose": "Attempts to identify anonymous visitors and match them to business contact information."
+		},
+		{
+			"slug": "retention-com",
+			"name": "Retention.com",
+			"vendor": "Retention.com",
+			"category": "marketing",
+			"identity": true,
+			"method": "script",
+			"patterns": [
+				"retention.com",
+				"rtnc.io"
+			],
+			"policy": "https://retention.com/privacy-policy/",
+			"cookies": [],
+			"purpose": "Attempts to identify anonymous visitors and match them to business contact information."
+		},
+		{
+			"slug": "leadsy",
+			"name": "Leadsy",
+			"vendor": "Leadsy.ai",
+			"category": "marketing",
+			"identity": true,
+			"method": "script",
+			"patterns": [
+				"leadsy.ai",
+				"ma.leadsy.ai"
+			],
+			"policy": "https://leadsy.ai/privacy-policy/",
+			"cookies": [],
+			"purpose": "Attempts to identify anonymous visitors and match them to business contact information."
+		},
+		{
+			"slug": "vector",
+			"name": "Vector",
+			"vendor": "Vector",
+			"category": "marketing",
+			"identity": true,
+			"method": "script",
+			"patterns": [
+				"getvector.co",
+				"cdn.vector.co"
+			],
+			"policy": "https://www.vector.co/privacy",
+			"cookies": [],
+			"purpose": "Attempts to identify anonymous visitors and match them to business contact information."
+		},
+		{
+			"slug": "warmly",
+			"name": "Warmly",
+			"vendor": "Warmly",
+			"category": "marketing",
+			"identity": true,
+			"method": "script",
+			"patterns": [
+				"warmly.ai",
+				"getwarmly.com"
+			],
+			"policy": "https://www.warmly.ai/privacy-policy",
+			"cookies": [],
+			"purpose": "Attempts to identify anonymous visitors and match them to business contact information."
+		},
+		{
+			"slug": "opensend",
+			"name": "Opensend",
+			"vendor": "Opensend",
+			"category": "marketing",
+			"identity": true,
+			"method": "script",
+			"patterns": [
+				"opensend.com"
+			],
+			"policy": "https://www.opensend.com/privacy",
+			"cookies": [],
+			"purpose": "Attempts to identify anonymous visitors and match them to business contact information."
+		},
+		{
+			"slug": "koala",
+			"name": "Koala",
+			"vendor": "Koala",
+			"category": "marketing",
+			"identity": true,
+			"method": "script",
+			"patterns": [
+				"getkoala.com"
+			],
+			"policy": "https://getkoala.com/privacy",
+			"cookies": [],
+			"purpose": "Attempts to identify anonymous visitors and match them to business contact information."
+		},
+		{
+			"slug": "consent-resolve-id",
+			"name": "Consent Resolve — visitor identification",
+			"vendor": "Consent Resolve",
+			"category": "marketing",
+			"identity": true,
+			"method": "script",
+			"patterns": [
+				"cdn.consentresolve.com/consentresolve.js",
+				"consentresolve.com/cr.js"
+			],
+			"policy": "https://consentresolve.com/privacy",
+			"cookies": [],
+			"purpose": "Attempts to identify anonymous visitors and match them to business contact information."
+		}
+	]
+}

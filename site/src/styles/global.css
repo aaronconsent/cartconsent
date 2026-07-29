@@ -1,0 +1,191 @@
+@import "tailwindcss";
+
+@theme {
+  /* === CartConsent palette — WooCommerce purple, light theme ===
+     NOTE: token names are inherited from the shared design system; their VALUES
+     are remapped here so every component rethemes with no per-file edits.
+     "navy-*"  = deep plum (dark surfaces).  "mint-*" = WooCommerce purple (brand). */
+
+  /* Plum scale (dark backgrounds, cards) — inherits the "navy-*" names */
+  --color-navy-900: #2a1a42; /* primary dark bg (deep plum) */
+  --color-navy-800: #32204e;
+  --color-navy-700: #3d2a5c; /* card / secondary surface on dark */
+  --color-navy-600: #3d2a5c;
+
+  /* WooCommerce purple scale (brand) — inherits the "mint-*" names */
+  --color-mint-300: #9b78c9;
+  --color-mint-400: #7f54b3; /* brand primary — WooCommerce purple */
+  --color-mint-500: #6d46a0;
+  --color-mint-600: #5e3a8c;
+  --color-mint-700: #4b2d70; /* pressed */
+
+  /* Neutrals — light, faintly purple-tinted */
+  --color-paper: #faf9fc;    /* primary light bg / foreground */
+  --color-white: #ffffff;
+  --color-foreground: #faf9fc;
+  --color-ink: #1e1233;      /* primary text on light (plum-ink) */
+  --color-ink-2: #5b5170;    /* secondary text on light */
+  --color-ink-muted: #8b84a0;
+  --color-rule: #e9e5f0;
+
+  /* "Everything's free" accent — a confident green used sparingly */
+  --color-free: #12855a;
+  --color-free-soft: rgba(18, 133, 90, 0.1);
+
+  /* Semantic */
+  --color-danger: #7f1d1d;
+  --color-danger-bright: #fca5a5; /* danger text on dark surfaces */
+  --color-danger-soft: #fee2e2;
+
+  /* Chart palette */
+  --color-chart-blue:   #3b82f6;
+  --color-chart-green:  #10b981;
+  --color-chart-orange: #f59e0b;
+  --color-chart-purple: #7f54b3;
+  --color-chart-pink:   #c9356e;
+
+  /* === Semantic aliases consumed by components === */
+  --color-bg: var(--color-paper);
+  --color-bg-alt: var(--color-white);
+  --color-bg-inverse: var(--color-navy-900);
+  --color-bg-inverse-alt: var(--color-navy-700);
+  --color-brand: var(--color-mint-400);
+  --color-brand-bright: var(--color-mint-400);
+  --color-brand-pressed: var(--color-mint-700);
+  --color-brand-soft: rgba(127, 84, 179, 0.1);
+  --color-on-brand: #ffffff;       /* white on WooCommerce purple = 4.5:1 (AA, semibold) */
+  --color-on-inverse: #faf9fc;
+  --color-on-inverse-muted: #b7abd0;
+
+  /* Type */
+  --font-display: "Bricolage Grotesque", ui-serif, Georgia, serif;
+  --font-sans: "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  /* Radii */
+  --radius-DEFAULT: 0.25rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
+  --radius-full: 9999px;
+
+  --container-content: 1200px;
+}
+
+@layer base {
+  html {
+    background-color: var(--color-bg);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    scroll-behavior: smooth;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+  body { @apply antialiased; }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+    font-weight: 700;
+  }
+  h1 { letter-spacing: -0.035em; }
+  .skip-link {
+    @apply sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-[color:var(--color-brand)] focus:px-4 focus:py-2 focus:font-bold focus:text-[color:var(--color-on-brand)];
+  }
+
+  /* Selection */
+  ::selection { background: var(--color-mint-400); color: var(--color-navy-900); }
+
+  /* === Dark section: scope token overrides === */
+  .section-dark {
+    background-color: var(--color-bg-inverse);
+    color: var(--color-on-inverse);
+    --color-ink: var(--color-on-inverse);
+    --color-ink-2: #cbd5e1;
+    --color-ink-muted: #94a3b8;
+    --color-rule: rgba(255, 255, 255, 0.08);
+    --color-bg: var(--color-bg-inverse);
+    --color-bg-alt: var(--color-bg-inverse-alt);
+    --color-brand: var(--color-mint-400);
+    --color-brand-soft: rgba(0, 229, 160, 0.12);
+    --color-danger: var(--color-danger-bright); /* bright red for visibility on navy */
+  }
+}
+
+@layer components {
+  .container-content {
+    @apply mx-auto px-6;
+    max-width: var(--container-content);
+  }
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-[color:var(--color-brand)] px-6 py-3 text-sm font-semibold text-[color:var(--color-on-brand)] transition-all duration-200 hover:bg-[color:var(--color-brand-pressed)];
+    letter-spacing: -0.005em;
+  }
+  .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 12px 28px -12px rgba(0, 192, 128, 0.55);
+  }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-transparent px-6 py-3 text-sm font-semibold text-[color:var(--color-ink)] transition-colors hover:bg-[color:var(--color-bg-alt)];
+  }
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-[color:var(--color-brand)];
+  }
+  .eyebrow::before {
+    content: "";
+    width: 24px;
+    height: 1px;
+    background: currentColor;
+    display: inline-block;
+  }
+  .card {
+    background: var(--color-bg-alt);
+    border-radius: 1rem;
+    box-shadow: 0 1px 0 rgba(10, 22, 40, 0.04), 0 0 0 1px rgba(10, 22, 40, 0.06);
+  }
+  .step-badge {
+    @apply inline-flex size-8 items-center justify-center rounded-full font-mono text-xs font-bold;
+    background: var(--color-navy-900);
+    color: var(--color-mint-400);
+  }
+  .section-dark .step-badge {
+    background: var(--color-mint-400);
+    color: var(--color-navy-900);
+  }
+  .card-elevated {
+    background: var(--color-bg-alt);
+    border-radius: 1.25rem;
+    box-shadow: 0 1px 0 rgba(10, 22, 40, 0.04), 0 0 0 1px rgba(10, 22, 40, 0.06), 0 24px 48px -24px rgba(10, 22, 40, 0.18);
+  }
+  .section { padding-top: 7rem; padding-bottom: 7rem; }
+  .section-tight { padding-top: 5rem; padding-bottom: 5rem; }
+  .display-1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.25rem, 2.75vw, 2.375rem);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+  }
+  .display-2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+  }
+}
+
+/* Authority strip — seamless horizontal marquee.
+   The list duplicates its content, so translating by -50% wraps cleanly. */
+@keyframes cr-marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.animate-cr-marquee {
+  animation: cr-marquee 48s linear infinite;
+}
+.animate-cr-marquee:hover {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-cr-marquee { animation: none; }
+}

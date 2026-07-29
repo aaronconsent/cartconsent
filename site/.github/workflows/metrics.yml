@@ -1,0 +1,35 @@
+name: metrics-refresh
+
+# Refreshes social/metrics.json for the performance + CRM scoring dashboards.
+# Read-only — posts NOTHING. Pulls all 6 channels with the rubric signals
+# (FB/IG/YT shares+saves+reach+retention; TikTok/LinkedIn via Buffer; X via the
+# worker x-metrics endpoint). Runs a few times a day on its own cron.
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"     # every 6 hours (≈4×/day)
+  workflow_dispatch:           # manual "Run workflow" for an on-demand refresh
+
+jobs:
+  metrics:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Materialize credentials (read-only metrics creds)
+        run: |
+          printf '%s' "${{ secrets.FB_PAGE_ID }}"    > /tmp/fb_page_id.txt
+          printf '%s' "${{ secrets.FB_PAGE_TOKEN }}"  > /tmp/fb_page_token.txt
+          printf '%s' "${{ secrets.CR_IG_ID }}"       > /tmp/cr_ig_id.txt
+          printf '%s' '${{ secrets.YT_TOKEN_JSON }}'  > /tmp/yt_token.json
+          printf '%s' '${{ secrets.R2_JSON }}'        > /tmp/r2.json
+          printf '%s' "${{ secrets.BUFFER_TOKEN }}"   > /tmp/buffer_token.txt   # TikTok + LinkedIn
+
+      - name: Refresh engagement metrics
+        env:
+          ANALYTICS_KEY: ${{ secrets.FEEDBACK_KEY }}   # lets x_backfill read /api/x-metrics
+        run: python3 scripts/fetch_metrics.py
+
+      - name: Clean up credentials
+        if: always()
+        run: rm -f /tmp/fb_page_id.txt /tmp/fb_page_token.txt /tmp/cr_ig_id.txt /tmp/yt_token.json /tmp/r2.json /tmp/buffer_token.txt

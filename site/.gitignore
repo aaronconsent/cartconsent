@@ -1,0 +1,23 @@
+# generated media / build artifacts (hosted on R2, never committed)
+build/
+public/reels/
+public/illustrations/gbp/
+public/illustrations/gmb/
+*.mp4
+assets/audio/cr-music/
+assets/img/
+
+.DS_Store
+scripts/.cache/
+
+# Apollo lead exports — contain PII, never commit
+apollo-contacts-export*.csv
+*.scored.csv
+node_modules/
+dist/
+__pycache__/
+*.pyc
+.astro/
+public/images/resources/**/*-square.png
+public/images/resources/**/*-vertical.png
+public/video/

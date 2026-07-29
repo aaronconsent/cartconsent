@@ -1,0 +1,14 @@
+# Dependencies
+node_modules/
+# Build output
+site/dist/
+site/.astro/
+# Env / secrets
+.env
+.env.*
+.dev.vars
+# OS / editor
+.DS_Store
+*.log
+# Plugin build zips
+*.zip

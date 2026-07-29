@@ -1,0 +1,14 @@
+/* Consent Resolve for WooCommerce — admin. */
+.crw-wrap { max-width: 1000px; }
+.crw-health { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; margin: 16px 0; }
+.crw-health-item { display: flex; align-items: center; gap: 8px; background: #fff; border: 1px solid #e2e4ea; border-radius: 10px; padding: 12px 14px; font-weight: 600; }
+.crw-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin: 14px 0; }
+.crw-card { background: #fff; border: 1px solid #e2e4ea; border-radius: 12px; padding: 18px 20px; margin: 14px 0; }
+.crw-stat { margin: 0; }
+.crw-stat-n { font-size: 2rem; font-weight: 800; line-height: 1; color: #14161d; }
+.crw-stat-l { color: #646970; margin-top: 6px; font-size: .9rem; }
+.crw-stat.good .crw-stat-n { color: #1d7f43; }
+.crw-note { max-width: 760px; }
+.crw-card h2 { margin-top: 0; }
+.crw-step { border: 1px solid #eceef2; border-radius: 10px; padding: 4px 16px 12px; margin: 12px 0; background: #fbfbfc; }
+.crw-step h4 { margin: 12px 0 6px; }

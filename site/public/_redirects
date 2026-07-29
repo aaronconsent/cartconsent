@@ -1,0 +1,3 @@
+# Cloudflare redirects. Format: <from>  <to>  <status>
+
+/sitemap.xml     /sitemap-index.xml    301

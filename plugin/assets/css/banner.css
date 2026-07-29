@@ -1,0 +1,58 @@
+/* Consent Resolve — banner + preference center. Fixed position only (CLS 0). */
+#cr-root{--cr-accent:#1F6FEB;--cr-text:#14161D;--cr-surface:#FFFFFF;--cr-radius:14px;--cr-font:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.cr-banner,.cr-modal{font-family:var(--cr-font);color:var(--cr-text);box-sizing:border-box}
+.cr-banner *,.cr-modal *{box-sizing:border-box}
+
+/* Positioning — always fixed, never in document flow */
+.cr-banner{position:fixed;z-index:2147483000;background:var(--cr-surface);box-shadow:0 24px 60px -20px rgba(10,12,20,.35),0 0 0 1px rgba(10,12,20,.06);border-radius:var(--cr-radius)}
+.cr-layout-box{max-width:420px}
+.cr-pos-bottom-left{left:20px;bottom:20px}
+.cr-pos-bottom-right{right:20px;bottom:20px}
+.cr-pos-top-left{left:20px;top:20px}
+.cr-pos-top-right{right:20px;top:20px}
+.cr-layout-corner{max-width:340px}
+.cr-layout-bar-bottom{left:0;right:0;bottom:0;border-radius:0;max-width:none}
+.cr-layout-bar-top{left:0;right:0;top:0;border-radius:0;max-width:none}
+.cr-layout-modal{left:50%;top:50%;transform:translate(-50%,-50%);max-width:460px}
+.cr-layout-modal::before{content:"";position:fixed;inset:0;z-index:-1;background:rgba(6,8,14,.45)}
+
+.cr-inner{padding:22px 24px}
+.cr-layout-bar-bottom .cr-inner,.cr-layout-bar-top .cr-inner{max-width:1240px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:12px 24px}
+.cr-logo{max-height:28px;width:auto;margin-bottom:10px}
+.cr-title{font-size:1.05rem;font-weight:700;margin:0 0 6px;line-height:1.25}
+.cr-msg{font-size:.9rem;line-height:1.55;margin:0 0 16px;color:var(--cr-text);opacity:.82}
+.cr-layout-bar-bottom .cr-title,.cr-layout-bar-top .cr-title{margin:0}
+.cr-layout-bar-bottom .cr-msg,.cr-layout-bar-top .cr-msg{margin:0;flex:1 1 320px}
+
+/* Actions — Accept and Reject identical size/weight (no dark pattern) */
+.cr-actions{display:flex;gap:10px;flex-wrap:wrap}
+.cr-actions-2{display:flex;gap:16px;align-items:center;margin-top:12px;flex-wrap:wrap}
+.cr-btn{font:inherit;font-size:.9rem;font-weight:600;line-height:1;padding:.72em 1.15em;border-radius:10px;cursor:pointer;border:1.5px solid transparent;transition:filter .12s,background .12s}
+.cr-btn:focus-visible{outline:3px solid var(--cr-accent);outline-offset:2px}
+.cr-btn-primary{background:var(--cr-accent);color:#fff;flex:1 1 auto;min-width:130px}
+.cr-btn-primary:hover{filter:brightness(1.06)}
+.cr-btn-ghost{background:transparent;border-color:currentColor;color:var(--cr-text);flex:1 1 auto;min-width:130px;opacity:.9}
+.cr-btn-ghost:hover{background:rgba(10,12,20,.04)}
+.cr-btn-text{background:transparent;border:0;padding:.4em 0;color:var(--cr-accent);font-weight:600;text-decoration:underline;text-underline-offset:3px;min-width:0}
+.cr-dns{color:var(--cr-text);opacity:.7;font-size:.8rem;text-decoration:underline;text-underline-offset:2px}
+.cr-dns:hover{opacity:1}
+
+/* Preference center modal */
+.cr-overlay{position:fixed;inset:0;z-index:2147483001;background:rgba(6,8,14,.5);display:flex;align-items:center;justify-content:center;padding:20px;font-family:var(--cr-font)}
+.cr-modal{background:var(--cr-surface);color:var(--cr-text);border-radius:calc(var(--cr-radius) + 4px);max-width:560px;width:100%;max-height:88vh;overflow-y:auto;padding:26px;box-shadow:0 40px 100px -30px rgba(6,8,14,.6)}
+.cr-modal .cr-title{font-size:1.3rem;margin-bottom:14px}
+.cr-cats{display:grid;gap:2px;margin:0 0 18px}
+.cr-cat{padding:14px 2px;border-bottom:1px solid rgba(10,12,20,.08)}
+.cr-cat:last-child{border-bottom:0}
+.cr-cat-label{display:flex;align-items:center;gap:10px;font-weight:600;cursor:pointer}
+.cr-cat-label input{width:18px;height:18px;accent-color:var(--cr-accent);cursor:pointer}
+.cr-cat-label input:disabled{cursor:not-allowed}
+.cr-cat-req{font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--cr-accent);margin-left:6px}
+.cr-cat-desc{font-size:.85rem;line-height:1.5;margin:8px 0 0 28px;opacity:.75}
+.cr-modal .cr-actions{margin-top:6px}
+
+@media (max-width:520px){
+	.cr-banner:not(.cr-layout-bar-top):not(.cr-layout-bar-bottom){left:10px;right:10px;bottom:10px;max-width:none}
+	.cr-btn-primary,.cr-btn-ghost{flex:1 1 100%}
+}
+@media (prefers-reduced-motion:reduce){.cr-btn{transition:none}}
