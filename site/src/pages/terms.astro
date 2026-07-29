@@ -1,0 +1,61 @@
+---
+import LegalLayout from "~/layouts/LegalLayout.astro";
+import { SITE } from "~/lib/site";
+const updated = "July 29, 2026";
+---
+
+<LegalLayout
+  title="Terms of Service — CartConsent"
+  description="The terms that govern your use of the CartConsent website, plugin, and visitor-resolution service."
+  heading="Terms of Service"
+  updated={updated}
+>
+  <p>
+    These terms govern your use of the <strong>{SITE.name}</strong> website, plugin, and paid
+    visitor-resolution service (together, the "Service"). By using the Service, you agree to them. If
+    you do not agree, please do not use the Service. The Service is operated by {SITE.name}.
+  </p>
+
+  <h2>The plugin</h2>
+  <p>
+    The CartConsent plugin is provided free of charge and licensed under the GPL. You may install and
+    use it on stores you control. The plugin is provided "as is" (see Disclaimer below).
+  </p>
+
+  <h2>Visitor resolution (paid service)</h2>
+  <ul>
+    <li>Resolution plans are billed monthly and are month-to-month; you may cancel or change plans at any time.</li>
+    <li>You are billed only for successful resolutions, up to your plan's monthly amount. Resolution pauses when you reach your limit; unused resolutions do not roll over.</li>
+    <li>You are responsible for using resolved contact data lawfully, including honoring consent and applicable marketing laws.</li>
+  </ul>
+
+  <h2>Acceptable use</h2>
+  <p>
+    You agree to use the Service only for lawful purposes, not to interfere with its operation, and
+    not to attempt to access it other than through the interfaces we provide.
+  </p>
+
+  <h2>Intellectual property</h2>
+  <p>
+    Except for the GPL-licensed plugin, the content and branding on this site are owned by us or our
+    licensors and may not be reproduced without permission.
+  </p>
+
+  <h2>Changes &amp; termination</h2>
+  <p>
+    We may update these terms or the Service from time to time. We may suspend or end a paid plan for
+    non-payment or misuse. Continued use after a change means you accept the updated terms.
+  </p>
+
+  <h2>Limitation of liability</h2>
+  <p>
+    To the fullest extent permitted by law, {SITE.name} is not liable for indirect or consequential
+    damages arising from your use of the Service. Nothing here limits liability that cannot be limited
+    by law.
+  </p>
+
+  <h2>Contact</h2>
+  <p>Questions about these terms? Email <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.</p>
+
+  <div class="note">These terms are provided for transparency and are not legal advice.</div>
+</LegalLayout>

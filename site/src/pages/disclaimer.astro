@@ -1,0 +1,51 @@
+---
+import LegalLayout from "~/layouts/LegalLayout.astro";
+import { SITE } from "~/lib/site";
+const updated = "July 29, 2026";
+---
+
+<LegalLayout
+  title="Disclaimer — CartConsent"
+  description="Important disclaimers about the CartConsent plugin, service, and any compliance-related statements on this site."
+  heading="Disclaimer"
+  updated={updated}
+>
+  <h2>No legal advice</h2>
+  <p>
+    {SITE.name} provides software and tools to help you run cart recovery and manage consent. Nothing
+    on this website, in the plugin, or in the generated legal documents is legal advice. Installing a
+    plugin does not by itself make your website or your marketing compliant. Whether your specific
+    configuration and sends are lawful depends on your business and jurisdiction — consult your own
+    attorney.
+  </p>
+
+  <h2>"As is" software</h2>
+  <p>
+    The plugin and Service are provided "as is" and "as available," without warranties of any kind,
+    express or implied, including merchantability, fitness for a particular purpose, and
+    non-infringement. You are responsible for testing and for how you use the Service.
+  </p>
+
+  <h2>Compliance features</h2>
+  <p>
+    Features such as consent recording, Global Privacy Control honoring, script blocking, and
+    auto-updating documents are designed to help you meet common requirements, but they do not
+    guarantee compliance with any specific law or the practices of any regulator or platform.
+  </p>
+
+  <h2>Results</h2>
+  <p>
+    Any figures shown on this site (for example, recovery rates or recovered revenue) are
+    illustrative. Your results will vary based on your traffic, products, pricing, and how you
+    configure the Service.
+  </p>
+
+  <h2>Third parties</h2>
+  <p>
+    References to third-party products (such as WooCommerce, Termageddon, or other plugins) are for
+    identification only and do not imply endorsement. Their trademarks belong to their owners.
+  </p>
+
+  <h2>Contact</h2>
+  <p>Questions? Email <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.</p>
+</LegalLayout>

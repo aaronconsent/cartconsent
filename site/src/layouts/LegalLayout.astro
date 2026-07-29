@@ -1,0 +1,46 @@
+---
+import BaseLayout from "~/layouts/BaseLayout.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  heading: string;
+  updated: string;
+}
+const { title, description, heading, updated } = Astro.props as Props;
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="section-tight">
+    <div class="container-content mx-auto max-w-3xl">
+      <span class="eyebrow">Legal</span>
+      <h1 class="mt-3 font-display text-[clamp(2rem,4vw,3rem)] font-extrabold leading-[1.06] tracking-tight text-[color:var(--color-ink)]">
+        {heading}
+      </h1>
+      <p class="mt-3 text-sm text-[color:var(--color-ink-muted)]">Last updated: {updated}</p>
+      <article class="legal-prose mt-10">
+        <slot />
+      </article>
+    </div>
+  </section>
+</BaseLayout>
+
+<style is:global>
+  .legal-prose { color: var(--color-ink-2); line-height: 1.7; }
+  .legal-prose > :first-child { margin-top: 0; }
+  .legal-prose h2 {
+    font-family: var(--font-display); font-weight: 700; letter-spacing: -0.02em;
+    font-size: 1.35rem; color: var(--color-ink); margin-top: 2.25rem;
+  }
+  .legal-prose h3 { font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; color: var(--color-ink); margin-top: 1.5rem; }
+  .legal-prose p { margin-top: 1rem; }
+  .legal-prose ul { margin-top: 1rem; padding-left: 1.25rem; list-style: disc; }
+  .legal-prose li { margin-top: 0.4rem; }
+  .legal-prose a { color: var(--color-brand); font-weight: 600; }
+  .legal-prose a:hover { text-decoration: underline; }
+  .legal-prose strong { color: var(--color-ink); font-weight: 700; }
+  .legal-prose .note {
+    margin-top: 1.5rem; border: 1px solid var(--color-rule); background: var(--color-bg-alt);
+    border-radius: 0.75rem; padding: 1rem 1.1rem; font-size: 0.9rem;
+  }
+</style>
