@@ -51,11 +51,11 @@ class CRW_Popup {
 				'nonce'   => wp_create_nonce( 'wp_rest' ),
 				'trigger' => (string) CRW_Options::get( 'popup.trigger', 'exit' ),
 				'delay'   => (int) CRW_Options::get( 'popup.delay_seconds', 20 ),
-				'title'   => (string) CRW_Options::get( 'popup.title', __( 'Wait — save your cart', 'consent-resolve-woo' ) ),
-				'message' => (string) CRW_Options::get( 'popup.message', __( 'Enter your email and we’ll hold your cart and send you a link to finish later.', 'consent-resolve-woo' ) ),
-				'consent' => (string) CRW_Options::get( 'popup.consent_label', __( 'Email me a reminder about my cart. Unsubscribe anytime.', 'consent-resolve-woo' ) ),
-				'button'  => (string) CRW_Options::get( 'popup.button', __( 'Save my cart', 'consent-resolve-woo' ) ),
-				'done'    => __( 'Check your inbox to confirm and we’ll hold your cart.', 'consent-resolve-woo' ),
+				'title'   => (string) CRW_Options::get( 'popup.title', __( 'Wait — save your cart', 'cartconsent' ) ),
+				'message' => (string) CRW_Options::get( 'popup.message', __( 'Enter your email and we’ll hold your cart and send you a link to finish later.', 'cartconsent' ) ),
+				'consent' => (string) CRW_Options::get( 'popup.consent_label', __( 'Email me a reminder about my cart. Unsubscribe anytime.', 'cartconsent' ) ),
+				'button'  => (string) CRW_Options::get( 'popup.button', __( 'Save my cart', 'cartconsent' ) ),
+				'done'    => __( 'Check your inbox to confirm and we’ll hold your cart.', 'cartconsent' ),
 			)
 		);
 	}
@@ -180,12 +180,12 @@ class CRW_Popup {
 		}
 		status_header( $ok ? 200 : 403 );
 		nocache_headers();
-		$title = $ok ? __( 'Cart saved', 'consent-resolve-woo' ) : __( 'Link not valid', 'consent-resolve-woo' );
-		$msg   = $ok ? __( 'Thanks! We’ll hold your cart and email you a link to finish.', 'consent-resolve-woo' ) : __( 'This confirmation link is not valid.', 'consent-resolve-woo' );
+		$title = $ok ? __( 'Cart saved', 'cartconsent' ) : __( 'Link not valid', 'cartconsent' );
+		$msg   = $ok ? __( 'Thanks! We’ll hold your cart and email you a link to finish.', 'cartconsent' ) : __( 'This confirmation link is not valid.', 'cartconsent' );
 		echo '<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>' . esc_html( $title ) . '</title>';
 		echo '<div style="max-width:34rem;margin:12vh auto;padding:0 1.25rem;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#14161d;text-align:center">';
 		echo '<h1 style="font-size:1.4rem">' . esc_html( $title ) . '</h1><p style="color:#4b5563;line-height:1.6">' . esc_html( $msg ) . '</p>';
-		echo '<p style="margin-top:1.5rem"><a href="' . esc_url( function_exists( 'wc_get_checkout_url' ) ? wc_get_checkout_url() : home_url( '/' ) ) . '" style="color:#1F6FEB">' . esc_html__( 'Return to checkout', 'consent-resolve-woo' ) . '</a></p></div>';
+		echo '<p style="margin-top:1.5rem"><a href="' . esc_url( function_exists( 'wc_get_checkout_url' ) ? wc_get_checkout_url() : home_url( '/' ) ) . '" style="color:#1F6FEB">' . esc_html__( 'Return to checkout', 'cartconsent' ) . '</a></p></div>';
 		exit;
 	}
 }

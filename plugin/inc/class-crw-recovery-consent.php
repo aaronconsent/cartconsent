@@ -126,9 +126,9 @@ class CRW_Recovery_Consent {
 	 */
 	public static function basis_label( $basis ) {
 		$map = array(
-			'optin'      => __( 'Opted in', 'consent-resolve-woo' ),
-			'legitimate' => __( 'Soft opt-in', 'consent-resolve-woo' ),
-			'none'       => __( 'No consent', 'consent-resolve-woo' ),
+			'optin'      => __( 'Opted in', 'cartconsent' ),
+			'legitimate' => __( 'Soft opt-in', 'cartconsent' ),
+			'none'       => __( 'No consent', 'cartconsent' ),
 		);
 		return $map[ $basis ] ?? $basis;
 	}

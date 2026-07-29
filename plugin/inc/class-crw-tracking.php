@@ -82,7 +82,7 @@ class CRW_Tracking {
 		// two gtag("consent","default") blocks print on every request.
 		$banner_owns_default = CRW_Options::get( 'banner.enabled', true ) && ! class_exists( 'CR_Frontend' ) && ! class_exists( 'CR_Consent' );
 		if ( CRW_Options::get( 'tracking.consent_mode', true ) && ! $banner_owns_default ) {
-			echo "\n<!-- Consent Resolve for WooCommerce -->\n";
+			echo "\n<!-- CartConsent -->\n";
 			echo '<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("consent","default",{ad_storage:"denied",ad_user_data:"denied",ad_personalization:"denied",analytics_storage:"denied",wait_for_update:500});</script>' . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput
 		}
 		if ( ! self::consent_granted() ) {

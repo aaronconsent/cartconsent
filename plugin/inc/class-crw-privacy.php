@@ -28,8 +28,8 @@ class CRW_Privacy {
 	 * @param array $exporters Exporters.
 	 */
 	public function exporter( $exporters ) {
-		$exporters['consent-resolve-woo'] = array(
-			'exporter_friendly_name' => __( 'Consent Resolve — Abandoned carts', 'consent-resolve-woo' ),
+		$exporters['cartconsent'] = array(
+			'exporter_friendly_name' => __( 'CartConsent — Abandoned carts', 'cartconsent' ),
 			'callback'               => array( $this, 'export' ),
 		);
 		return $exporters;
@@ -41,8 +41,8 @@ class CRW_Privacy {
 	 * @param array $erasers Erasers.
 	 */
 	public function eraser( $erasers ) {
-		$erasers['consent-resolve-woo'] = array(
-			'eraser_friendly_name' => __( 'Consent Resolve — Abandoned carts', 'consent-resolve-woo' ),
+		$erasers['cartconsent'] = array(
+			'eraser_friendly_name' => __( 'CartConsent — Abandoned carts', 'cartconsent' ),
 			'callback'             => array( $this, 'erase' ),
 		);
 		return $erasers;
@@ -62,14 +62,14 @@ class CRW_Privacy {
 		foreach ( $rows as $r ) {
 			$items[] = array(
 				'group_id'    => 'crw_carts',
-				'group_label' => __( 'Abandoned carts', 'consent-resolve-woo' ),
+				'group_label' => __( 'Abandoned carts', 'cartconsent' ),
 				'item_id'     => 'crw-cart-' . (int) $r['id'],
 				'data'        => array(
-					array( 'name' => __( 'Items', 'consent-resolve-woo' ), 'value' => (int) $r['item_count'] ),
-					array( 'name' => __( 'Cart total', 'consent-resolve-woo' ), 'value' => number_format( (int) $r['total_cents'] / 100, 2 ) . ' ' . $r['currency'] ),
-					array( 'name' => __( 'Status', 'consent-resolve-woo' ), 'value' => $r['status'] ),
-					array( 'name' => __( 'Consent basis', 'consent-resolve-woo' ), 'value' => $r['consent_basis'] ),
-					array( 'name' => __( 'Captured', 'consent-resolve-woo' ), 'value' => $r['created_at'] ),
+					array( 'name' => __( 'Items', 'cartconsent' ), 'value' => (int) $r['item_count'] ),
+					array( 'name' => __( 'Cart total', 'cartconsent' ), 'value' => number_format( (int) $r['total_cents'] / 100, 2 ) . ' ' . $r['currency'] ),
+					array( 'name' => __( 'Status', 'cartconsent' ), 'value' => $r['status'] ),
+					array( 'name' => __( 'Consent basis', 'cartconsent' ), 'value' => $r['consent_basis'] ),
+					array( 'name' => __( 'Captured', 'cartconsent' ), 'value' => $r['created_at'] ),
 				),
 			);
 		}

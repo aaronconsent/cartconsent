@@ -82,7 +82,7 @@ class CRW_Unsubscribe {
 		$method = strtoupper( isset( $_SERVER['REQUEST_METHOD'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_METHOD'] ) ) : 'GET' );
 
 		if ( 1 !== preg_match( '/^[0-9a-f]{64}$/', $hash ) || ! hash_equals( self::token_for_hash( $hash ), $token ) ) {
-			self::page( __( 'This unsubscribe link is not valid.', 'consent-resolve-woo' ), false );
+			self::page( __( 'This unsubscribe link is not valid.', 'cartconsent' ), false );
 			return;
 		}
 		if ( 'POST' !== $method ) {
@@ -108,7 +108,7 @@ class CRW_Unsubscribe {
 			CRW_Connection::optout( $email );
 		}
 
-		self::page( __( 'You have been unsubscribed and will not receive further cart emails.', 'consent-resolve-woo' ), true );
+		self::page( __( 'You have been unsubscribed and will not receive further cart emails.', 'cartconsent' ), true );
 	}
 
 	/**
@@ -121,16 +121,16 @@ class CRW_Unsubscribe {
 		status_header( 200 );
 		nocache_headers();
 		header( 'Referrer-Policy: no-referrer' );
-		$title = __( 'Unsubscribe', 'consent-resolve-woo' );
+		$title = __( 'Unsubscribe', 'cartconsent' );
 		echo '<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="referrer" content="no-referrer">';
 		echo '<title>' . esc_html( $title ) . '</title>';
 		echo '<div style="max-width:34rem;margin:12vh auto;padding:0 1.25rem;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#14161d;text-align:center">';
 		echo '<h1 style="font-size:1.4rem;margin:0 0 .6rem">' . esc_html( $title ) . '</h1>';
-		echo '<p style="color:#4b5563;line-height:1.6">' . esc_html__( 'Click below to stop receiving cart reminder emails.', 'consent-resolve-woo' ) . '</p>';
+		echo '<p style="color:#4b5563;line-height:1.6">' . esc_html__( 'Click below to stop receiving cart reminder emails.', 'cartconsent' ) . '</p>';
 		echo '<form method="post" action="' . esc_url( home_url( '/' ) ) . '" style="margin-top:1.25rem">';
 		echo '<input type="hidden" name="crw_unsub" value="' . esc_attr( $hash ) . '">';
 		echo '<input type="hidden" name="t" value="' . esc_attr( $token ) . '">';
-		echo '<button type="submit" style="background:#1F6FEB;color:#fff;border:0;border-radius:8px;padding:.7rem 1.25rem;font-size:1rem;cursor:pointer">' . esc_html__( 'Unsubscribe me', 'consent-resolve-woo' ) . '</button>';
+		echo '<button type="submit" style="background:#1F6FEB;color:#fff;border:0;border-radius:8px;padding:.7rem 1.25rem;font-size:1rem;cursor:pointer">' . esc_html__( 'Unsubscribe me', 'cartconsent' ) . '</button>';
 		echo '</form></div>';
 		exit;
 	}
@@ -145,7 +145,7 @@ class CRW_Unsubscribe {
 		status_header( $ok ? 200 : 403 );
 		nocache_headers();
 		header( 'Referrer-Policy: no-referrer' );
-		$title = $ok ? __( 'Unsubscribed', 'consent-resolve-woo' ) : __( 'Unsubscribe failed', 'consent-resolve-woo' );
+		$title = $ok ? __( 'Unsubscribed', 'cartconsent' ) : __( 'Unsubscribe failed', 'cartconsent' );
 		echo '<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="referrer" content="no-referrer">';
 		echo '<title>' . esc_html( $title ) . '</title>';
 		echo '<div style="max-width:34rem;margin:12vh auto;padding:0 1.25rem;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#14161d;text-align:center">';

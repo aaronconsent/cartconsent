@@ -10,7 +10,7 @@
  * table leak of wp_carts (email_enc is useless without the key). It does NOT
  * protect against a full database dump that also captures wp_options.
  *
- * For full-dump protection, define CONSENT_RESOLVE_WOO_CRYPTO_SECRET (a 64+ char
+ * For full-dump protection, define CARTCONSENT_CRYPTO_SECRET (a 64+ char
  * random string) in wp-config.php — the key is then derived from that constant
  * and never touches the database. (Changing the secret later makes already-
  * stored emails undecryptable, so set it before go-live.)
@@ -40,8 +40,8 @@ class CRW_Crypto {
 	 * would not). See the class docblock for the threat-model tradeoff.
 	 */
 	protected static function secret() {
-		if ( defined( 'CONSENT_RESOLVE_WOO_CRYPTO_SECRET' ) && is_string( CONSENT_RESOLVE_WOO_CRYPTO_SECRET ) && strlen( CONSENT_RESOLVE_WOO_CRYPTO_SECRET ) >= 64 ) {
-			return CONSENT_RESOLVE_WOO_CRYPTO_SECRET;
+		if ( defined( 'CARTCONSENT_CRYPTO_SECRET' ) && is_string( CARTCONSENT_CRYPTO_SECRET ) && strlen( CARTCONSENT_CRYPTO_SECRET ) >= 64 ) {
+			return CARTCONSENT_CRYPTO_SECRET;
 		}
 		$s = get_option( 'crw_crypto_secret' );
 		if ( ! is_string( $s ) || strlen( $s ) < 64 ) {

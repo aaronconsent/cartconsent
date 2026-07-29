@@ -106,7 +106,7 @@ class CRW_Recovery {
 		if ( $email && is_email( $email ) ) {
 			$coupon->set_email_restrictions( array( $email ) ); // Only this shopper can redeem it.
 		}
-		$coupon->set_description( 'Consent Resolve cart recovery' );
+		$coupon->set_description( 'CartConsent cart recovery' );
 		$coupon->save();
 
 		CRW_Carts_Store::set_coupon( (int) $row['id'], $code );

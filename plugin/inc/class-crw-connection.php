@@ -1,6 +1,6 @@
 <?php
 /**
- * The plugin's own Consent Resolve account — Site ID + API key — and the signed
+ * The plugin's own CartConsent account — Site ID + API key — and the signed
  * edge calls that power consent-filtered audience sync and opt-out propagation.
  * Self-contained: no dependency on the Consent Resolve core plugin.
  *
@@ -31,7 +31,7 @@ class CRW_Connection {
 	}
 
 	/**
-	 * Whether a Consent Resolve account is connected.
+	 * Whether a CartConsent account is connected.
 	 */
 	public static function is_connected() {
 		$c = self::config();

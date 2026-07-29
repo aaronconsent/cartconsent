@@ -46,7 +46,7 @@ class CRW_Plugin {
 	 * Translations.
 	 */
 	public function load_textdomain() {
-		load_plugin_textdomain( 'consent-resolve-woo', false, dirname( CRW_BASENAME ) . '/languages' );
+		load_plugin_textdomain( 'cartconsent', false, dirname( CRW_BASENAME ) . '/languages' );
 	}
 
 	/**

@@ -102,8 +102,8 @@ class CRW_Capture {
 		try {
 			woocommerce_register_additional_checkout_field(
 				array(
-					'id'       => 'consent-resolve-woo/marketing-optin',
-					'label'    => (string) CRW_Options::get( 'consent.checkbox_label', __( 'Email me about my cart', 'consent-resolve-woo' ) ),
+					'id'       => 'cartconsent/marketing-optin',
+					'label'    => (string) CRW_Options::get( 'consent.checkbox_label', __( 'Email me about my cart', 'cartconsent' ) ),
 					'location' => 'contact',
 					'type'     => 'checkbox',
 					'required' => false,
@@ -121,7 +121,7 @@ class CRW_Capture {
 	 * @param WC_Order $order Order.
 	 */
 	protected function block_optin( $order ) {
-		foreach ( array( '_wc_other/consent-resolve-woo/marketing-optin', '_consent-resolve-woo/marketing-optin', 'consent-resolve-woo/marketing-optin' ) as $key ) {
+		foreach ( array( '_wc_other/cartconsent/marketing-optin', '_cartconsent/marketing-optin', 'cartconsent/marketing-optin' ) as $key ) {
 			$v = $order->get_meta( $key );
 			if ( '' !== $v && null !== $v ) {
 				return in_array( (string) $v, array( '1', 'true', 'yes' ), true );

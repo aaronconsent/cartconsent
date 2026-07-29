@@ -1,27 +1,27 @@
 <?php
 /**
- * Plugin Name:       Consent Resolve for WooCommerce
- * Plugin URI:        https://consentresolve.com/woocommerce
- * Description:       Consent-first abandoned-cart recovery for WooCommerce. Capture abandoning shoppers, win back carts with a compliant email sequence, and build retargeting-ready audiences — without emailing people who never opted in.
- * Version:           0.4.2
+ * Plugin Name:       CartConsent — Abandoned Cart Recovery for WooCommerce
+ * Plugin URI:        https://cartconsent.com
+ * Description:       Free abandoned-cart recovery, cookie consent, and auto-updating legal pages for WooCommerce. Capture abandoning shoppers on a lawful basis and win back carts — without emailing people who never opted in. Pay only for optional visitor resolution.
+ * Version:           1.0.0
  * Requires at least: 6.4
  * Requires PHP:      8.1
  * Requires Plugins:  woocommerce
  * WC requires at least: 8.0
  * WC tested up to:   9.4
- * Author:            Consent Resolve
- * Author URI:        https://consentresolve.com
+ * Author:            CartConsent
+ * Author URI:        https://cartconsent.com
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       consent-resolve-woo
+ * Text Domain:       cartconsent
  * Domain Path:       /languages
  *
- * @package ConsentResolveWoo
+ * @package CartConsent
  */
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'CRW_VERSION', '0.4.2' );
+define( 'CRW_VERSION', '1.0.0' );
 define( 'CRW_FILE', __FILE__ );
 define( 'CRW_DIR', plugin_dir_path( __FILE__ ) );
 define( 'CRW_URL', plugin_dir_url( __FILE__ ) );
@@ -86,5 +86,5 @@ function crw_woocommerce_missing_notice() {
 	if ( ! current_user_can( 'activate_plugins' ) ) {
 		return;
 	}
-	echo '<div class="notice notice-warning"><p><strong>' . esc_html__( 'Consent Resolve for WooCommerce', 'consent-resolve-woo' ) . '</strong> ' . esc_html__( 'needs WooCommerce to be installed and active.', 'consent-resolve-woo' ) . '</p></div>';
+	echo '<div class="notice notice-warning"><p><strong>' . esc_html__( 'CartConsent', 'cartconsent' ) . '</strong> ' . esc_html__( 'needs WooCommerce to be installed and active.', 'cartconsent' ) . '</p></div>';
 }

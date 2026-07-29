@@ -65,12 +65,12 @@ class CRW_Frontend {
 			'rest'        => esc_url_raw( rest_url( 'crw/v1/record' ) ),
 			'nonce'       => wp_create_nonce( 'wp_rest' ),
 			'i18n'        => array(
-				'loadContent' => __( 'This content is blocked until you accept marketing cookies.', 'consent-resolve-woo' ),
-				'loadBtn'     => __( 'Load content', 'consent-resolve-woo' ),
+				'loadContent' => __( 'This content is blocked until you accept marketing cookies.', 'cartconsent' ),
+				'loadBtn'     => __( 'Load content', 'cartconsent' ),
 			),
 		);
 
-		echo "\n<!-- Consent Resolve for WooCommerce -->\n";
+		echo "\n<!-- CartConsent -->\n";
 		echo '<script id="cr-config">window.CRData=' . wp_json_encode( $config ) . ';</script>' . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput
 
 		if ( $config['consentMode'] ) {
@@ -133,7 +133,7 @@ class CRW_Frontend {
 			'logo'       => $b['logo'],
 			'categories' => CRW_Regions::categories(),
 			'doNotSell'  => (bool) ( CRW_Options::get( 'do_not_sell', true ) && ! empty( CRW_Regions::profile()['do_not_sell'] ) ),
-			'dnsLabel'   => __( 'Do Not Sell or Share My Personal Information', 'consent-resolve-woo' ),
+			'dnsLabel'   => __( 'Do Not Sell or Share My Personal Information', 'cartconsent' ),
 			'poweredBy'  => false,
 		);
 	}
@@ -144,7 +144,7 @@ class CRW_Frontend {
 	 * @param array $atts Attributes.
 	 */
 	public function manage_shortcode( $atts ) {
-		$atts = shortcode_atts( array( 'label' => __( 'Manage cookie preferences', 'consent-resolve-woo' ) ), $atts );
+		$atts = shortcode_atts( array( 'label' => __( 'Manage cookie preferences', 'cartconsent' ) ), $atts );
 		return '<button type="button" class="crw-manage-consent" data-cr-open>' . esc_html( $atts['label'] ) . '</button>';
 	}
 

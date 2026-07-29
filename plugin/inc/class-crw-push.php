@@ -94,8 +94,8 @@ class CRW_Push {
 				'vapid'  => self::vapid_public_b64(),
 				'rest'   => esc_url_raw( rest_url( self::NS . '/push/subscribe' ) ),
 				'nonce'  => wp_create_nonce( 'wp_rest' ),
-				'prompt' => __( 'Get a reminder if you don’t finish checking out', 'consent-resolve-woo' ),
-				'button' => __( 'Notify me', 'consent-resolve-woo' ),
+				'prompt' => __( 'Get a reminder if you don’t finish checking out', 'cartconsent' ),
+				'button' => __( 'Notify me', 'cartconsent' ),
 			)
 		);
 	}
@@ -160,8 +160,8 @@ class CRW_Push {
 		$first   = trim( (string) ( $row['first_name'] ?? '' ) );
 		$payload = wp_json_encode(
 			array(
-				'title' => '' !== $first ? sprintf( /* translators: %s name */ __( '%s, your cart is waiting', 'consent-resolve-woo' ), $first ) : __( 'Your cart is waiting', 'consent-resolve-woo' ),
-				'body'  => __( 'Tap to finish checking out — your items are still saved.', 'consent-resolve-woo' ),
+				'title' => '' !== $first ? sprintf( /* translators: %s name */ __( '%s, your cart is waiting', 'cartconsent' ), $first ) : __( 'Your cart is waiting', 'cartconsent' ),
+				'body'  => __( 'Tap to finish checking out — your items are still saved.', 'cartconsent' ),
 				'url'   => CRW_Recovery::url( $row ),
 			)
 		);

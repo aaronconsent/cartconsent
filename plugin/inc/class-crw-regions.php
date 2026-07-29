@@ -22,11 +22,11 @@ class CRW_Regions {
 	 */
 	public static function categories() {
 		return array(
-			'functional'           => array( 'label' => __( 'Essential', 'consent-resolve-woo' ), 'desc' => __( 'Required for the site to work — security, load balancing, and remembering your choices. Always on.', 'consent-resolve-woo' ), 'locked' => true ),
-			'preferences'          => array( 'label' => __( 'Preferences', 'consent-resolve-woo' ), 'desc' => __( 'Remembers choices like language, region, and layout.', 'consent-resolve-woo' ), 'locked' => false ),
-			'statistics'           => array( 'label' => __( 'Statistics', 'consent-resolve-woo' ), 'desc' => __( 'Helps us understand how visitors use the site so we can improve it.', 'consent-resolve-woo' ), 'locked' => false ),
-			'statistics_anonymous' => array( 'label' => __( 'Anonymous statistics', 'consent-resolve-woo' ), 'desc' => __( 'Aggregate, non-identifying usage measurement.', 'consent-resolve-woo' ), 'locked' => false ),
-			'marketing'            => array( 'label' => __( 'Marketing', 'consent-resolve-woo' ), 'desc' => __( 'Used to measure and personalize advertising across sites.', 'consent-resolve-woo' ), 'locked' => false ),
+			'functional'           => array( 'label' => __( 'Essential', 'cartconsent' ), 'desc' => __( 'Required for the site to work — security, load balancing, and remembering your choices. Always on.', 'cartconsent' ), 'locked' => true ),
+			'preferences'          => array( 'label' => __( 'Preferences', 'cartconsent' ), 'desc' => __( 'Remembers choices like language, region, and layout.', 'cartconsent' ), 'locked' => false ),
+			'statistics'           => array( 'label' => __( 'Statistics', 'cartconsent' ), 'desc' => __( 'Helps us understand how visitors use the site so we can improve it.', 'cartconsent' ), 'locked' => false ),
+			'statistics_anonymous' => array( 'label' => __( 'Anonymous statistics', 'cartconsent' ), 'desc' => __( 'Aggregate, non-identifying usage measurement.', 'cartconsent' ), 'locked' => false ),
+			'marketing'            => array( 'label' => __( 'Marketing', 'cartconsent' ), 'desc' => __( 'Used to measure and personalize advertising across sites.', 'cartconsent' ), 'locked' => false ),
 		);
 	}
 
@@ -45,10 +45,10 @@ class CRW_Regions {
 	/** Translated labels (display only). */
 	public static function labels() {
 		return array(
-			'us'        => __( 'United States (opt-out + Do Not Sell/Share)', 'consent-resolve-woo' ),
-			'eu'        => __( 'EU / UK / EEA / Switzerland (opt-in)', 'consent-resolve-woo' ),
-			'canada'    => __( 'Canada (opt-in)', 'consent-resolve-woo' ),
-			'worldwide' => __( 'Worldwide (opt-in — safest)', 'consent-resolve-woo' ),
+			'us'        => __( 'United States (opt-out + Do Not Sell/Share)', 'cartconsent' ),
+			'eu'        => __( 'EU / UK / EEA / Switzerland (opt-in)', 'cartconsent' ),
+			'canada'    => __( 'Canada (opt-in)', 'cartconsent' ),
+			'worldwide' => __( 'Worldwide (opt-in — safest)', 'cartconsent' ),
 		);
 	}
 

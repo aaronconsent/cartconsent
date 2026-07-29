@@ -78,10 +78,10 @@ class CRW_Mailer {
 		}
 		$store   = self::store_name();
 		$link    = CRW_Popup::confirm_link( $email );
-		$subject = sprintf( /* translators: %s store */ __( 'Confirm your cart reminder at %s', 'consent-resolve-woo' ), $store );
+		$subject = sprintf( /* translators: %s store */ __( 'Confirm your cart reminder at %s', 'cartconsent' ), $store );
 		$body    = sprintf(
 			/* translators: 1: store 2: confirm link */
-			__( "You asked us to hold your cart at %1\$s and send you a reminder.\n\nConfirm here and we'll do the rest:\n%2\$s\n\nIf this wasn't you, just ignore this email — nothing else will be sent.", 'consent-resolve-woo' ),
+			__( "You asked us to hold your cart at %1\$s and send you a reminder.\n\nConfirm here and we'll do the rest:\n%2\$s\n\nIf this wasn't you, just ignore this email — nothing else will be sent.", 'cartconsent' ),
 			$store,
 			$link
 		);
@@ -105,7 +105,7 @@ class CRW_Mailer {
 			$label = '' !== $code ? CRW_Recovery::coupon_label() : '';
 		}
 		return array(
-			'{first_name}'  => '' !== $first ? $first : __( 'there', 'consent-resolve-woo' ),
+			'{first_name}'  => '' !== $first ? $first : __( 'there', 'cartconsent' ),
 			'{store_name}'  => self::store_name(),
 			'{cart_items}'  => self::items_text( $row ),
 			'{cart_total}'  => self::money( (int) ( $row['total_cents'] ?? 0 ), (string) ( $row['currency'] ?? 'USD' ) ),
@@ -201,7 +201,7 @@ class CRW_Mailer {
 			$lines[] = $addr;
 		}
 		$lines[] = '';
-		$lines[] = __( 'Not interested? Unsubscribe:', 'consent-resolve-woo' ) . ' ' . CRW_Unsubscribe::link( $email );
+		$lines[] = __( 'Not interested? Unsubscribe:', 'cartconsent' ) . ' ' . CRW_Unsubscribe::link( $email );
 		return implode( "\n", $lines );
 	}
 

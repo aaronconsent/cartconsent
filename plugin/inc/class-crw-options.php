@@ -43,7 +43,7 @@ class CRW_Options {
 				// opt-in; set 'opt_in' if you sell into the EU/UK without geo.
 				'fallback_model'          => 'opt_out',
 				'checkout_checkbox'       => true,
-				'checkbox_label'          => __( 'Email me a reminder about my cart and occasional offers. Unsubscribe anytime.', 'consent-resolve-woo' ),
+				'checkbox_label'          => __( 'Email me a reminder about my cart and occasional offers. Unsubscribe anytime.', 'cartconsent' ),
 				'checkbox_default_checked' => false,
 				'honor_gpc'               => true,
 			),
@@ -76,10 +76,10 @@ class CRW_Options {
 				'enabled'       => false,
 				'trigger'       => 'exit', // exit | timer.
 				'delay_seconds' => 20,
-				'title'         => __( 'Wait — save your cart', 'consent-resolve-woo' ),
-				'message'       => __( 'Enter your email and we’ll hold your cart and send you a link to finish later.', 'consent-resolve-woo' ),
-				'consent_label' => __( 'Email me a reminder about my cart. Unsubscribe anytime.', 'consent-resolve-woo' ),
-				'button'        => __( 'Save my cart', 'consent-resolve-woo' ),
+				'title'         => __( 'Wait — save your cart', 'cartconsent' ),
+				'message'       => __( 'Enter your email and we’ll hold your cart and send you a link to finish later.', 'cartconsent' ),
+				'consent_label' => __( 'Email me a reminder about my cart. Unsubscribe anytime.', 'cartconsent' ),
+				'button'        => __( 'Save my cart', 'cartconsent' ),
 			),
 			'retention_days' => 60,
 
@@ -91,12 +91,12 @@ class CRW_Options {
 				'region'       => 'us',   // Manual fallback / when auto is off.
 				'layout'       => 'box',  // bar-top | bar-bottom | box | modal | corner.
 				'position'     => 'bottom-left',
-				'title'        => __( 'We value your privacy', 'consent-resolve-woo' ),
-				'message'      => __( 'We use cookies to improve your experience, analyze traffic, and for marketing. Accept all, reject non-essential, or choose what to allow.', 'consent-resolve-woo' ),
-				'accept_label' => __( 'Accept all', 'consent-resolve-woo' ),
-				'reject_label' => __( 'Reject non-essential', 'consent-resolve-woo' ),
-				'prefs_label'  => __( 'Preferences', 'consent-resolve-woo' ),
-				'save_label'   => __( 'Save choices', 'consent-resolve-woo' ),
+				'title'        => __( 'We value your privacy', 'cartconsent' ),
+				'message'      => __( 'We use cookies to improve your experience, analyze traffic, and for marketing. Accept all, reject non-essential, or choose what to allow.', 'cartconsent' ),
+				'accept_label' => __( 'Accept all', 'cartconsent' ),
+				'reject_label' => __( 'Reject non-essential', 'cartconsent' ),
+				'prefs_label'  => __( 'Preferences', 'cartconsent' ),
+				'save_label'   => __( 'Save choices', 'cartconsent' ),
 				'logo'         => '',
 			),
 			'style'     => array(
@@ -134,7 +134,7 @@ class CRW_Options {
 		return array(
 			array(
 				'id'      => 'default',
-				'name'    => __( 'Default', 'consent-resolve-woo' ),
+				'name'    => __( 'Default', 'cartconsent' ),
 				'enabled' => true,
 				'segment' => array(), // Empty = matches every cart.
 				'steps'   => self::default_steps(),
@@ -150,20 +150,20 @@ class CRW_Options {
 		return array(
 			array(
 				'delay_minutes' => 60,
-				'subjects'      => array( __( 'You left something in your cart at {store_name}', 'consent-resolve-woo' ) ),
-				'body'          => __( "Hi {first_name},\n\nYou left these items in your cart:\n\n{cart_items}\n\nYour cart is still saved — pick up right where you left off:\n{recovery_url}\n\nQuestions? Just reply to this email.", 'consent-resolve-woo' ),
+				'subjects'      => array( __( 'You left something in your cart at {store_name}', 'cartconsent' ) ),
+				'body'          => __( "Hi {first_name},\n\nYou left these items in your cart:\n\n{cart_items}\n\nYour cart is still saved — pick up right where you left off:\n{recovery_url}\n\nQuestions? Just reply to this email.", 'cartconsent' ),
 				'coupon'        => false,
 			),
 			array(
 				'delay_minutes' => 1440,
-				'subjects'      => array( __( 'Still thinking it over, {first_name}?', 'consent-resolve-woo' ) ),
-				'body'          => __( "Hi {first_name},\n\nYour cart at {store_name} is still here:\n\n{cart_items}\n\nTotal: {cart_total}\n\nComplete your order in one click:\n{recovery_url}", 'consent-resolve-woo' ),
+				'subjects'      => array( __( 'Still thinking it over, {first_name}?', 'cartconsent' ) ),
+				'body'          => __( "Hi {first_name},\n\nYour cart at {store_name} is still here:\n\n{cart_items}\n\nTotal: {cart_total}\n\nComplete your order in one click:\n{recovery_url}", 'cartconsent' ),
 				'coupon'        => false,
 			),
 			array(
 				'delay_minutes' => 4320,
-				'subjects'      => array( __( 'Last chance for your cart at {store_name}', 'consent-resolve-woo' ) ),
-				'body'          => __( "Hi {first_name},\n\nThis is a friendly last reminder — your cart is still saved but won't be held much longer:\n\n{cart_items}\n\nTotal: {cart_total}\n\nComplete your order here:\n{recovery_url}", 'consent-resolve-woo' ),
+				'subjects'      => array( __( 'Last chance for your cart at {store_name}', 'cartconsent' ) ),
+				'body'          => __( "Hi {first_name},\n\nThis is a friendly last reminder — your cart is still saved but won't be held much longer:\n\n{cart_items}\n\nTotal: {cart_total}\n\nComplete your order here:\n{recovery_url}", 'cartconsent' ),
 				'coupon'        => false,
 			),
 		);

@@ -162,7 +162,7 @@ class CRW_Install {
 	public static function cron_schedule( $schedules ) {
 		$schedules['crw_five_minutes'] = array(
 			'interval' => 5 * MINUTE_IN_SECONDS,
-			'display'  => __( 'Every five minutes (Consent Resolve)', 'consent-resolve-woo' ),
+			'display'  => __( 'Every five minutes (CartConsent)', 'cartconsent' ),
 		);
 		return $schedules;
 	}

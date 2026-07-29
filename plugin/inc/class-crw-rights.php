@@ -34,7 +34,7 @@ class CRW_Rights {
 		register_post_type(
 			self::CPT,
 			array(
-				'labels'          => array( 'name' => __( 'Privacy Requests', 'consent-resolve-woo' ) ),
+				'labels'          => array( 'name' => __( 'Privacy Requests', 'cartconsent' ) ),
 				'public'          => false,
 				'show_ui'         => false,
 				'capability_type' => 'post',
@@ -48,28 +48,28 @@ class CRW_Rights {
 	 */
 	public function form() {
 		if ( isset( $_GET['crw_dsar'] ) && 'ok' === $_GET['crw_dsar'] ) { // phpcs:ignore WordPress.Security.NonceVerification
-			return '<div class="crw-dsar-ok"><p>' . esc_html__( 'Thank you. Your request has been received and we will respond within the time required by law.', 'consent-resolve-woo' ) . '</p></div>';
+			return '<div class="crw-dsar-ok"><p>' . esc_html__( 'Thank you. Your request has been received and we will respond within the time required by law.', 'cartconsent' ) . '</p></div>';
 		}
 		ob_start();
 		?>
 		<form class="crw-dsar-form" method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 			<?php wp_nonce_field( 'crw_dsar' ); ?>
 			<input type="hidden" name="action" value="crw_dsar">
-			<h3><?php esc_html_e( 'Submit a privacy request', 'consent-resolve-woo' ); ?></h3>
-			<p><label><?php esc_html_e( 'Your name', 'consent-resolve-woo' ); ?><br>
+			<h3><?php esc_html_e( 'Submit a privacy request', 'cartconsent' ); ?></h3>
+			<p><label><?php esc_html_e( 'Your name', 'cartconsent' ); ?><br>
 				<input type="text" name="crw_name" required></label></p>
-			<p><label><?php esc_html_e( 'Your email', 'consent-resolve-woo' ); ?><br>
+			<p><label><?php esc_html_e( 'Your email', 'cartconsent' ); ?><br>
 				<input type="email" name="crw_email" required></label></p>
-			<p><label><?php esc_html_e( 'Request type', 'consent-resolve-woo' ); ?><br>
+			<p><label><?php esc_html_e( 'Request type', 'cartconsent' ); ?><br>
 				<select name="crw_type" required>
-					<option value="access"><?php esc_html_e( 'Access my data', 'consent-resolve-woo' ); ?></option>
-					<option value="delete"><?php esc_html_e( 'Delete my data', 'consent-resolve-woo' ); ?></option>
-					<option value="correct"><?php esc_html_e( 'Correct my data', 'consent-resolve-woo' ); ?></option>
-					<option value="opt_out"><?php esc_html_e( 'Do not sell or share my data', 'consent-resolve-woo' ); ?></option>
+					<option value="access"><?php esc_html_e( 'Access my data', 'cartconsent' ); ?></option>
+					<option value="delete"><?php esc_html_e( 'Delete my data', 'cartconsent' ); ?></option>
+					<option value="correct"><?php esc_html_e( 'Correct my data', 'cartconsent' ); ?></option>
+					<option value="opt_out"><?php esc_html_e( 'Do not sell or share my data', 'cartconsent' ); ?></option>
 				</select></label></p>
-			<p><label><?php esc_html_e( 'Details (optional)', 'consent-resolve-woo' ); ?><br>
+			<p><label><?php esc_html_e( 'Details (optional)', 'cartconsent' ); ?><br>
 				<textarea name="crw_details" rows="3"></textarea></label></p>
-			<p><button type="submit"><?php esc_html_e( 'Submit request', 'consent-resolve-woo' ); ?></button></p>
+			<p><button type="submit"><?php esc_html_e( 'Submit request', 'cartconsent' ); ?></button></p>
 		</form>
 		<?php
 		return ob_get_clean();
@@ -80,12 +80,12 @@ class CRW_Rights {
 	 */
 	public function submit() {
 		if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'crw_dsar' ) ) {
-			wp_die( esc_html__( 'Invalid request.', 'consent-resolve-woo' ) );
+			wp_die( esc_html__( 'Invalid request.', 'cartconsent' ) );
 		}
 		// Public endpoint — throttle so it can't be scripted (a logged-out nonce
 		// is shared, not per-user).
 		if ( ! CRW_Rate::ok( CRW_Rate::ip_key( 'dsar' ), 5, HOUR_IN_SECONDS ) ) {
-			wp_die( esc_html__( 'Too many requests. Please try again later.', 'consent-resolve-woo' ) );
+			wp_die( esc_html__( 'Too many requests. Please try again later.', 'cartconsent' ) );
 		}
 		$name    = isset( $_POST['crw_name'] ) ? sanitize_text_field( wp_unslash( $_POST['crw_name'] ) ) : '';
 		$email   = isset( $_POST['crw_email'] ) ? sanitize_email( wp_unslash( $_POST['crw_email'] ) ) : '';
@@ -93,7 +93,7 @@ class CRW_Rights {
 		$details = isset( $_POST['crw_details'] ) ? sanitize_textarea_field( wp_unslash( $_POST['crw_details'] ) ) : '';
 
 		if ( ! $email || ! in_array( $type, array( 'access', 'delete', 'correct', 'opt_out' ), true ) ) {
-			wp_die( esc_html__( 'Please provide a valid email and request type.', 'consent-resolve-woo' ) );
+			wp_die( esc_html__( 'Please provide a valid email and request type.', 'cartconsent' ) );
 		}
 
 		$id = wp_insert_post(
@@ -120,7 +120,7 @@ class CRW_Rights {
 
 			wp_mail(
 				get_option( 'admin_email' ),
-				sprintf( /* translators: %s type */ __( 'New privacy request: %s', 'consent-resolve-woo' ), $type ),
+				sprintf( /* translators: %s type */ __( 'New privacy request: %s', 'cartconsent' ), $type ),
 				sprintf( "%s (%s) requested: %s\n\n%s\n\nRespond by %s.", $name, $email, $type, $details, $deadline )
 			);
 		}

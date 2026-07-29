@@ -28,16 +28,16 @@ class CRW_Admin {
 	 * Menu tree.
 	 */
 	public function menu() {
-		add_menu_page( __( 'Consent Resolve', 'consent-resolve-woo' ), __( 'Consent Resolve', 'consent-resolve-woo' ), self::CAP, self::SLUG, array( $this, 'page_dashboard' ), 'dashicons-shield', 56 );
-		add_submenu_page( self::SLUG, __( 'Dashboard', 'consent-resolve-woo' ), __( 'Dashboard', 'consent-resolve-woo' ), self::CAP, self::SLUG, array( $this, 'page_dashboard' ) );
-		add_submenu_page( self::SLUG, __( 'Setup Wizard', 'consent-resolve-woo' ), __( 'Setup Wizard', 'consent-resolve-woo' ), self::CAP, 'crw-wizard', array( 'CRW_Wizard', 'render' ) );
-		add_submenu_page( self::SLUG, __( 'Banner & Settings', 'consent-resolve-woo' ), __( 'Banner & Settings', 'consent-resolve-woo' ), self::CAP, 'crw-banner', array( 'CRW_Cmp_Admin', 'render_banner' ) );
-		add_submenu_page( self::SLUG, __( 'Consent Records', 'consent-resolve-woo' ), __( 'Consent Records', 'consent-resolve-woo' ), self::CAP, 'crw-records', array( 'CRW_Cmp_Admin', 'render_records' ) );
-		add_submenu_page( self::SLUG, __( 'Privacy Requests', 'consent-resolve-woo' ), __( 'Privacy Requests', 'consent-resolve-woo' ), self::CAP, 'crw-privacy', array( 'CRW_Cmp_Admin', 'render_privacy' ) );
-		add_submenu_page( self::SLUG, __( 'Cart Recovery', 'consent-resolve-woo' ), __( 'Cart Recovery', 'consent-resolve-woo' ), self::CAP, 'crw-carts', array( $this, 'page_carts' ) );
-		add_submenu_page( self::SLUG, __( 'Analytics', 'consent-resolve-woo' ), __( 'Analytics', 'consent-resolve-woo' ), self::CAP, 'crw-analytics', array( $this, 'page_analytics' ) );
-		add_submenu_page( self::SLUG, __( 'Cart Recovery Settings', 'consent-resolve-woo' ), __( 'Cart Recovery Settings', 'consent-resolve-woo' ), self::CAP, 'crw-settings', array( $this, 'page_settings' ) );
-		add_submenu_page( self::SLUG, __( 'Connection', 'consent-resolve-woo' ), __( 'Connection', 'consent-resolve-woo' ), self::CAP, 'crw-connection', array( 'CRW_Cmp_Admin', 'render_connection' ) );
+		add_menu_page( __( 'CartConsent', 'cartconsent' ), __( 'CartConsent', 'cartconsent' ), self::CAP, self::SLUG, array( $this, 'page_dashboard' ), 'dashicons-shield', 56 );
+		add_submenu_page( self::SLUG, __( 'Dashboard', 'cartconsent' ), __( 'Dashboard', 'cartconsent' ), self::CAP, self::SLUG, array( $this, 'page_dashboard' ) );
+		add_submenu_page( self::SLUG, __( 'Setup Wizard', 'cartconsent' ), __( 'Setup Wizard', 'cartconsent' ), self::CAP, 'crw-wizard', array( 'CRW_Wizard', 'render' ) );
+		add_submenu_page( self::SLUG, __( 'Banner & Settings', 'cartconsent' ), __( 'Banner & Settings', 'cartconsent' ), self::CAP, 'crw-banner', array( 'CRW_Cmp_Admin', 'render_banner' ) );
+		add_submenu_page( self::SLUG, __( 'Consent Records', 'cartconsent' ), __( 'Consent Records', 'cartconsent' ), self::CAP, 'crw-records', array( 'CRW_Cmp_Admin', 'render_records' ) );
+		add_submenu_page( self::SLUG, __( 'Privacy Requests', 'cartconsent' ), __( 'Privacy Requests', 'cartconsent' ), self::CAP, 'crw-privacy', array( 'CRW_Cmp_Admin', 'render_privacy' ) );
+		add_submenu_page( self::SLUG, __( 'Cart Recovery', 'cartconsent' ), __( 'Cart Recovery', 'cartconsent' ), self::CAP, 'crw-carts', array( $this, 'page_carts' ) );
+		add_submenu_page( self::SLUG, __( 'Analytics', 'cartconsent' ), __( 'Analytics', 'cartconsent' ), self::CAP, 'crw-analytics', array( $this, 'page_analytics' ) );
+		add_submenu_page( self::SLUG, __( 'Cart Recovery Settings', 'cartconsent' ), __( 'Cart Recovery Settings', 'cartconsent' ), self::CAP, 'crw-settings', array( $this, 'page_settings' ) );
+		add_submenu_page( self::SLUG, __( 'Connection', 'cartconsent' ), __( 'Connection', 'cartconsent' ), self::CAP, 'crw-connection', array( 'CRW_Cmp_Admin', 'render_connection' ) );
 	}
 
 	/**
@@ -63,30 +63,30 @@ class CRW_Admin {
 		$recovered = (int) ( $f['recovered'] ?? 0 );
 		$rate      = $captured > 0 ? round( $recovered / $captured * 100 ) : 0;
 
-		echo '<div class="wrap crw-wrap"><h1>' . esc_html__( 'Cart Recovery', 'consent-resolve-woo' ) . '</h1>';
+		echo '<div class="wrap crw-wrap"><h1>' . esc_html__( 'Cart Recovery', 'cartconsent' ) . '</h1>';
 		$this->flash();
 		$this->health_strip();
 
 		echo '<div class="crw-cards">';
-		$this->card( number_format_i18n( $captured ), __( 'Carts captured', 'consent-resolve-woo' ) );
-		$this->card( number_format_i18n( $recovered ), __( 'Recovered', 'consent-resolve-woo' ) );
-		$this->card( $rate . '%', __( 'Recovery rate', 'consent-resolve-woo' ), $rate >= 10 ? 'good' : '' );
-		$this->card( $this->money( (int) ( $f['recovered_cents'] ?? 0 ) ), __( 'Revenue recovered', 'consent-resolve-woo' ), 'good' );
+		$this->card( number_format_i18n( $captured ), __( 'Carts captured', 'cartconsent' ) );
+		$this->card( number_format_i18n( $recovered ), __( 'Recovered', 'cartconsent' ) );
+		$this->card( $rate . '%', __( 'Recovery rate', 'cartconsent' ), $rate >= 10 ? 'good' : '' );
+		$this->card( $this->money( (int) ( $f['recovered_cents'] ?? 0 ) ), __( 'Revenue recovered', 'cartconsent' ), 'good' );
 		echo '</div>';
 
 		echo '<div class="crw-cards">';
-		$this->card( $this->money( (int) ( $f['open_cents'] ?? 0 ) ), __( 'Open cart value', 'consent-resolve-woo' ) );
-		$this->card( number_format_i18n( (int) ( $f['open'] ?? 0 ) ), __( 'Open carts', 'consent-resolve-woo' ) );
-		$this->card( number_format_i18n( CRW_Events::count( 'email_sent', 30 ) ), __( 'Emails sent (30d)', 'consent-resolve-woo' ) );
-		$this->card( number_format_i18n( CRW_Events::count( 'recovery_clicked', 30 ) ), __( 'Recovery clicks (30d)', 'consent-resolve-woo' ) );
+		$this->card( $this->money( (int) ( $f['open_cents'] ?? 0 ) ), __( 'Open cart value', 'cartconsent' ) );
+		$this->card( number_format_i18n( (int) ( $f['open'] ?? 0 ) ), __( 'Open carts', 'cartconsent' ) );
+		$this->card( number_format_i18n( CRW_Events::count( 'email_sent', 30 ) ), __( 'Emails sent (30d)', 'cartconsent' ) );
+		$this->card( number_format_i18n( CRW_Events::count( 'recovery_clicked', 30 ) ), __( 'Recovery clicks (30d)', 'cartconsent' ) );
 		echo '</div>';
 
 		// Consent posture — the differentiator, stated plainly.
-		echo '<div class="crw-card crw-note"><h2 style="margin-top:0">' . esc_html__( 'Your consent posture', 'consent-resolve-woo' ) . '</h2>';
+		echo '<div class="crw-card crw-note"><h2 style="margin-top:0">' . esc_html__( 'Your consent posture', 'cartconsent' ) . '</h2>';
 		echo '<p>' . esc_html( $this->posture_text() ) . '</p>';
-		echo '<p class="description">' . esc_html__( 'Consent Resolve only stores and emails shoppers with a lawful basis, stamps that basis on every record, and auto-purges the rest. This is why recovery emails land in the inbox — not the spam folder.', 'consent-resolve-woo' ) . '</p></div>';
+		echo '<p class="description">' . esc_html__( 'CartConsent only stores and emails shoppers with a lawful basis, stamps that basis on every record, and auto-purges the rest. This is why recovery emails land in the inbox — not the spam folder.', 'cartconsent' ) . '</p></div>';
 
-		echo '<p><a class="button button-primary" href="' . esc_url( admin_url( 'admin.php?page=crw-carts' ) ) . '">' . esc_html__( 'View abandoned carts', 'consent-resolve-woo' ) . '</a> <a class="button" href="' . esc_url( admin_url( 'admin.php?page=crw-settings' ) ) . '">' . esc_html__( 'Settings', 'consent-resolve-woo' ) . '</a></p>';
+		echo '<p><a class="button button-primary" href="' . esc_url( admin_url( 'admin.php?page=crw-carts' ) ) . '">' . esc_html__( 'View abandoned carts', 'cartconsent' ) . '</a> <a class="button" href="' . esc_url( admin_url( 'admin.php?page=crw-settings' ) ) . '">' . esc_html__( 'Settings', 'cartconsent' ) . '</a></p>';
 		echo '</div>';
 	}
 
@@ -96,13 +96,13 @@ class CRW_Admin {
 	private function posture_text() {
 		$basis = CRW_Options::get( 'consent.basis', 'jurisdiction' );
 		$map   = array(
-			'optin_only'   => __( 'Emailing only shoppers who explicitly opt in (strictest).', 'consent-resolve-woo' ),
-			'jurisdiction' => __( 'Region-aware: opt-out regions get a soft opt-in with unsubscribe; opt-in regions (EU/UK) require an explicit checkbox.', 'consent-resolve-woo' ),
-			'all_unsub'    => __( 'Emailing everyone who leaves an address, always with a one-click unsubscribe.', 'consent-resolve-woo' ),
+			'optin_only'   => __( 'Emailing only shoppers who explicitly opt in (strictest).', 'cartconsent' ),
+			'jurisdiction' => __( 'Region-aware: opt-out regions get a soft opt-in with unsubscribe; opt-in regions (EU/UK) require an explicit checkbox.', 'cartconsent' ),
+			'all_unsub'    => __( 'Emailing everyone who leaves an address, always with a one-click unsubscribe.', 'cartconsent' ),
 		);
 		$txt = $map[ $basis ] ?? '';
 		if ( CRW_Options::get( 'consent.honor_gpc', true ) ) {
-			$txt .= ' ' . __( 'Global Privacy Control is honored.', 'consent-resolve-woo' );
+			$txt .= ' ' . __( 'Global Privacy Control is honored.', 'cartconsent' );
 		}
 		return $txt;
 	}
@@ -112,11 +112,11 @@ class CRW_Admin {
 	 */
 	private function health_strip() {
 		$items = array(
-			array( (bool) CRW_Options::get( 'capture.enabled', true ), __( 'Capture active', 'consent-resolve-woo' ) ),
-			array( (bool) wp_next_scheduled( CRW_Install::CRON_HOOK ), __( 'Recovery queue scheduled', 'consent-resolve-woo' ) ),
-			array( '' !== trim( (string) CRW_Options::get( 'emails.from_email', '' ) ) || (bool) get_option( 'admin_email' ), __( 'Sender address set', 'consent-resolve-woo' ) ),
-			array( '' !== trim( (string) get_option( 'woocommerce_store_address', '' ) ), __( 'Store address (for CAN-SPAM)', 'consent-resolve-woo' ) ),
-			array( CRW_Crypto::available(), __( 'Email encryption available', 'consent-resolve-woo' ) ),
+			array( (bool) CRW_Options::get( 'capture.enabled', true ), __( 'Capture active', 'cartconsent' ) ),
+			array( (bool) wp_next_scheduled( CRW_Install::CRON_HOOK ), __( 'Recovery queue scheduled', 'cartconsent' ) ),
+			array( '' !== trim( (string) CRW_Options::get( 'emails.from_email', '' ) ) || (bool) get_option( 'admin_email' ), __( 'Sender address set', 'cartconsent' ) ),
+			array( '' !== trim( (string) get_option( 'woocommerce_store_address', '' ) ), __( 'Store address (for CAN-SPAM)', 'cartconsent' ) ),
+			array( CRW_Crypto::available(), __( 'Email encryption available', 'cartconsent' ) ),
 		);
 		echo '<div class="crw-health">';
 		foreach ( $items as $it ) {
@@ -138,19 +138,19 @@ class CRW_Admin {
 	public function page_carts() {
 		$status = isset( $_GET['status'] ) ? sanitize_key( wp_unslash( $_GET['status'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification
 		$rows   = CRW_Carts_Store::recent( array( 'limit' => 100, 'status' => $status ) );
-		echo '<div class="wrap crw-wrap"><h1>' . esc_html__( 'Abandoned Carts', 'consent-resolve-woo' ) . '</h1>';
+		echo '<div class="wrap crw-wrap"><h1>' . esc_html__( 'Abandoned Carts', 'cartconsent' ) . '</h1>';
 
-		echo '<ul class="subsubsub"><li><a href="' . esc_url( admin_url( 'admin.php?page=crw-carts' ) ) . '"' . ( '' === $status ? ' class="current"' : '' ) . '>' . esc_html__( 'All', 'consent-resolve-woo' ) . '</a> | </li>';
-		foreach ( array( 'abandoned' => __( 'In progress', 'consent-resolve-woo' ), 'recovered' => __( 'Recovered', 'consent-resolve-woo' ), 'lost' => __( 'Lost', 'consent-resolve-woo' ) ) as $s => $label ) {
+		echo '<ul class="subsubsub"><li><a href="' . esc_url( admin_url( 'admin.php?page=crw-carts' ) ) . '"' . ( '' === $status ? ' class="current"' : '' ) . '>' . esc_html__( 'All', 'cartconsent' ) . '</a> | </li>';
+		foreach ( array( 'abandoned' => __( 'In progress', 'cartconsent' ), 'recovered' => __( 'Recovered', 'cartconsent' ), 'lost' => __( 'Lost', 'cartconsent' ) ) as $s => $label ) {
 			echo '<li><a href="' . esc_url( admin_url( 'admin.php?page=crw-carts&status=' . $s ) ) . '"' . ( $status === $s ? ' class="current"' : '' ) . '>' . esc_html( $label ) . '</a> | </li>';
 		}
 		echo '</ul>';
 
 		echo '<table class="widefat striped"><thead><tr>';
-		echo '<th>' . esc_html__( 'Shopper', 'consent-resolve-woo' ) . '</th><th>' . esc_html__( 'Items', 'consent-resolve-woo' ) . '</th><th>' . esc_html__( 'Value', 'consent-resolve-woo' ) . '</th><th>' . esc_html__( 'Consent', 'consent-resolve-woo' ) . '</th><th>' . esc_html__( 'Emails', 'consent-resolve-woo' ) . '</th><th>' . esc_html__( 'Status', 'consent-resolve-woo' ) . '</th><th>' . esc_html__( 'Updated', 'consent-resolve-woo' ) . '</th>';
+		echo '<th>' . esc_html__( 'Shopper', 'cartconsent' ) . '</th><th>' . esc_html__( 'Items', 'cartconsent' ) . '</th><th>' . esc_html__( 'Value', 'cartconsent' ) . '</th><th>' . esc_html__( 'Consent', 'cartconsent' ) . '</th><th>' . esc_html__( 'Emails', 'cartconsent' ) . '</th><th>' . esc_html__( 'Status', 'cartconsent' ) . '</th><th>' . esc_html__( 'Updated', 'cartconsent' ) . '</th>';
 		echo '</tr></thead><tbody>';
 		if ( empty( $rows ) ) {
-			echo '<tr><td colspan="7">' . esc_html__( 'No abandoned carts yet.', 'consent-resolve-woo' ) . '</td></tr>';
+			echo '<tr><td colspan="7">' . esc_html__( 'No abandoned carts yet.', 'cartconsent' ) . '</td></tr>';
 		}
 		foreach ( $rows as $r ) {
 			echo '<tr>';
@@ -173,11 +173,11 @@ class CRW_Admin {
 	 */
 	private function status_label( $status ) {
 		$map = array(
-			'abandoned'    => __( 'In sequence', 'consent-resolve-woo' ),
-			'recovered'    => __( 'Recovered', 'consent-resolve-woo' ),
-			'lost'         => __( 'Lost', 'consent-resolve-woo' ),
-			'unsubscribed' => __( 'Unsubscribed', 'consent-resolve-woo' ),
-			'active'       => __( 'Active', 'consent-resolve-woo' ),
+			'abandoned'    => __( 'In sequence', 'cartconsent' ),
+			'recovered'    => __( 'Recovered', 'cartconsent' ),
+			'lost'         => __( 'Lost', 'cartconsent' ),
+			'unsubscribed' => __( 'Unsubscribed', 'cartconsent' ),
+			'active'       => __( 'Active', 'cartconsent' ),
 		);
 		return $map[ $status ] ?? $status;
 	}
@@ -188,27 +188,27 @@ class CRW_Admin {
 	 * Recovery analytics: channels, per-sequence performance, and A/B splits.
 	 */
 	public function page_analytics() {
-		echo '<div class="wrap crw-wrap"><h1>' . esc_html__( 'Recovery Analytics', 'consent-resolve-woo' ) . '</h1>';
-		echo '<p class="description">' . esc_html__( 'Last 30 days.', 'consent-resolve-woo' ) . '</p>';
+		echo '<div class="wrap crw-wrap"><h1>' . esc_html__( 'Recovery Analytics', 'cartconsent' ) . '</h1>';
+		echo '<p class="description">' . esc_html__( 'Last 30 days.', 'cartconsent' ) . '</p>';
 
 		// Channels.
-		echo '<h2>' . esc_html__( 'Channels', 'consent-resolve-woo' ) . '</h2><div class="crw-cards">';
-		$this->card( number_format_i18n( CRW_Events::count( 'email_sent', 30 ) ), __( 'Recovery emails', 'consent-resolve-woo' ) );
-		$this->card( number_format_i18n( CRW_Events::count( 'push_sent', 30 ) ), __( 'Web pushes', 'consent-resolve-woo' ) );
-		$this->card( number_format_i18n( CRW_Events::count( 'popup_capture', 30 ) ), __( 'Popup captures', 'consent-resolve-woo' ) );
-		$this->card( number_format_i18n( CRW_Events::count( 'recovery_clicked', 30 ) ), __( 'Recovery clicks', 'consent-resolve-woo' ) );
+		echo '<h2>' . esc_html__( 'Channels', 'cartconsent' ) . '</h2><div class="crw-cards">';
+		$this->card( number_format_i18n( CRW_Events::count( 'email_sent', 30 ) ), __( 'Recovery emails', 'cartconsent' ) );
+		$this->card( number_format_i18n( CRW_Events::count( 'push_sent', 30 ) ), __( 'Web pushes', 'cartconsent' ) );
+		$this->card( number_format_i18n( CRW_Events::count( 'popup_capture', 30 ) ), __( 'Popup captures', 'cartconsent' ) );
+		$this->card( number_format_i18n( CRW_Events::count( 'recovery_clicked', 30 ) ), __( 'Recovery clicks', 'cartconsent' ) );
 		echo '</div>';
 
 		// Per-sequence.
-		echo '<h2>' . esc_html__( 'By sequence', 'consent-resolve-woo' ) . '</h2>';
+		echo '<h2>' . esc_html__( 'By sequence', 'cartconsent' ) . '</h2>';
 		$stats = CRW_Carts_Store::sequence_stats();
 		$names = array();
 		foreach ( CRW_Options::sequences() as $seq ) {
 			$names[ (string) $seq['id'] ] = (string) ( $seq['name'] ?? $seq['id'] );
 		}
-		echo '<table class="widefat striped"><thead><tr><th>' . esc_html__( 'Sequence', 'consent-resolve-woo' ) . '</th><th>' . esc_html__( 'Carts', 'consent-resolve-woo' ) . '</th><th>' . esc_html__( 'Recovered', 'consent-resolve-woo' ) . '</th><th>' . esc_html__( 'Rate', 'consent-resolve-woo' ) . '</th><th>' . esc_html__( 'Revenue', 'consent-resolve-woo' ) . '</th></tr></thead><tbody>';
+		echo '<table class="widefat striped"><thead><tr><th>' . esc_html__( 'Sequence', 'cartconsent' ) . '</th><th>' . esc_html__( 'Carts', 'cartconsent' ) . '</th><th>' . esc_html__( 'Recovered', 'cartconsent' ) . '</th><th>' . esc_html__( 'Rate', 'cartconsent' ) . '</th><th>' . esc_html__( 'Revenue', 'cartconsent' ) . '</th></tr></thead><tbody>';
 		if ( empty( $stats ) ) {
-			echo '<tr><td colspan="5">' . esc_html__( 'No data yet.', 'consent-resolve-woo' ) . '</td></tr>';
+			echo '<tr><td colspan="5">' . esc_html__( 'No data yet.', 'cartconsent' ) . '</td></tr>';
 		}
 		foreach ( $stats as $r ) {
 			$carts = (int) $r['carts'];
@@ -228,16 +228,16 @@ class CRW_Admin {
 					continue;
 				}
 				$has_ab = true;
-				$ab_out .= '<tr><td colspan="3"><strong>' . esc_html( ( $seq['name'] ?? $seq['id'] ) . ' — ' . sprintf( /* translators: %d step */ __( 'step %d', 'consent-resolve-woo' ), $sti + 1 ) ) . '</strong></td></tr>';
+				$ab_out .= '<tr><td colspan="3"><strong>' . esc_html( ( $seq['name'] ?? $seq['id'] ) . ' — ' . sprintf( /* translators: %d step */ __( 'step %d', 'cartconsent' ), $sti + 1 ) ) . '</strong></td></tr>';
 				foreach ( $subs as $vi => $subject ) {
 					$sends  = CRW_Events::count_label( 'email_sent', (string) $seq['id'] . ':' . $sti . ':' . $vi );
-					$ab_out .= '<tr><td style="padding-left:24px">' . esc_html( 'A' === chr( 65 + $vi ) || $vi < 26 ? chr( 65 + $vi ) : ( $vi + 1 ) ) . '</td><td>' . esc_html( wp_trim_words( $subject, 12 ) ) . '</td><td>' . esc_html( number_format_i18n( $sends ) ) . ' ' . esc_html__( 'sent', 'consent-resolve-woo' ) . '</td></tr>';
+					$ab_out .= '<tr><td style="padding-left:24px">' . esc_html( 'A' === chr( 65 + $vi ) || $vi < 26 ? chr( 65 + $vi ) : ( $vi + 1 ) ) . '</td><td>' . esc_html( wp_trim_words( $subject, 12 ) ) . '</td><td>' . esc_html( number_format_i18n( $sends ) ) . ' ' . esc_html__( 'sent', 'cartconsent' ) . '</td></tr>';
 				}
 			}
 		}
 		if ( $has_ab ) {
-			echo '<h2>' . esc_html__( 'A/B subject tests', 'consent-resolve-woo' ) . '</h2>';
-			echo '<table class="widefat striped"><thead><tr><th>' . esc_html__( 'Variant', 'consent-resolve-woo' ) . '</th><th>' . esc_html__( 'Subject', 'consent-resolve-woo' ) . '</th><th>' . esc_html__( 'Sends', 'consent-resolve-woo' ) . '</th></tr></thead><tbody>' . $ab_out . '</tbody></table>'; // phpcs:ignore WordPress.Security.EscapeOutput
+			echo '<h2>' . esc_html__( 'A/B subject tests', 'cartconsent' ) . '</h2>';
+			echo '<table class="widefat striped"><thead><tr><th>' . esc_html__( 'Variant', 'cartconsent' ) . '</th><th>' . esc_html__( 'Subject', 'cartconsent' ) . '</th><th>' . esc_html__( 'Sends', 'cartconsent' ) . '</th></tr></thead><tbody>' . $ab_out . '</tbody></table>'; // phpcs:ignore WordPress.Security.EscapeOutput
 		}
 		echo '</div>';
 	}
@@ -255,107 +255,107 @@ class CRW_Admin {
 		$tracking  = CRW_Options::get( 'tracking' );
 		$audiences = CRW_Options::get( 'audiences' );
 
-		echo '<div class="wrap crw-wrap"><h1>' . esc_html__( 'Cart Recovery — Settings', 'consent-resolve-woo' ) . '</h1>';
+		echo '<div class="wrap crw-wrap"><h1>' . esc_html__( 'Cart Recovery — Settings', 'cartconsent' ) . '</h1>';
 		$this->flash();
 		echo '<form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '">';
 		wp_nonce_field( 'crw_save_settings' );
 		echo '<input type="hidden" name="action" value="crw_save_settings">';
 
 		// Capture.
-		echo '<div class="crw-card"><h2>' . esc_html__( 'Capture', 'consent-resolve-woo' ) . '</h2>';
-		$this->toggle( 'capture[enabled]', __( 'Capture abandoning shoppers', 'consent-resolve-woo' ), $capture['enabled'] );
-		echo '<p class="description">' . esc_html__( 'We capture only on a deliberate action (a submitted checkout or a completed email field) — never by watching keystrokes.', 'consent-resolve-woo' ) . '</p>';
-		echo '<p><label>' . esc_html__( 'Consider a cart abandoned after (minutes of inactivity)', 'consent-resolve-woo' ) . ' <input type="number" min="5" name="capture[abandon_after_minutes]" value="' . esc_attr( (int) $capture['abandon_after_minutes'] ) . '" class="small-text"></label></p>';
+		echo '<div class="crw-card"><h2>' . esc_html__( 'Capture', 'cartconsent' ) . '</h2>';
+		$this->toggle( 'capture[enabled]', __( 'Capture abandoning shoppers', 'cartconsent' ), $capture['enabled'] );
+		echo '<p class="description">' . esc_html__( 'We capture only on a deliberate action (a submitted checkout or a completed email field) — never by watching keystrokes.', 'cartconsent' ) . '</p>';
+		echo '<p><label>' . esc_html__( 'Consider a cart abandoned after (minutes of inactivity)', 'cartconsent' ) . ' <input type="number" min="5" name="capture[abandon_after_minutes]" value="' . esc_attr( (int) $capture['abandon_after_minutes'] ) . '" class="small-text"></label></p>';
 		echo '</div>';
 
 		// Consent.
-		echo '<div class="crw-card"><h2>' . esc_html__( 'Consent', 'consent-resolve-woo' ) . '</h2>';
-		echo '<p><label>' . esc_html__( 'Who may we email?', 'consent-resolve-woo' ) . '<br><select name="consent[basis]">';
+		echo '<div class="crw-card"><h2>' . esc_html__( 'Consent', 'cartconsent' ) . '</h2>';
+		echo '<p><label>' . esc_html__( 'Who may we email?', 'cartconsent' ) . '<br><select name="consent[basis]">';
 		foreach ( array(
-			'jurisdiction' => __( 'Region-aware (recommended)', 'consent-resolve-woo' ),
-			'optin_only'   => __( 'Only explicit opt-ins (strictest)', 'consent-resolve-woo' ),
-			'all_unsub'    => __( 'Everyone, with unsubscribe (most aggressive)', 'consent-resolve-woo' ),
+			'jurisdiction' => __( 'Region-aware (recommended)', 'cartconsent' ),
+			'optin_only'   => __( 'Only explicit opt-ins (strictest)', 'cartconsent' ),
+			'all_unsub'    => __( 'Everyone, with unsubscribe (most aggressive)', 'cartconsent' ),
 		) as $v => $l ) {
 			echo '<option value="' . esc_attr( $v ) . '" ' . selected( $consent['basis'], $v, false ) . '>' . esc_html( $l ) . '</option>';
 		}
 		echo '</select></label></p>';
-		echo '<p><label>' . esc_html__( 'When location is unknown, treat visitors as', 'consent-resolve-woo' ) . ' <select name="consent[fallback_model]">';
-		foreach ( array( 'opt_out' => __( 'US-style opt-out (soft opt-in allowed)', 'consent-resolve-woo' ), 'opt_in' => __( 'EU-style opt-in (require checkbox)', 'consent-resolve-woo' ) ) as $v => $l ) {
+		echo '<p><label>' . esc_html__( 'When location is unknown, treat visitors as', 'cartconsent' ) . ' <select name="consent[fallback_model]">';
+		foreach ( array( 'opt_out' => __( 'US-style opt-out (soft opt-in allowed)', 'cartconsent' ), 'opt_in' => __( 'EU-style opt-in (require checkbox)', 'cartconsent' ) ) as $v => $l ) {
 			echo '<option value="' . esc_attr( $v ) . '" ' . selected( $consent['fallback_model'], $v, false ) . '>' . esc_html( $l ) . '</option>';
 		}
-		echo '</select><br><span class="description">' . esc_html__( 'Install Consent Resolve to detect each visitor\'s region automatically.', 'consent-resolve-woo' ) . '</span></p>';
-		$this->toggle( 'consent[checkout_checkbox]', __( 'Show a marketing-consent checkbox at checkout', 'consent-resolve-woo' ), $consent['checkout_checkbox'] );
-		echo '<p><label>' . esc_html__( 'Checkbox label', 'consent-resolve-woo' ) . '<br><input type="text" name="consent[checkbox_label]" value="' . esc_attr( $consent['checkbox_label'] ) . '" class="large-text"></label></p>';
-		$this->toggle( 'consent[honor_gpc]', __( 'Honor Global Privacy Control (suppress soft opt-ins + audiences)', 'consent-resolve-woo' ), $consent['honor_gpc'] );
+		echo '</select><br><span class="description">' . esc_html__( 'Install Consent Resolve to detect each visitor\'s region automatically.', 'cartconsent' ) . '</span></p>';
+		$this->toggle( 'consent[checkout_checkbox]', __( 'Show a marketing-consent checkbox at checkout', 'cartconsent' ), $consent['checkout_checkbox'] );
+		echo '<p><label>' . esc_html__( 'Checkbox label', 'cartconsent' ) . '<br><input type="text" name="consent[checkbox_label]" value="' . esc_attr( $consent['checkbox_label'] ) . '" class="large-text"></label></p>';
+		$this->toggle( 'consent[honor_gpc]', __( 'Honor Global Privacy Control (suppress soft opt-ins + audiences)', 'cartconsent' ), $consent['honor_gpc'] );
 		echo '</div>';
 
 		// Emails.
-		echo '<div class="crw-card"><h2>' . esc_html__( 'Emails', 'consent-resolve-woo' ) . '</h2>';
-		echo '<p><label>' . esc_html__( 'From name', 'consent-resolve-woo' ) . '<br><input type="text" name="emails[from_name]" value="' . esc_attr( $emails['from_name'] ) . '" class="regular-text" placeholder="' . esc_attr( get_bloginfo( 'name' ) ) . '"></label></p>';
-		echo '<p><label>' . esc_html__( 'From address', 'consent-resolve-woo' ) . '<br><input type="email" name="emails[from_email]" value="' . esc_attr( $emails['from_email'] ) . '" class="regular-text" placeholder="' . esc_attr( get_option( 'admin_email' ) ) . '"></label><br><span class="description">' . esc_html__( 'Use an address on a domain with SPF/DKIM set up for best deliverability.', 'consent-resolve-woo' ) . '</span></p>';
-		echo '<p><label>' . esc_html__( 'Reply-to (optional)', 'consent-resolve-woo' ) . '<br><input type="email" name="emails[reply_to]" value="' . esc_attr( $emails['reply_to'] ) . '" class="regular-text"></label></p>';
+		echo '<div class="crw-card"><h2>' . esc_html__( 'Emails', 'cartconsent' ) . '</h2>';
+		echo '<p><label>' . esc_html__( 'From name', 'cartconsent' ) . '<br><input type="text" name="emails[from_name]" value="' . esc_attr( $emails['from_name'] ) . '" class="regular-text" placeholder="' . esc_attr( get_bloginfo( 'name' ) ) . '"></label></p>';
+		echo '<p><label>' . esc_html__( 'From address', 'cartconsent' ) . '<br><input type="email" name="emails[from_email]" value="' . esc_attr( $emails['from_email'] ) . '" class="regular-text" placeholder="' . esc_attr( get_option( 'admin_email' ) ) . '"></label><br><span class="description">' . esc_html__( 'Use an address on a domain with SPF/DKIM set up for best deliverability.', 'cartconsent' ) . '</span></p>';
+		echo '<p><label>' . esc_html__( 'Reply-to (optional)', 'cartconsent' ) . '<br><input type="email" name="emails[reply_to]" value="' . esc_attr( $emails['reply_to'] ) . '" class="regular-text"></label></p>';
 		echo '</div>';
 
 		// Sequences (multi-sequence + segmentation + A/B).
-		echo '<div class="crw-card"><h2>' . esc_html__( 'Recovery sequences', 'consent-resolve-woo' ) . '</h2>';
-		echo '<p class="description">' . esc_html__( 'Each cart enters the first matching sequence (by segment). Merge tags: {first_name} {store_name} {cart_items} {cart_total} {recovery_url} {coupon} {coupon_code}. Put multiple subject lines (one per line) to A/B-test them.', 'consent-resolve-woo' ) . '</p>';
+		echo '<div class="crw-card"><h2>' . esc_html__( 'Recovery sequences', 'cartconsent' ) . '</h2>';
+		echo '<p class="description">' . esc_html__( 'Each cart enters the first matching sequence (by segment). Merge tags: {first_name} {store_name} {cart_items} {cart_total} {recovery_url} {coupon} {coupon_code}. Put multiple subject lines (one per line) to A/B-test them.', 'cartconsent' ) . '</p>';
 		echo '<div id="crw-sequences">';
 		$seqs = CRW_Options::sequences();
 		foreach ( $seqs as $si => $seq ) {
 			$this->render_sequence( $si, $seq );
 		}
 		echo '</div>';
-		echo '<p><button type="button" class="button" id="crw-add-seq">+ ' . esc_html__( 'Add sequence', 'consent-resolve-woo' ) . '</button></p>';
+		echo '<p><button type="button" class="button" id="crw-add-seq">+ ' . esc_html__( 'Add sequence', 'cartconsent' ) . '</button></p>';
 		$this->sequences_js( count( $seqs ) );
 		echo '</div>';
 
 		// Coupon.
-		echo '<div class="crw-card"><h2>' . esc_html__( 'Recovery coupon', 'consent-resolve-woo' ) . '</h2>';
-		$this->toggle( 'coupon[enabled]', __( 'Offer a single-use coupon (locked to the shopper)', 'consent-resolve-woo' ), $coupon['enabled'] );
-		echo '<p><label>' . esc_html__( 'Type', 'consent-resolve-woo' ) . ' <select name="coupon[type]"><option value="percent" ' . selected( $coupon['type'], 'percent', false ) . '>' . esc_html__( 'Percent', 'consent-resolve-woo' ) . '</option><option value="fixed_cart" ' . selected( $coupon['type'], 'fixed_cart', false ) . '>' . esc_html__( 'Fixed cart', 'consent-resolve-woo' ) . '</option></select></label> ';
-		echo '<label>' . esc_html__( 'Amount', 'consent-resolve-woo' ) . ' <input type="number" min="1" step="0.01" name="coupon[amount]" value="' . esc_attr( $coupon['amount'] ) . '" class="small-text"></label> ';
-		echo '<label>' . esc_html__( 'Expires (days)', 'consent-resolve-woo' ) . ' <input type="number" min="1" name="coupon[expiry_days]" value="' . esc_attr( (int) $coupon['expiry_days'] ) . '" class="small-text"></label></p>';
+		echo '<div class="crw-card"><h2>' . esc_html__( 'Recovery coupon', 'cartconsent' ) . '</h2>';
+		$this->toggle( 'coupon[enabled]', __( 'Offer a single-use coupon (locked to the shopper)', 'cartconsent' ), $coupon['enabled'] );
+		echo '<p><label>' . esc_html__( 'Type', 'cartconsent' ) . ' <select name="coupon[type]"><option value="percent" ' . selected( $coupon['type'], 'percent', false ) . '>' . esc_html__( 'Percent', 'cartconsent' ) . '</option><option value="fixed_cart" ' . selected( $coupon['type'], 'fixed_cart', false ) . '>' . esc_html__( 'Fixed cart', 'cartconsent' ) . '</option></select></label> ';
+		echo '<label>' . esc_html__( 'Amount', 'cartconsent' ) . ' <input type="number" min="1" step="0.01" name="coupon[amount]" value="' . esc_attr( $coupon['amount'] ) . '" class="small-text"></label> ';
+		echo '<label>' . esc_html__( 'Expires (days)', 'cartconsent' ) . ' <input type="number" min="1" name="coupon[expiry_days]" value="' . esc_attr( (int) $coupon['expiry_days'] ) . '" class="small-text"></label></p>';
 		echo '</div>';
 
 		// Channels — web push.
-		echo '<div class="crw-card"><h2>' . esc_html__( 'Web push channel', 'consent-resolve-woo' ) . '</h2>';
-		$this->toggle( 'push[enabled]', __( 'Also recover carts by browser push notification', 'consent-resolve-woo' ), CRW_Options::get( 'push.enabled', false ) );
+		echo '<div class="crw-card"><h2>' . esc_html__( 'Web push channel', 'cartconsent' ) . '</h2>';
+		$this->toggle( 'push[enabled]', __( 'Also recover carts by browser push notification', 'cartconsent' ), CRW_Options::get( 'push.enabled', false ) );
 		if ( class_exists( 'CRW_Push_Crypto' ) && ! CRW_Push_Crypto::available() ) {
-			echo '<p class="description" style="color:#a3282a">' . esc_html__( 'Your server is missing the OpenSSL EC support web push needs — contact your host.', 'consent-resolve-woo' ) . '</p>';
+			echo '<p class="description" style="color:#a3282a">' . esc_html__( 'Your server is missing the OpenSSL EC support web push needs — contact your host.', 'cartconsent' ) . '</p>';
 		} else {
-			echo '<p class="description">' . esc_html__( 'Shoppers are asked (with a dismissible prompt at checkout) to allow notifications. Those who opt in get a push alongside each recovery email. Self-hosted — no third-party account or cost.', 'consent-resolve-woo' ) . '</p>';
+			echo '<p class="description">' . esc_html__( 'Shoppers are asked (with a dismissible prompt at checkout) to allow notifications. Those who opt in get a push alongside each recovery email. Self-hosted — no third-party account or cost.', 'cartconsent' ) . '</p>';
 		}
 		echo '</div>';
 
 		// Cart-saver popup.
 		$pop = CRW_Options::get( 'popup' );
-		echo '<div class="crw-card"><h2>' . esc_html__( 'Cart-saver popup', 'consent-resolve-woo' ) . '</h2>';
-		$this->toggle( 'popup[enabled]', __( 'Show an exit-intent popup that saves the cart by email', 'consent-resolve-woo' ), $pop['enabled'] );
-		echo '<p class="description">' . esc_html__( 'Spam-safe: the shopper ticks a consent box, and we only start reminders after they confirm via a double-opt-in email.', 'consent-resolve-woo' ) . '</p>';
-		echo '<p><label>' . esc_html__( 'Trigger', 'consent-resolve-woo' ) . ' <select name="popup[trigger]"><option value="exit" ' . selected( $pop['trigger'], 'exit', false ) . '>' . esc_html__( 'Exit intent', 'consent-resolve-woo' ) . '</option><option value="timer" ' . selected( $pop['trigger'], 'timer', false ) . '>' . esc_html__( 'After a delay', 'consent-resolve-woo' ) . '</option></select></label> ';
-		echo '<label>' . esc_html__( 'Delay (seconds)', 'consent-resolve-woo' ) . ' <input type="number" min="3" name="popup[delay_seconds]" value="' . esc_attr( (int) $pop['delay_seconds'] ) . '" class="small-text"></label></p>';
-		echo '<p><label>' . esc_html__( 'Title', 'consent-resolve-woo' ) . '<br><input type="text" name="popup[title]" value="' . esc_attr( $pop['title'] ) . '" class="regular-text"></label></p>';
-		echo '<p><label>' . esc_html__( 'Message', 'consent-resolve-woo' ) . '<br><textarea name="popup[message]" rows="2" class="large-text">' . esc_textarea( $pop['message'] ) . '</textarea></label></p>';
-		echo '<p><label>' . esc_html__( 'Consent label', 'consent-resolve-woo' ) . '<br><input type="text" name="popup[consent_label]" value="' . esc_attr( $pop['consent_label'] ) . '" class="large-text"></label></p>';
-		echo '<p><label>' . esc_html__( 'Button', 'consent-resolve-woo' ) . '<br><input type="text" name="popup[button]" value="' . esc_attr( $pop['button'] ) . '" class="regular-text"></label></p>';
+		echo '<div class="crw-card"><h2>' . esc_html__( 'Cart-saver popup', 'cartconsent' ) . '</h2>';
+		$this->toggle( 'popup[enabled]', __( 'Show an exit-intent popup that saves the cart by email', 'cartconsent' ), $pop['enabled'] );
+		echo '<p class="description">' . esc_html__( 'Spam-safe: the shopper ticks a consent box, and we only start reminders after they confirm via a double-opt-in email.', 'cartconsent' ) . '</p>';
+		echo '<p><label>' . esc_html__( 'Trigger', 'cartconsent' ) . ' <select name="popup[trigger]"><option value="exit" ' . selected( $pop['trigger'], 'exit', false ) . '>' . esc_html__( 'Exit intent', 'cartconsent' ) . '</option><option value="timer" ' . selected( $pop['trigger'], 'timer', false ) . '>' . esc_html__( 'After a delay', 'cartconsent' ) . '</option></select></label> ';
+		echo '<label>' . esc_html__( 'Delay (seconds)', 'cartconsent' ) . ' <input type="number" min="3" name="popup[delay_seconds]" value="' . esc_attr( (int) $pop['delay_seconds'] ) . '" class="small-text"></label></p>';
+		echo '<p><label>' . esc_html__( 'Title', 'cartconsent' ) . '<br><input type="text" name="popup[title]" value="' . esc_attr( $pop['title'] ) . '" class="regular-text"></label></p>';
+		echo '<p><label>' . esc_html__( 'Message', 'cartconsent' ) . '<br><textarea name="popup[message]" rows="2" class="large-text">' . esc_textarea( $pop['message'] ) . '</textarea></label></p>';
+		echo '<p><label>' . esc_html__( 'Consent label', 'cartconsent' ) . '<br><input type="text" name="popup[consent_label]" value="' . esc_attr( $pop['consent_label'] ) . '" class="large-text"></label></p>';
+		echo '<p><label>' . esc_html__( 'Button', 'cartconsent' ) . '<br><input type="text" name="popup[button]" value="' . esc_attr( $pop['button'] ) . '" class="regular-text"></label></p>';
 		echo '</div>';
 
 		// Retargeting.
-		echo '<div class="crw-card"><h2>' . esc_html__( 'Retargeting', 'consent-resolve-woo' ) . '</h2>';
-		$this->toggle( 'tracking[consent_mode]', __( 'Set Google Consent Mode v2 defaults', 'consent-resolve-woo' ), $tracking['consent_mode'] );
-		echo '<p><label>' . esc_html__( 'Meta Pixel ID', 'consent-resolve-woo' ) . '<br><input type="text" name="tracking[meta_pixel_id]" value="' . esc_attr( $tracking['meta_pixel_id'] ) . '" class="regular-text"></label></p>';
-		echo '<p><label>' . esc_html__( 'GA4 Measurement ID', 'consent-resolve-woo' ) . '<br><input type="text" name="tracking[ga4_id]" value="' . esc_attr( $tracking['ga4_id'] ) . '" class="regular-text"></label></p>';
-		echo '<p class="description">' . esc_html__( 'Pixels load only after marketing consent is granted. Add-to-cart, checkout, and purchase events fire behind the same gate.', 'consent-resolve-woo' ) . '</p>';
-		$this->toggle( 'audiences[enabled]', __( 'Build a consent-filtered retargeting audience of abandoners (requires Consent Resolve)', 'consent-resolve-woo' ), $audiences['enabled'] );
-		echo '<p class="description">' . esc_html__( 'Only explicit opt-ins with no Do-Not-Sell/Share signal are added; unsubscribes and erasures are removed automatically.', 'consent-resolve-woo' ) . '</p>';
+		echo '<div class="crw-card"><h2>' . esc_html__( 'Retargeting', 'cartconsent' ) . '</h2>';
+		$this->toggle( 'tracking[consent_mode]', __( 'Set Google Consent Mode v2 defaults', 'cartconsent' ), $tracking['consent_mode'] );
+		echo '<p><label>' . esc_html__( 'Meta Pixel ID', 'cartconsent' ) . '<br><input type="text" name="tracking[meta_pixel_id]" value="' . esc_attr( $tracking['meta_pixel_id'] ) . '" class="regular-text"></label></p>';
+		echo '<p><label>' . esc_html__( 'GA4 Measurement ID', 'cartconsent' ) . '<br><input type="text" name="tracking[ga4_id]" value="' . esc_attr( $tracking['ga4_id'] ) . '" class="regular-text"></label></p>';
+		echo '<p class="description">' . esc_html__( 'Pixels load only after marketing consent is granted. Add-to-cart, checkout, and purchase events fire behind the same gate.', 'cartconsent' ) . '</p>';
+		$this->toggle( 'audiences[enabled]', __( 'Build a consent-filtered retargeting audience of abandoners (requires Consent Resolve)', 'cartconsent' ), $audiences['enabled'] );
+		echo '<p class="description">' . esc_html__( 'Only explicit opt-ins with no Do-Not-Sell/Share signal are added; unsubscribes and erasures are removed automatically.', 'cartconsent' ) . '</p>';
 		echo '</div>';
 
 		// Retention.
-		echo '<div class="crw-card"><h2>' . esc_html__( 'Data retention', 'consent-resolve-woo' ) . '</h2>';
-		echo '<p><label>' . esc_html__( 'Delete abandoned carts after (days)', 'consent-resolve-woo' ) . ' <input type="number" min="1" name="retention_days" value="' . esc_attr( (int) CRW_Options::get( 'retention_days', 60 ) ) . '" class="small-text"></label><br><span class="description">' . esc_html__( 'Captures with no lawful basis to email are dropped within 24 hours automatically (data minimization).', 'consent-resolve-woo' ) . '</span></p>';
+		echo '<div class="crw-card"><h2>' . esc_html__( 'Data retention', 'cartconsent' ) . '</h2>';
+		echo '<p><label>' . esc_html__( 'Delete abandoned carts after (days)', 'cartconsent' ) . ' <input type="number" min="1" name="retention_days" value="' . esc_attr( (int) CRW_Options::get( 'retention_days', 60 ) ) . '" class="small-text"></label><br><span class="description">' . esc_html__( 'Captures with no lawful basis to email are dropped within 24 hours automatically (data minimization).', 'cartconsent' ) . '</span></p>';
 		echo '</div>';
 
-		echo '<p><button class="button button-primary button-hero">' . esc_html__( 'Save settings', 'consent-resolve-woo' ) . '</button></p>';
+		echo '<p><button class="button button-primary button-hero">' . esc_html__( 'Save settings', 'cartconsent' ) . '</button></p>';
 		echo '</form></div>';
 	}
 
@@ -366,7 +366,7 @@ class CRW_Admin {
 	 */
 	public function save() {
 		if ( ! current_user_can( self::CAP ) || ! check_admin_referer( 'crw_save_settings' ) ) {
-			wp_die( esc_html__( 'Not allowed.', 'consent-resolve-woo' ) );
+			wp_die( esc_html__( 'Not allowed.', 'cartconsent' ) );
 		}
 		$in = wp_unslash( $_POST ); // phpcs:ignore WordPress.Security.ValidationSanitization
 		$s  = CRW_Options::all();
@@ -461,7 +461,7 @@ class CRW_Admin {
 	private function flash() {
 		$m = isset( $_GET['crw_msg'] ) ? sanitize_key( wp_unslash( $_GET['crw_msg'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification
 		if ( 'saved' === $m ) {
-			echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Settings saved.', 'consent-resolve-woo' ) . '</p></div>';
+			echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Settings saved.', 'cartconsent' ) . '</p></div>';
 		}
 	}
 
@@ -486,23 +486,23 @@ class CRW_Admin {
 		};
 		echo '<div class="crw-card crw-seq" style="background:#fbfbfc" data-si="' . esc_attr( $si ) . '">';
 		echo '<input type="hidden" name="seq[' . esc_attr( $si ) . '][id]" value="' . esc_attr( $seq['id'] ?? '' ) . '">';
-		echo '<p><label><strong>' . esc_html__( 'Sequence name', 'consent-resolve-woo' ) . '</strong> <input type="text" name="seq[' . esc_attr( $si ) . '][name]" value="' . esc_attr( $seq['name'] ?? '' ) . '" placeholder="' . esc_attr__( 'e.g. High-value carts', 'consent-resolve-woo' ) . '"></label> ';
-		echo '<label style="margin-left:14px"><input type="checkbox" name="seq[' . esc_attr( $si ) . '][enabled]" value="1" ' . checked( ! empty( $seq['enabled'] ), true, false ) . '> ' . esc_html__( 'Enabled', 'consent-resolve-woo' ) . '</label> ';
-		echo '<button type="button" class="button-link crw-del-seq" style="color:#a3282a;margin-left:14px">' . esc_html__( 'Remove', 'consent-resolve-woo' ) . '</button></p>';
+		echo '<p><label><strong>' . esc_html__( 'Sequence name', 'cartconsent' ) . '</strong> <input type="text" name="seq[' . esc_attr( $si ) . '][name]" value="' . esc_attr( $seq['name'] ?? '' ) . '" placeholder="' . esc_attr__( 'e.g. High-value carts', 'cartconsent' ) . '"></label> ';
+		echo '<label style="margin-left:14px"><input type="checkbox" name="seq[' . esc_attr( $si ) . '][enabled]" value="1" ' . checked( ! empty( $seq['enabled'] ), true, false ) . '> ' . esc_html__( 'Enabled', 'cartconsent' ) . '</label> ';
+		echo '<button type="button" class="button-link crw-del-seq" style="color:#a3282a;margin-left:14px">' . esc_html__( 'Remove', 'cartconsent' ) . '</button></p>';
 
-		echo '<details><summary style="cursor:pointer">' . esc_html__( 'Segment — who enters this sequence', 'consent-resolve-woo' ) . '</summary><div style="padding:8px 0">';
-		echo '<p><label>' . esc_html__( 'Cart total between', 'consent-resolve-woo' ) . ' <input type="number" step="0.01" name="seq[' . esc_attr( $si ) . '][segment][min_total]" value="' . esc_attr( $val( $seg['min_total'] ?? '' ) ) . '" class="small-text" placeholder="' . esc_attr__( 'min', 'consent-resolve-woo' ) . '"> ' . esc_html__( 'and', 'consent-resolve-woo' ) . ' <input type="number" step="0.01" name="seq[' . esc_attr( $si ) . '][segment][max_total]" value="' . esc_attr( $val( $seg['max_total'] ?? '' ) ) . '" class="small-text" placeholder="' . esc_attr__( 'max', 'consent-resolve-woo' ) . '"></label></p>';
-		echo '<p><label>' . esc_html__( 'Product IDs (comma-separated)', 'consent-resolve-woo' ) . '<br><input type="text" name="seq[' . esc_attr( $si ) . '][segment][products]" value="' . esc_attr( $val( $seg['products'] ?? '' ) ) . '" class="regular-text"></label></p>';
-		echo '<p><label>' . esc_html__( 'Category slugs or IDs', 'consent-resolve-woo' ) . '<br><input type="text" name="seq[' . esc_attr( $si ) . '][segment][categories]" value="' . esc_attr( $val( $seg['categories'] ?? '' ) ) . '" class="regular-text"></label></p>';
-		echo '<p><label>' . esc_html__( 'Countries (2-letter, comma-separated)', 'consent-resolve-woo' ) . '<br><input type="text" name="seq[' . esc_attr( $si ) . '][segment][countries]" value="' . esc_attr( $val( $seg['countries'] ?? '' ) ) . '" class="regular-text" placeholder="US, CA"></label></p>';
-		echo '<p class="description">' . esc_html__( 'Leave everything blank for a catch-all sequence. Carts enter the first matching enabled sequence.', 'consent-resolve-woo' ) . '</p></div></details>';
+		echo '<details><summary style="cursor:pointer">' . esc_html__( 'Segment — who enters this sequence', 'cartconsent' ) . '</summary><div style="padding:8px 0">';
+		echo '<p><label>' . esc_html__( 'Cart total between', 'cartconsent' ) . ' <input type="number" step="0.01" name="seq[' . esc_attr( $si ) . '][segment][min_total]" value="' . esc_attr( $val( $seg['min_total'] ?? '' ) ) . '" class="small-text" placeholder="' . esc_attr__( 'min', 'cartconsent' ) . '"> ' . esc_html__( 'and', 'cartconsent' ) . ' <input type="number" step="0.01" name="seq[' . esc_attr( $si ) . '][segment][max_total]" value="' . esc_attr( $val( $seg['max_total'] ?? '' ) ) . '" class="small-text" placeholder="' . esc_attr__( 'max', 'cartconsent' ) . '"></label></p>';
+		echo '<p><label>' . esc_html__( 'Product IDs (comma-separated)', 'cartconsent' ) . '<br><input type="text" name="seq[' . esc_attr( $si ) . '][segment][products]" value="' . esc_attr( $val( $seg['products'] ?? '' ) ) . '" class="regular-text"></label></p>';
+		echo '<p><label>' . esc_html__( 'Category slugs or IDs', 'cartconsent' ) . '<br><input type="text" name="seq[' . esc_attr( $si ) . '][segment][categories]" value="' . esc_attr( $val( $seg['categories'] ?? '' ) ) . '" class="regular-text"></label></p>';
+		echo '<p><label>' . esc_html__( 'Countries (2-letter, comma-separated)', 'cartconsent' ) . '<br><input type="text" name="seq[' . esc_attr( $si ) . '][segment][countries]" value="' . esc_attr( $val( $seg['countries'] ?? '' ) ) . '" class="regular-text" placeholder="US, CA"></label></p>';
+		echo '<p class="description">' . esc_html__( 'Leave everything blank for a catch-all sequence. Carts enter the first matching enabled sequence.', 'cartconsent' ) . '</p></div></details>';
 
 		echo '<div class="crw-steps" data-si="' . esc_attr( $si ) . '">';
 		foreach ( array_values( (array) ( $seq['steps'] ?? array() ) ) as $sti => $step ) {
 			$this->render_step( $si, $sti, $step );
 		}
 		echo '</div>';
-		echo '<p><button type="button" class="button button-small crw-add-step" data-si="' . esc_attr( $si ) . '">+ ' . esc_html__( 'Add step', 'consent-resolve-woo' ) . '</button></p>';
+		echo '<p><button type="button" class="button button-small crw-add-step" data-si="' . esc_attr( $si ) . '">+ ' . esc_html__( 'Add step', 'cartconsent' ) . '</button></p>';
 		echo '</div>';
 	}
 
@@ -517,11 +517,11 @@ class CRW_Admin {
 		$subjects = isset( $step['subjects'] ) && is_array( $step['subjects'] ) ? $step['subjects'] : array( (string) ( $step['subject'] ?? '' ) );
 		$base     = 'seq[' . esc_attr( $si ) . '][steps][' . esc_attr( $sti ) . ']';
 		echo '<div class="crw-step">';
-		echo '<p><label>' . esc_html__( 'Send after (minutes)', 'consent-resolve-woo' ) . ' <input type="number" min="1" name="' . $base . '[delay_minutes]" value="' . esc_attr( (int) ( $step['delay_minutes'] ?? 60 ) ) . '" class="small-text"></label> ';
-		echo '<label style="margin-left:14px"><input type="checkbox" name="' . $base . '[coupon]" value="1" ' . checked( ! empty( $step['coupon'] ), true, false ) . '> ' . esc_html__( 'Coupon', 'consent-resolve-woo' ) . '</label> ';
-		echo '<button type="button" class="button-link crw-del-step" style="color:#a3282a;margin-left:10px">' . esc_html__( 'Remove', 'consent-resolve-woo' ) . '</button></p>';
-		echo '<p><label>' . esc_html__( 'Subject lines (one per line = A/B test)', 'consent-resolve-woo' ) . '<br><textarea name="' . $base . '[subjects]" rows="2" class="large-text">' . esc_textarea( implode( "\n", array_map( 'strval', $subjects ) ) ) . '</textarea></label></p>';
-		echo '<p><textarea name="' . $base . '[body]" rows="5" class="large-text" placeholder="' . esc_attr__( 'Message body', 'consent-resolve-woo' ) . '">' . esc_textarea( (string) ( $step['body'] ?? '' ) ) . '</textarea></p></div>';
+		echo '<p><label>' . esc_html__( 'Send after (minutes)', 'cartconsent' ) . ' <input type="number" min="1" name="' . $base . '[delay_minutes]" value="' . esc_attr( (int) ( $step['delay_minutes'] ?? 60 ) ) . '" class="small-text"></label> ';
+		echo '<label style="margin-left:14px"><input type="checkbox" name="' . $base . '[coupon]" value="1" ' . checked( ! empty( $step['coupon'] ), true, false ) . '> ' . esc_html__( 'Coupon', 'cartconsent' ) . '</label> ';
+		echo '<button type="button" class="button-link crw-del-step" style="color:#a3282a;margin-left:10px">' . esc_html__( 'Remove', 'cartconsent' ) . '</button></p>';
+		echo '<p><label>' . esc_html__( 'Subject lines (one per line = A/B test)', 'cartconsent' ) . '<br><textarea name="' . $base . '[subjects]" rows="2" class="large-text">' . esc_textarea( implode( "\n", array_map( 'strval', $subjects ) ) ) . '</textarea></label></p>';
+		echo '<p><textarea name="' . $base . '[body]" rows="5" class="large-text" placeholder="' . esc_attr__( 'Message body', 'cartconsent' ) . '">' . esc_textarea( (string) ( $step['body'] ?? '' ) ) . '</textarea></p></div>';
 	}
 
 	/**
