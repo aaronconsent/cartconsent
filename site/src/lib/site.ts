@@ -18,7 +18,7 @@ export const SITE = {
   },
   hours: "Mon–Fri 9a–6p Eastern",
   // Where the live demo store lives (WordPress on the droplet).
-  demoUrl: "https://cart.consentresolve.com/demo-store/",
+  demoUrl: "https://cart.demo.robotduck.co/shop/",
   github: "https://github.com/aaronconsent/cartconsent",
 } as const;
 
