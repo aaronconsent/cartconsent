@@ -69,7 +69,7 @@
 		box.setAttribute('data-cr-category', rule.c);
 		var r = frame.getAttribute('width'), h = frame.getAttribute('height');
 		box.style.cssText = 'position:relative;min-height:' + (h ? h + 'px' : '220px') + ';display:flex;align-items:center;justify-content:center;text-align:center;background:#f1f3f8;border:1px solid #e6e8ef;border-radius:12px;padding:24px;color:#5c6270;font:14px/1.5 system-ui,sans-serif';
-		box.innerHTML = '<div><p style="margin:0 0 12px">' + (C.i18n ? C.i18n.loadContent : 'Content blocked until you accept.') + '</p><button type="button" class="cr-embed-load" style="cursor:pointer;border:0;border-radius:8px;padding:8px 14px;background:' + '#1F6FEB' + ';color:#fff;font-weight:600">' + (C.i18n ? C.i18n.loadBtn : 'Load content') + '</button></div>';
+		box.innerHTML = '<div><p style="margin:0 0 12px">' + (C.i18n ? C.i18n.loadContent : 'Content blocked until you accept.') + '</p><button type="button" class="cr-embed-load" style="cursor:pointer;border:0;border-radius:8px;padding:8px 14px;background:var(--cr-accent,#1F6FEB);color:#fff;font-weight:600">' + (C.i18n ? C.i18n.loadBtn : 'Load content') + '</button></div>';
 		box.__cr_frame = frame.cloneNode(true);
 		box.__cr_rule = rule;
 		frame.parentNode.replaceChild(box, frame);

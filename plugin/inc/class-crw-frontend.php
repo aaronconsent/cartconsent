@@ -102,8 +102,14 @@ class CRW_Frontend {
 	 * CSS variables from the style settings.
 	 */
 	protected function style_vars() {
-		$s   = CRW_Options::get( 'style' );
-		$css = ':root{'
+		$s = CRW_Options::get( 'style' );
+		// Target BOTH #cr-root and :root. banner.css defines the defaults on
+		// #cr-root, and a plain :root override loses to that on specificity — so
+		// the configured style silently never applied. The #cr-root selector here
+		// ties banner.css's specificity and wins by order (inline prints after
+		// the linked sheet); :root keeps the vars inheritable for elements
+		// outside the banner root (popup / embed-placeholder buttons).
+		$css = '#cr-root,:root{'
 			. '--cr-accent:' . esc_attr( $s['accent'] ) . ';'
 			. '--cr-text:' . esc_attr( $s['text'] ) . ';'
 			. '--cr-surface:' . esc_attr( $s['surface'] ) . ';'

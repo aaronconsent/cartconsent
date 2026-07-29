@@ -48,7 +48,7 @@
 		var btn = document.createElement( 'button' );
 		btn.type = 'button';
 		btn.textContent = C.button || 'Save my cart';
-		btn.style.cssText = 'width:100%;background:#1F6FEB;color:#fff;border:0;border-radius:8px;padding:.7rem;font-size:1rem;cursor:pointer';
+		btn.style.cssText = 'width:100%;background:var(--cr-accent,#1F6FEB);color:#fff;border:0;border-radius:8px;padding:.7rem;font-size:1rem;cursor:pointer';
 
 		var note = document.createElement( 'p' );
 		note.style.cssText = 'margin:10px 0 0;font-size:.8rem;color:#6b7280;min-height:1em';

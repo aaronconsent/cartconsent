@@ -55,7 +55,7 @@
 		msg.style.cssText = 'font-size:.9rem;color:#14161d;margin-bottom:8px';
 		var btn = document.createElement( 'button' );
 		btn.textContent = C.button || 'Notify me';
-		btn.style.cssText = 'background:#1F6FEB;color:#fff;border:0;border-radius:8px;padding:.45rem .9rem;cursor:pointer;font-size:.9rem';
+		btn.style.cssText = 'background:var(--cr-accent,#1F6FEB);color:#fff;border:0;border-radius:8px;padding:.45rem .9rem;cursor:pointer;font-size:.9rem';
 		btn.addEventListener( 'click', subscribe );
 		box.appendChild( close );
 		box.appendChild( msg );

@@ -185,7 +185,7 @@ class CRW_Popup {
 		echo '<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>' . esc_html( $title ) . '</title>';
 		echo '<div style="max-width:34rem;margin:12vh auto;padding:0 1.25rem;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#14161d;text-align:center">';
 		echo '<h1 style="font-size:1.4rem">' . esc_html( $title ) . '</h1><p style="color:#4b5563;line-height:1.6">' . esc_html( $msg ) . '</p>';
-		echo '<p style="margin-top:1.5rem"><a href="' . esc_url( function_exists( 'wc_get_checkout_url' ) ? wc_get_checkout_url() : home_url( '/' ) ) . '" style="color:#1F6FEB">' . esc_html__( 'Return to checkout', 'cartconsent' ) . '</a></p></div>';
+		echo '<p style="margin-top:1.5rem"><a href="' . esc_url( function_exists( 'wc_get_checkout_url' ) ? wc_get_checkout_url() : home_url( '/' ) ) . '" style="color:' . esc_attr( CRW_Options::get( 'style.accent', '#1F6FEB' ) ) . '">' . esc_html__( 'Return to checkout', 'cartconsent' ) . '</a></p></div>';
 		exit;
 	}
 }

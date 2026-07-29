@@ -130,7 +130,7 @@ class CRW_Unsubscribe {
 		echo '<form method="post" action="' . esc_url( home_url( '/' ) ) . '" style="margin-top:1.25rem">';
 		echo '<input type="hidden" name="crw_unsub" value="' . esc_attr( $hash ) . '">';
 		echo '<input type="hidden" name="t" value="' . esc_attr( $token ) . '">';
-		echo '<button type="submit" style="background:#1F6FEB;color:#fff;border:0;border-radius:8px;padding:.7rem 1.25rem;font-size:1rem;cursor:pointer">' . esc_html__( 'Unsubscribe me', 'cartconsent' ) . '</button>';
+		echo '<button type="submit" style="background:' . esc_attr( CRW_Options::get( 'style.accent', '#1F6FEB' ) ) . ';color:#fff;border:0;border-radius:8px;padding:.7rem 1.25rem;font-size:1rem;cursor:pointer">' . esc_html__( 'Unsubscribe me', 'cartconsent' ) . '</button>';
 		echo '</form></div>';
 		exit;
 	}
@@ -151,7 +151,7 @@ class CRW_Unsubscribe {
 		echo '<div style="max-width:34rem;margin:12vh auto;padding:0 1.25rem;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#14161d;text-align:center">';
 		echo '<h1 style="font-size:1.4rem;margin:0 0 .6rem">' . esc_html( $title ) . '</h1>';
 		echo '<p style="color:#4b5563;line-height:1.6">' . esc_html( $message ) . '</p>';
-		echo '<p style="margin-top:1.5rem"><a href="' . esc_url( home_url( '/' ) ) . '" style="color:#1F6FEB">' . esc_html( get_bloginfo( 'name' ) ) . '</a></p>';
+		echo '<p style="margin-top:1.5rem"><a href="' . esc_url( home_url( '/' ) ) . '" style="color:' . esc_attr( CRW_Options::get( 'style.accent', '#1F6FEB' ) ) . '">' . esc_html( get_bloginfo( 'name' ) ) . '</a></p>';
 		echo '</div>';
 		exit;
 	}
