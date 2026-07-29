@@ -3,8 +3,12 @@
   "name": "cartconsent-website",
   "compatibility_date": "2024-12-01",
   // Root-level config for Cloudflare Workers Builds (git-connected, runs from the
-  // repo root). The site is built into site/dist by `npm run build` (root
-  // package.json), and served as static assets from there.
+  // repo root). `build.command` runs before deploy, so `npx wrangler deploy`
+  // alone builds the Astro site (into site/dist) and then serves it as static
+  // assets — no separate Cloudflare "Build command" needed.
+  "build": {
+    "command": "npm run build"
+  },
   "assets": {
     "directory": "./site/dist",
     "not_found_handling": "404-page"
