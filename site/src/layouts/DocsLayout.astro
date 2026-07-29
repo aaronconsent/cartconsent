@@ -1,0 +1,135 @@
+---
+import BaseLayout from "~/layouts/BaseLayout.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  active: string;
+}
+const { title, description, active } = Astro.props as Props;
+
+const groups = [
+  {
+    label: "Get started",
+    items: [
+      { key: "overview", label: "Overview", href: "/resources/docs/" },
+      { key: "quick-start", label: "Quick start", href: "/resources/docs/quick-start/" },
+    ],
+  },
+  {
+    label: "Guides",
+    items: [
+      { key: "recovery", label: "Cart recovery setup", href: "/resources/docs/quick-start/#recovery" },
+      { key: "consent", label: "Consent & blocking", href: "/resources/docs/quick-start/#consent" },
+      { key: "legal", label: "Legal pages", href: "/resources/docs/quick-start/#legal" },
+      { key: "resolution", label: "Visitor resolution", href: "/resources/docs/quick-start/#resolution" },
+    ],
+  },
+  {
+    label: "Developers",
+    items: [
+      { key: "hooks", label: "Hooks, filters & shortcodes", href: "/resources/docs/hooks/" },
+    ],
+  },
+  {
+    label: "Help",
+    items: [
+      { key: "faq", label: "FAQ", href: "/resources/faq/" },
+      { key: "changelog", label: "Changelog", href: "/resources/changelog/" },
+      { key: "support", label: "Support", href: "/resources/support/" },
+    ],
+  },
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="section-tight">
+    <div class="container-content">
+      <nav class="mb-6 flex items-center gap-2 text-sm text-[color:var(--color-ink-muted)]" aria-label="Breadcrumb">
+        <a href="/resources/" class="hover:text-[color:var(--color-brand)]">Resources</a>
+        <span aria-hidden="true">/</span>
+        <a href="/resources/docs/" class="hover:text-[color:var(--color-brand)]">Docs</a>
+      </nav>
+      <div class="grid gap-10 lg:grid-cols-[220px_1fr]">
+        <!-- Sidebar -->
+        <aside class="lg:sticky lg:top-24 lg:self-start">
+          <nav aria-label="Documentation">
+            {groups.map((g) => (
+              <div class="mb-5">
+                <div class="mb-1.5 text-xs font-bold uppercase tracking-wider text-[color:var(--color-ink-muted)]">{g.label}</div>
+                <ul class="space-y-0.5">
+                  {g.items.map((it) => (
+                    <li>
+                      <a
+                        href={it.href}
+                        class:list={[
+                          "block rounded-lg px-3 py-1.5 text-sm transition-colors",
+                          active === it.key
+                            ? "bg-[color:var(--color-brand-soft)] font-semibold text-[color:var(--color-brand)]"
+                            : "text-[color:var(--color-ink-2)] hover:bg-[color:var(--color-bg-alt)] hover:text-[color:var(--color-ink)]",
+                        ]}
+                      >
+                        {it.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </nav>
+        </aside>
+
+        <!-- Content -->
+        <article class="doc-prose min-w-0 max-w-3xl">
+          <slot />
+        </article>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style is:global>
+  .doc-prose { color: var(--color-ink-2); line-height: 1.7; }
+  .doc-prose > :first-child { margin-top: 0; }
+  .doc-prose h1 {
+    font-family: var(--font-display); font-weight: 800; letter-spacing: -0.03em;
+    font-size: clamp(2rem, 3.5vw, 2.6rem); color: var(--color-ink); line-height: 1.1;
+  }
+  .doc-prose h2 {
+    font-family: var(--font-display); font-weight: 700; letter-spacing: -0.02em;
+    font-size: 1.4rem; color: var(--color-ink); margin-top: 2.5rem; padding-top: 0.5rem;
+    scroll-margin-top: 6rem;
+  }
+  .doc-prose h3 {
+    font-family: var(--font-display); font-weight: 700; font-size: 1.1rem;
+    color: var(--color-ink); margin-top: 1.75rem; scroll-margin-top: 6rem;
+  }
+  .doc-prose p { margin-top: 1rem; }
+  .doc-prose .lead { font-size: 1.15rem; color: var(--color-ink-2); margin-top: 1rem; }
+  .doc-prose ul, .doc-prose ol { margin-top: 1rem; padding-left: 1.25rem; }
+  .doc-prose ul { list-style: disc; }
+  .doc-prose ol { list-style: decimal; }
+  .doc-prose li { margin-top: 0.4rem; }
+  .doc-prose a { color: var(--color-brand); font-weight: 600; }
+  .doc-prose a:hover { text-decoration: underline; }
+  .doc-prose strong { color: var(--color-ink); font-weight: 700; }
+  .doc-prose code {
+    font-family: var(--font-mono); font-size: 0.85em; background: var(--color-bg-alt);
+    border: 1px solid var(--color-rule); border-radius: 0.3rem; padding: 0.1em 0.4em;
+    color: var(--color-ink);
+  }
+  .doc-prose pre {
+    margin-top: 1.25rem; background: var(--color-navy-900); color: #e6e0f5;
+    border-radius: 0.75rem; padding: 1.1rem 1.25rem; overflow-x: auto;
+    font-family: var(--font-mono); font-size: 0.85rem; line-height: 1.6;
+  }
+  .doc-prose pre code { background: none; border: 0; padding: 0; color: inherit; font-size: inherit; }
+  .doc-prose hr { margin: 2.5rem 0; border: 0; border-top: 1px solid var(--color-rule); }
+  .doc-prose table { width: 100%; border-collapse: collapse; margin-top: 1.25rem; font-size: 0.9rem; }
+  .doc-prose th, .doc-prose td { border: 1px solid var(--color-rule); padding: 0.5rem 0.7rem; text-align: left; vertical-align: top; }
+  .doc-prose th { background: var(--color-bg-alt); font-weight: 700; color: var(--color-ink); }
+  .doc-prose .callout {
+    margin-top: 1.5rem; border: 1px solid var(--color-brand-soft); background: var(--color-brand-soft);
+    border-radius: 0.75rem; padding: 1rem 1.1rem; font-size: 0.92rem;
+  }
+</style>

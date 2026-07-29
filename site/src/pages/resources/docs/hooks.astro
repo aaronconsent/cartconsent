@@ -1,0 +1,108 @@
+---
+import DocsLayout from "~/layouts/DocsLayout.astro";
+import { SITE } from "~/lib/site";
+---
+
+<DocsLayout
+  title="Hooks, Filters & Shortcodes — CartConsent Documentation"
+  description="Developer reference for CartConsent: shortcodes, the WordPress privacy-tools integration, WooCommerce capture points, email template overrides, and extension filters."
+  active="hooks"
+>
+  <h1>Hooks, filters &amp; shortcodes</h1>
+  <p class="lead">
+    CartConsent is standard, hook-friendly WordPress and WooCommerce. Everything below is stable
+    surface you can build on; the complete, versioned reference lives in the
+    <a href={SITE.github} target="_blank" rel="noopener">plugin repository</a>.
+  </p>
+
+  <h2>Shortcodes</h2>
+  <table>
+    <thead><tr><th>Shortcode</th><th>What it renders</th></tr></thead>
+    <tbody>
+      <tr><td><code>[crw_manage_consent]</code></td><td>A “Manage cookie preferences” link/button that reopens the preference center. Put it in your footer.</td></tr>
+      <tr><td><code>[crw_dsar_form]</code></td><td>The data-subject request (DSAR) intake form — access, delete, correct, or do-not-sell.</td></tr>
+    </tbody>
+  </table>
+  <div class="callout">
+    Legal documents are placed as WordPress pages by <strong>CartConsent → Documents</strong>, using a
+    block. You don't need a shortcode for them — but you can drop the generated page anywhere with the
+    core page/link tools.
+  </div>
+
+  <h2>WooCommerce capture points</h2>
+  <p>
+    Capture is consent-first by design: it hooks the <em>completed</em> checkout, never keystrokes.
+    The plugin listens on the standard WooCommerce actions, so anything that creates a real order —
+    classic checkout or the Store API / Checkout Blocks — is captured consistently:
+  </p>
+  <ul>
+    <li><code>woocommerce_checkout_order_processed</code> — classic checkout capture.</li>
+    <li><code>woocommerce_store_api_checkout_order_processed</code> — Cart/Checkout Blocks capture.</li>
+    <li><code>woocommerce_payment_complete</code> and <code>woocommerce_order_status_changed</code> — mark a cart recovered and stop its sequence.</li>
+  </ul>
+  <p>
+    Orders are always read with <code>wc_get_order()</code>, so the plugin is HPOS-safe. If you build
+    custom checkout flows, firing these standard actions is all that's needed for capture to work.
+  </p>
+
+  <h2>The consent checkbox on checkout</h2>
+  <p>
+    On the classic checkout, the marketing-consent checkbox renders at
+    <code>woocommerce_review_order_before_submit</code>. On the Blocks checkout it's a real,
+    server-verified additional checkout field registered via
+    <code>woocommerce_register_additional_checkout_field</code> — so the opt-in is trustworthy, not
+    client-side JavaScript you have to trust.
+  </p>
+
+  <h2>WordPress privacy tools</h2>
+  <p>
+    CartConsent registers with the core privacy framework, so the built-in
+    <strong>Tools → Export Personal Data</strong> and <strong>Tools → Erase Personal Data</strong>
+    include captured carts and consent records. DSAR requests submitted through
+    <code>[crw_dsar_form]</code> are queued in the admin with a deadline, and a delete/opt-out request
+    propagates a suppression and consent-withdrawal once you verify and complete it.
+  </p>
+
+  <h2>Email templates</h2>
+  <p>
+    Recovery emails send through <code>wp_mail()</code>, so your existing SMTP/mail plugin and
+    deliverability settings apply. Merge tags available in subject and body:
+  </p>
+  <table>
+    <thead><tr><th>Tag</th><th>Value</th></tr></thead>
+    <tbody>
+      <tr><td><code>{"{first_name}"}</code></td><td>Shopper's first name, when known</td></tr>
+      <tr><td><code>{"{store_name}"}</code></td><td>Your store name</td></tr>
+      <tr><td><code>{"{cart_items}"}</code></td><td>The abandoned cart's line items</td></tr>
+      <tr><td><code>{"{cart_total}"}</code></td><td>Cart total, formatted</td></tr>
+      <tr><td><code>{"{recovery_url}"}</code></td><td>One-click cart-restore link</td></tr>
+      <tr><td><code>{"{coupon_code}"}</code></td><td>The single-use recovery coupon, when a step offers one</td></tr>
+    </tbody>
+  </table>
+  <p>
+    Every recovery email includes a CAN-SPAM-compliant footer (your store's postal address) and an
+    RFC 8058 one-click <code>List-Unsubscribe</code> header automatically.
+  </p>
+
+  <h2>Constants (wp-config.php)</h2>
+  <table>
+    <thead><tr><th>Constant</th><th>Purpose</th></tr></thead>
+    <tbody>
+      <tr><td><code>CONSENT_RESOLVE_WOO_CRYPTO_SECRET</code></td><td>Set a 64+ char secret so the at-rest email-encryption key never lives in the database (full-DB-dump protection).</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Extending in code</h2>
+  <p>
+    The plugin exposes filters for the consent decision, capture eligibility, and recovery scheduling.
+    Because these evolve per release, the authoritative list — with signatures and examples — is kept
+    next to the code in the <a href={SITE.github} target="_blank" rel="noopener">repository readme</a>
+    rather than duplicated here where it could drift.
+  </p>
+
+  <hr />
+  <p>
+    Need an integration point that isn't here yet? <a href="/resources/support/">Tell us what you're
+    building</a> — hooks are cheap to add when there's a real use case.
+  </p>
+</DocsLayout>

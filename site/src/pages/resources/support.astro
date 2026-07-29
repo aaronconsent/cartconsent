@@ -1,0 +1,107 @@
+---
+import BaseLayout from "~/layouts/BaseLayout.astro";
+import { SITE } from "~/lib/site";
+
+const channels = [
+  {
+    title: "Email support",
+    body: "Questions about setup, billing, or a resolution plan. We reply within one business day.",
+    action: `mailto:${SITE.email}`,
+    label: SITE.email,
+  },
+  {
+    title: "Report a bug",
+    body: "Found something broken? Open an issue with your WordPress/WooCommerce/PHP versions and steps to reproduce.",
+    action: `${SITE.github}/issues`,
+    label: "Open a GitHub issue",
+    external: true,
+  },
+  {
+    title: "Read the docs",
+    body: "Most answers are a click away — install, setup, and the developer reference.",
+    action: "/resources/docs/",
+    label: "Browse documentation",
+  },
+];
+---
+
+<BaseLayout
+  title="Support — CartConsent"
+  description="Get help with CartConsent: email support, bug reports, documentation, and starting a visitor-resolution plan."
+>
+  <section class="section-tight">
+    <div class="container-content mx-auto max-w-3xl text-center">
+      <span class="eyebrow justify-center">Support</span>
+      <h1 class="mt-4 font-display text-[clamp(2.2rem,4.5vw,3.4rem)] font-extrabold leading-[1.05] tracking-tight text-[color:var(--color-ink)]">
+        We're happy to help.
+      </h1>
+      <p class="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-[color:var(--color-ink-2)]">
+        The plugin is free, but the support isn't an afterthought. Pick the channel that fits.
+      </p>
+    </div>
+  </section>
+
+  <!-- Plan context (shown when arriving from a pricing CTA) -->
+  <section id="plan-banner" hidden class="section-tight !pb-0">
+    <div class="container-content mx-auto max-w-3xl">
+      <div class="flex items-start gap-3 rounded-xl border border-[color:var(--color-brand-soft)] bg-[color:var(--color-brand-soft)] p-4">
+        <svg class="mt-0.5 shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-brand)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        <p class="text-sm text-[color:var(--color-ink-2)]">
+          You're starting the <strong id="plan-name" class="text-[color:var(--color-ink)]"></strong> resolution plan.
+          Email us at <a href={`mailto:${SITE.email}`} class="font-semibold text-[color:var(--color-brand)] hover:underline">{SITE.email}</a>
+          and we'll get you set up.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container-content grid gap-6 md:grid-cols-3">
+      {channels.map((c) => (
+        <a href={c.action} target={c.external ? "_blank" : undefined} rel={c.external ? "noopener" : undefined} class="card group flex flex-col p-7 transition-shadow hover:shadow-lg">
+          <h2 class="font-display text-lg font-bold text-[color:var(--color-ink)]">{c.title}</h2>
+          <p class="mt-2 flex-1 text-sm leading-relaxed text-[color:var(--color-ink-2)]">{c.body}</p>
+          <span class="mt-4 text-sm font-semibold text-[color:var(--color-brand)] group-hover:underline">{c.label} →</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container-content mx-auto max-w-3xl">
+      <div class="card p-8">
+        <h2 class="font-display text-xl font-bold text-[color:var(--color-ink)]">Contact</h2>
+        <dl class="mt-4 grid gap-4 sm:grid-cols-2 text-sm">
+          <div>
+            <dt class="font-semibold text-[color:var(--color-ink)]">Email</dt>
+            <dd class="mt-1"><a href={`mailto:${SITE.email}`} class="text-[color:var(--color-brand)] hover:underline">{SITE.email}</a></dd>
+          </div>
+          <div>
+            <dt class="font-semibold text-[color:var(--color-ink)]">Hours</dt>
+            <dd class="mt-1 text-[color:var(--color-ink-2)]">{SITE.hours}</dd>
+          </div>
+          <div>
+            <dt class="font-semibold text-[color:var(--color-ink)]">Phone</dt>
+            <dd class="mt-1"><a href={`tel:${SITE.phoneE164}`} class="text-[color:var(--color-brand)] hover:underline">{SITE.phone}</a></dd>
+          </div>
+          <div>
+            <dt class="font-semibold text-[color:var(--color-ink)]">Mailing address</dt>
+            <dd class="mt-1 text-[color:var(--color-ink-2)]">{SITE.address.street}, {SITE.address.city}, {SITE.address.region} {SITE.address.postalCode}</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <script is:inline>
+    (function () {
+      var plan = new URLSearchParams(window.location.search).get("plan");
+      if (!plan || !/^\d+$/.test(plan)) return;
+      var n = Number(plan).toLocaleString("en-US");
+      var nameEl = document.getElementById("plan-name");
+      var banner = document.getElementById("plan-banner");
+      if (nameEl) nameEl.textContent = n + " resolutions / month";
+      if (banner) banner.removeAttribute("hidden");
+    })();
+  </script>
+</BaseLayout>

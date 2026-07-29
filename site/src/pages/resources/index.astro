@@ -1,0 +1,54 @@
+---
+import BaseLayout from "~/layouts/BaseLayout.astro";
+import { SITE } from "~/lib/site";
+
+const cards = [
+  { title: "Documentation", body: "Install, set up recovery and consent, and the full developer reference.", href: "/resources/docs/", cta: "Read the docs" },
+  { title: "Quick start", body: "From download to a live, compliant recovery program in about ten minutes.", href: "/resources/docs/quick-start/", cta: "Get started" },
+  { title: "Hooks & filters", body: "Shortcodes, capture points, template overrides, and extension points.", href: "/resources/docs/hooks/", cta: "For developers" },
+  { title: "FAQ", body: "The questions merchants and developers ask most, answered plainly.", href: "/resources/faq/", cta: "Browse the FAQ" },
+  { title: "Changelog", body: "What shipped, and when — every release in plain language.", href: "/resources/changelog/", cta: "See changes" },
+  { title: "Support", body: "Reach a human, report a bug, or ask about a resolution plan.", href: "/resources/support/", cta: "Contact us" },
+];
+---
+
+<BaseLayout
+  title="Resources — CartConsent"
+  description="CartConsent documentation, quick start, developer reference, FAQ, changelog, and support — everything you need to run and extend the plugin."
+>
+  <section class="section-tight">
+    <div class="container-content mx-auto max-w-3xl text-center">
+      <span class="eyebrow justify-center">Resources</span>
+      <h1 class="mt-4 font-display text-[clamp(2.2rem,4.5vw,3.4rem)] font-extrabold leading-[1.05] tracking-tight text-[color:var(--color-ink)]">
+        Everything you need to launch and extend.
+      </h1>
+      <p class="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-[color:var(--color-ink-2)]">
+        Full documentation and help, from a two-minute install to the developer reference.
+      </p>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container-content grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {cards.map((c) => (
+        <a href={c.href} class="card group flex flex-col p-7 transition-shadow hover:shadow-lg">
+          <h2 class="font-display text-lg font-bold text-[color:var(--color-ink)]">{c.title}</h2>
+          <p class="mt-2 flex-1 text-sm leading-relaxed text-[color:var(--color-ink-2)]">{c.body}</p>
+          <span class="mt-4 text-sm font-semibold text-[color:var(--color-brand)] group-hover:underline">{c.cta} →</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container-content">
+      <div class="flex flex-col items-start justify-between gap-4 rounded-2xl border border-[color:var(--color-rule)] bg-[color:var(--color-bg-alt)] p-8 md:flex-row md:items-center">
+        <div>
+          <h2 class="font-display text-xl font-bold text-[color:var(--color-ink)]">Prefer to read the code?</h2>
+          <p class="mt-1 text-sm text-[color:var(--color-ink-2)]">CartConsent is open source. The plugin and this site live on GitHub.</p>
+        </div>
+        <a href={SITE.github} target="_blank" rel="noopener" class="btn-primary shrink-0">View on GitHub</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

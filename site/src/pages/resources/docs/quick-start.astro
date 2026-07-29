@@ -1,0 +1,92 @@
+---
+import DocsLayout from "~/layouts/DocsLayout.astro";
+import { SITE } from "~/lib/site";
+---
+
+<DocsLayout
+  title="Quick Start — CartConsent Documentation"
+  description="Install CartConsent, run the setup wizard, and turn on cart recovery, the cookie banner, legal pages, and visitor resolution."
+  active="quick-start"
+>
+  <h1>Quick start</h1>
+  <p class="lead">Ten minutes from download to a live, compliant recovery program.</p>
+
+  <h2>1. Install &amp; activate</h2>
+  <ol>
+    <li>Download the plugin from <a href={SITE.github} target="_blank" rel="noopener">GitHub</a> (or the WordPress.org listing when available).</li>
+    <li>In WordPress, go to <strong>Plugins → Add New → Upload Plugin</strong>, choose the ZIP, and click <strong>Install Now</strong>.</li>
+    <li>Click <strong>Activate</strong>. Your cookie banner is live immediately, and a new <strong>CartConsent</strong> menu appears.</li>
+  </ol>
+  <div class="callout">
+    WooCommerce must be active first. On multisite, network-activate WooCommerce, then activate
+    CartConsent per site.
+  </div>
+
+  <h2>2. Run the setup wizard</h2>
+  <p>
+    Open <strong>CartConsent → Setup Wizard</strong>. Three steps: choose your region (this sets
+    the consent model and default grants), style the banner to your theme, and confirm your sender
+    name and address for recovery email.
+  </p>
+
+  <hr />
+
+  <h2 id="recovery">Cart recovery setup</h2>
+  <p>
+    Recovery works out of the box with a sensible 3-step sequence. To tune it, open
+    <strong>CartConsent → Cart Recovery Settings</strong>:
+  </p>
+  <ul>
+    <li><strong>Sequences.</strong> Add steps with per-step delays and copy. Use merge tags like <code>{"{first_name}"}</code>, <code>{"{cart_items}"}</code>, <code>{"{recovery_url}"}</code>, and <code>{"{coupon_code}"}</code>.</li>
+    <li><strong>Segments.</strong> Route carts into different sequences by cart total, products, categories, or country.</li>
+    <li><strong>A/B subjects.</strong> Add more than one subject line to any step to split-test automatically.</li>
+    <li><strong>Coupons.</strong> Optionally attach a single-use coupon, locked to the shopper's email.</li>
+    <li><strong>Popup.</strong> Enable the exit-intent cart-saver with double opt-in under the Popup section.</li>
+  </ul>
+  <p>
+    Capture is automatic: when a shopper submits checkout but doesn't pay, the cart is stored with
+    its lawful basis and enters the matching sequence. A paid order stops the sequence and attributes
+    the recovered revenue.
+  </p>
+
+  <h2 id="consent">Consent &amp; blocking</h2>
+  <p>
+    The banner is live on activation. To review it, open <strong>CartConsent → Banner &amp;
+    Settings</strong>. Then run the local scan under <strong>Trackers</strong> so blocking and your
+    cookie policy match the tags actually on your store.
+  </p>
+  <ul>
+    <li>Add the reopen-preferences link anywhere with the <code>[crw_manage_consent]</code> shortcode (a good fit for your footer).</li>
+    <li>Global Privacy Control and Do Not Track are honored automatically — nothing to configure.</li>
+    <li>Consent choices are written to a tamper-evident log you can export from <strong>Consent Records</strong>.</li>
+  </ul>
+
+  <h2 id="legal">Legal pages</h2>
+  <p>
+    Open <strong>CartConsent → Documents</strong>, fill in your business details, and click
+    <strong>Create my policy pages</strong>. This creates Privacy, Cookie, and Terms pages, sets your
+    WordPress privacy-policy page, and adds footer links if you have a footer menu.
+  </p>
+  <ul>
+    <li>Generated documents render fresh on every load, so they stay current as the law and your trackers change.</li>
+    <li>Prefer attorney-maintained policies? In the <strong>“Where your documents come from”</strong> section, switch a document to <strong>Termageddon</strong> and paste your embed code.</li>
+  </ul>
+
+  <h2 id="resolution">Visitor resolution (optional, paid)</h2>
+  <p>
+    Resolution identifies anonymous abandoning shoppers. To enable it, choose a plan on the
+    <a href="/pricing/#resolution">pricing page</a>, then enter your Site ID and API key under
+    <strong>CartConsent → Connection</strong>. Resolved contacts appear in your leads and can feed
+    your recovery sequences.
+  </p>
+  <div class="callout">
+    Resolution is the only paid feature. Everything above — recovery, the banner, and legal pages —
+    is free forever, with no metering.
+  </div>
+
+  <hr />
+  <p>
+    Building something custom? See <a href="/resources/docs/hooks/">Hooks, filters &amp; shortcodes</a>.
+    Stuck? <a href="/resources/support/">We're happy to help</a>.
+  </p>
+</DocsLayout>

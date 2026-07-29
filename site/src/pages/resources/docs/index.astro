@@ -1,0 +1,54 @@
+---
+import DocsLayout from "~/layouts/DocsLayout.astro";
+import { SITE } from "~/lib/site";
+
+const cards = [
+  { title: "Quick start", body: "Install, run the wizard, and recover your first cart in about 10 minutes.", href: "/resources/docs/quick-start/" },
+  { title: "Hooks, filters & shortcodes", body: "Shortcodes, template overrides, and the developer extension points.", href: "/resources/docs/hooks/" },
+  { title: "FAQ", body: "The questions merchants and developers ask most.", href: "/resources/faq/" },
+  { title: "Changelog", body: "What shipped, when — every release, in plain language.", href: "/resources/changelog/" },
+];
+---
+
+<DocsLayout
+  title="Documentation — CartConsent"
+  description="CartConsent documentation: install and setup, cart recovery, consent and blocking, legal pages, visitor resolution, and the developer reference."
+  active="overview"
+>
+  <h1>Documentation</h1>
+  <p class="lead">
+    Everything you need to install CartConsent, run a compliant recovery program, and extend it in
+    code. New here? Start with the <a href="/resources/docs/quick-start/">quick start</a>.
+  </p>
+
+  <h2>Requirements</h2>
+  <ul>
+    <li>WordPress 6.4+ and WooCommerce 8.0+</li>
+    <li>PHP 8.1 or newer</li>
+    <li>An SMTP setup for outgoing mail (any mail plugin works — sends go through <code>wp_mail</code>)</li>
+  </ul>
+  <p>
+    CartConsent is HPOS-compatible and works with both the classic checkout and the Cart &amp;
+    Checkout Blocks. There's no build step and no account required to use the free plugin.
+  </p>
+
+  <h2>Start here</h2>
+  <div class="callout">
+    New installs: run <strong>Consent Resolve → Setup Wizard</strong> right after activating. It sets
+    your region, styles the banner, and creates your first recovery sequence in three steps.
+  </div>
+
+  <h2>All docs</h2>
+  <ul>
+    {cards.map((c) => (
+      <li><a href={c.href}>{c.title}</a> — {c.body}</li>
+    ))}
+  </ul>
+
+  <hr />
+  <p>
+    The plugin is open source. Browse the full, versioned code and reference on
+    <a href={SITE.github} target="_blank" rel="noopener">GitHub</a>, or reach a human on the
+    <a href="/resources/support/">support page</a>.
+  </p>
+</DocsLayout>
