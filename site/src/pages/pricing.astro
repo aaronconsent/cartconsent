@@ -1,0 +1,268 @@
+---
+import BaseLayout from "~/layouts/BaseLayout.astro";
+import { PLANS, SITE } from "~/lib/site";
+const fmt = (n: number) => n.toLocaleString("en-US");
+
+const freeIncludes = [
+  "Abandoned-cart recovery — multi-step sequences, segmentation, A/B subjects",
+  "Single-use recovery coupons, locked to the shopper",
+  "Exit-intent cart-saver popup with double opt-in",
+  "Cookie-consent banner + real script blocking (Consent Mode v2, GPC)",
+  "Tamper-evident consent records with CSV export",
+  "Auto-updating Privacy, Cookie & Terms pages (or your Termageddon embed)",
+  "Revenue-recovered dashboard",
+  "HPOS + Cart/Checkout Blocks support, hooks & filters",
+];
+
+const resolutionIncludes = [
+  "Identify anonymous abandoning shoppers by name + email",
+  "Consented, from your own traffic — no purchased lists",
+  "Flows straight into your dashboard and recovery sequences",
+  "Month-to-month, cancel anytime, no overage traps",
+];
+
+// vs. the incumbents — recovery is the thing they meter; here it's free.
+const compare = [
+  { name: "CartConsent", recovery: "Free", banner: "Free", legal: "Free", meter: "None — resolution only", highlight: true },
+  { name: "Retainful", recovery: "$19–$299/mo", banner: "—", legal: "—", meter: "Orders / emails" },
+  { name: "AutomateWoo", recovery: "$137/yr", banner: "—", legal: "—", meter: "Per store" },
+  { name: "CartFlows", recovery: "Free + $99/yr Pro", banner: "—", legal: "—", meter: "Per store" },
+  { name: "Tyche / CTX", recovery: "$79–$199/yr", banner: "—", legal: "—", meter: "Per store" },
+];
+
+const faqs = [
+  {
+    q: "What's actually free?",
+    a: "The whole plugin: cart recovery, the cookie banner, and the legal pages — forever, with no order limits, no contact metering, and no branding. You can run a complete, compliant recovery program without paying us a cent.",
+  },
+  {
+    q: "So what am I paying for with a plan?",
+    a: "Visitor resolution — putting a name and email to the anonymous shoppers who abandon without ever entering their address. It's the one thing that carries a real per-lookup cost, so it's the one thing we charge for.",
+  },
+  {
+    q: "What counts as one resolution?",
+    a: "One successfully identified anonymous visitor. If we can't resolve a visitor to a real contact, it doesn't count against your plan. You're billed for results, not attempts.",
+  },
+  {
+    q: "What happens if I go over my plan?",
+    a: "Resolution simply pauses for the rest of the month once you hit your limit — we never silently bill you for overages. Upgrade any time and it resumes immediately.",
+  },
+  {
+    q: "Is it monthly or annual?",
+    a: "Month-to-month. Cancel or change plans whenever you like; the free plugin keeps working regardless.",
+  },
+  {
+    q: "Do unused resolutions roll over?",
+    a: "No — plans reset each month. Pick the tier that matches your traffic; you can move up or down at any time.",
+  },
+];
+
+const schema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: "CartConsent Visitor Resolution",
+    description: "Identify anonymous abandoning WooCommerce shoppers by name and email, on a consented basis.",
+    brand: { "@type": "Brand", name: "CartConsent" },
+    offers: PLANS.map((p) => ({
+      "@type": "Offer",
+      name: `${fmt(p.resolutions)} resolutions / month`,
+      price: p.monthly,
+      priceCurrency: "USD",
+      availability: "https://schema.org/InStock",
+    })),
+  },
+];
+---
+
+<BaseLayout
+  title="Pricing — CartConsent"
+  description="The CartConsent plugin is free forever: cart recovery, cookie banner, and legal pages. Pay only for visitor resolution — monthly plans from $0.60 per resolution."
+  schema={schema}
+>
+  <!-- HERO -->
+  <section class="section-tight">
+    <div class="container-content mx-auto max-w-3xl text-center">
+      <span class="eyebrow justify-center">Pricing</span>
+      <h1 class="mt-4 font-display text-[clamp(2.2rem,4.5vw,3.5rem)] font-extrabold leading-[1.05] tracking-tight text-[color:var(--color-ink)]">
+        The plugin is free. You only pay to <span class="text-[color:var(--color-brand)]">name</span> your anonymous shoppers.
+      </h1>
+      <p class="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-[color:var(--color-ink-2)]">
+        Cart recovery, the cookie banner, and your legal pages cost nothing — no order limits, no
+        metering. The only paid feature is visitor resolution, and only when you want it.
+      </p>
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <a href="#free" class="btn-primary">Get the free plugin</a>
+        <a href="#resolution" class="btn-ghost border border-[color:var(--color-rule)]">See resolution plans ↓</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FREE PLUGIN -->
+  <section id="free" class="section-tight scroll-mt-24">
+    <div class="container-content">
+      <div class="card-elevated mx-auto max-w-4xl overflow-hidden">
+        <div class="grid md:grid-cols-[1fr_1.2fr]">
+          <div class="flex flex-col justify-center gap-4 border-b border-[color:var(--color-rule)] p-8 md:border-b-0 md:border-r">
+            <span class="inline-flex w-fit items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold text-[color:var(--color-free)]" style="background:var(--color-free-soft)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+              Free forever
+            </span>
+            <div class="flex items-baseline gap-2">
+              <span class="font-display text-5xl font-extrabold text-[color:var(--color-ink)]">$0</span>
+              <span class="text-[color:var(--color-ink-muted)]">/ month</span>
+            </div>
+            <p class="text-sm leading-relaxed text-[color:var(--color-ink-2)]">
+              The complete CartConsent plugin. No account required, no credit card, no upsell wall
+              around the compliance features you're legally required to have.
+            </p>
+            <a href={SITE.github} class="btn-primary mt-2">Download the plugin</a>
+            <p class="text-xs text-[color:var(--color-ink-muted)]">Installs in ~2 minutes · WooCommerce 8.0+ · PHP 8.1+</p>
+          </div>
+          <div class="p-8">
+            <h2 class="font-display text-lg font-bold text-[color:var(--color-ink)]">Everything included</h2>
+            <ul class="mt-4 space-y-2.5">
+              {freeIncludes.map((f) => (
+                <li class="flex items-start gap-2.5 text-sm text-[color:var(--color-ink-2)]">
+                  <svg class="mt-0.5 shrink-0" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-free)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                  <span>{f}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESOLUTION PLANS -->
+  <section id="resolution" class="section scroll-mt-24 bg-[color:var(--color-bg-alt)]">
+    <div class="container-content">
+      <div class="mx-auto max-w-2xl text-center">
+        <span class="eyebrow justify-center">Visitor resolution</span>
+        <h2 class="mt-4 display-2 text-[color:var(--color-ink)]">Pay per result. Cheaper as you scale.</h2>
+        <p class="mt-4 text-lg text-[color:var(--color-ink-2)]">
+          Monthly plans for identifying the anonymous shoppers who abandon. The bigger the plan,
+          the lower the price per resolution — down to <strong class="text-[color:var(--color-ink)]">$0.60</strong>.
+        </p>
+      </div>
+
+      <div class="mx-auto mt-12 grid max-w-5xl gap-6 md:grid-cols-3">
+        {PLANS.map((p) => {
+          const popular = "popular" in p && p.popular;
+          return (
+            <div class={`card relative flex flex-col p-7 ${popular ? "ring-2 ring-[color:var(--color-brand)] shadow-lg" : ""}`}>
+              {popular && (
+                <span class="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full px-3 py-1 text-xs font-bold text-[color:var(--color-on-brand)]" style="background:var(--color-brand)">Most popular</span>
+              )}
+              <div class="font-display text-xl font-bold text-[color:var(--color-ink)]">
+                {fmt(p.resolutions)}<span class="ml-1 font-sans text-sm font-medium text-[color:var(--color-ink-muted)]">resolutions / mo</span>
+              </div>
+              <div class="mt-4 flex items-baseline gap-1">
+                <span class="font-display text-5xl font-extrabold text-[color:var(--color-ink)]">${fmt(p.monthly)}</span>
+                <span class="text-sm text-[color:var(--color-ink-muted)]">/mo</span>
+              </div>
+              <div class="mt-2 inline-flex w-fit items-center rounded-full bg-[color:var(--color-brand-soft)] px-2.5 py-1 text-xs font-semibold text-[color:var(--color-brand)]">
+                ${p.perUnit.toFixed(2)} per resolution
+              </div>
+              <ul class="mt-6 space-y-2.5 border-t border-[color:var(--color-rule)] pt-6">
+                {resolutionIncludes.map((r) => (
+                  <li class="flex items-start gap-2.5 text-sm text-[color:var(--color-ink-2)]">
+                    <svg class="mt-0.5 shrink-0" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--color-brand)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                    <span>{r}</span>
+                  </li>
+                ))}
+              </ul>
+              <a href={`/resources/support/?plan=${p.resolutions}`} class={`mt-7 ${popular ? "btn-primary" : "btn-ghost border border-[color:var(--color-rule)]"}`}>Start {fmt(p.resolutions)} plan</a>
+            </div>
+          );
+        })}
+      </div>
+      <p class="mt-6 text-center text-sm text-[color:var(--color-ink-muted)]">
+        All plans month-to-month · Only successful resolutions count · Cancel anytime
+      </p>
+    </div>
+  </section>
+
+  <!-- COMPARISON -->
+  <section class="section">
+    <div class="container-content">
+      <div class="mx-auto max-w-2xl text-center">
+        <span class="eyebrow justify-center">Why it's different</span>
+        <h2 class="mt-4 display-2 text-[color:var(--color-ink)]">Everyone else meters the recovery. We give it away.</h2>
+        <p class="mt-4 text-lg text-[color:var(--color-ink-2)]">
+          The incumbents charge a subscription for the part you already earned — winning back your
+          own carts. CartConsent charges only for net-new information.
+        </p>
+      </div>
+      <div class="mx-auto mt-10 max-w-4xl overflow-x-auto">
+        <table class="w-full border-collapse text-sm">
+          <thead>
+            <tr class="border-b border-[color:var(--color-rule)] text-left text-[color:var(--color-ink-muted)]">
+              <th class="py-3 pr-4 font-semibold">Plugin</th>
+              <th class="py-3 pr-4 font-semibold">Cart recovery</th>
+              <th class="py-3 pr-4 font-semibold">Cookie banner</th>
+              <th class="py-3 pr-4 font-semibold">Legal pages</th>
+              <th class="py-3 font-semibold">Metered by</th>
+            </tr>
+          </thead>
+          <tbody>
+            {compare.map((row) => (
+              <tr class={`border-b border-[color:var(--color-rule)] ${row.highlight ? "bg-[color:var(--color-brand-soft)]" : ""}`}>
+                <td class="py-3 pr-4 font-semibold text-[color:var(--color-ink)]">{row.name}</td>
+                <td class={`py-3 pr-4 ${row.recovery === "Free" ? "font-bold text-[color:var(--color-free)]" : "text-[color:var(--color-ink-2)]"}`}>{row.recovery}</td>
+                <td class={`py-3 pr-4 ${row.banner === "Free" ? "font-bold text-[color:var(--color-free)]" : "text-[color:var(--color-ink-2)]"}`}>{row.banner}</td>
+                <td class={`py-3 pr-4 ${row.legal === "Free" ? "font-bold text-[color:var(--color-free)]" : "text-[color:var(--color-ink-2)]"}`}>{row.legal}</td>
+                <td class="py-3 text-[color:var(--color-ink-2)]">{row.meter}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="mx-auto mt-4 max-w-4xl text-xs text-[color:var(--color-ink-muted)]">
+        Competitor pricing shown for comparison and may change; check each vendor for current rates. A dash means the plugin doesn't offer that capability.
+      </p>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section-tight bg-[color:var(--color-bg-alt)]">
+    <div class="container-content mx-auto max-w-3xl">
+      <h2 class="text-center display-2 text-[color:var(--color-ink)]">Billing questions</h2>
+      <div class="mt-10 space-y-3">
+        {faqs.map((f) => (
+          <details class="card group p-5">
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-display text-base font-bold text-[color:var(--color-ink)]">
+              {f.q}
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="shrink-0 transition-transform group-open:rotate-45"><path d="M12 5v14M5 12h14"/></svg>
+            </summary>
+            <p class="mt-3 text-sm leading-relaxed text-[color:var(--color-ink-2)]">{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section-dark section-tight">
+    <div class="container-content text-center">
+      <h2 class="mx-auto max-w-2xl display-2 text-[color:var(--color-on-inverse)]">Start free. Add resolution when it pays for itself.</h2>
+      <p class="mx-auto mt-4 max-w-xl text-lg text-[color:var(--color-on-inverse-muted)]">
+        Install the plugin, recover carts on day one, and turn on visitor resolution the moment the math works.
+      </p>
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <a href={SITE.github} class="btn-primary">Get the free plugin</a>
+        <a href="/demo/" class="btn-ghost border border-[color:var(--color-on-inverse-muted)]/30 text-[color:var(--color-on-inverse)]">See the live demo</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

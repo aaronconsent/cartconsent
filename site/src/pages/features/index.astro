@@ -1,0 +1,72 @@
+---
+import BaseLayout from "~/layouts/BaseLayout.astro";
+import { FEATURES, SITE } from "~/lib/site";
+
+const icons: Record<string, string> = {
+  cart: `<circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2.5 3h2.2l2.1 11.2a1.8 1.8 0 0 0 1.8 1.4h8.4a1.8 1.8 0 0 0 1.8-1.4L21 7H6"/>`,
+  shield: `<path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6l7-3z"/>`,
+  doc: `<path d="M6 2h9l5 5v15a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/><path d="M14 2v6h6"/>`,
+  user: `<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>`,
+};
+
+const detail: Record<string, string> = {
+  "cart-recovery": "Multi-step sequences, segmentation, A/B subject testing, single-use coupons, an exit-intent popup with double opt-in, and a revenue-recovered dashboard — captured only on a lawful basis.",
+  "cookie-consent": "A fast, WCAG 2.2-AA banner with real script blocking, Google Consent Mode v2, GPC honoring, and tamper-evident consent records. No pageview metering, ever.",
+  "legal-documents": "Privacy, cookie, and terms pages generated from your details and a live tracker scan — or drop in your Termageddon embed. They keep themselves current as the law changes.",
+  "visitor-resolution": "Put a name and email to the shoppers who abandon anonymously — from your own consented traffic. The one optional paid add-on, priced per resolution.",
+};
+---
+
+<BaseLayout
+  title="Features — CartConsent"
+  description="Everything CartConsent brings to WooCommerce: abandoned-cart recovery, a compliant cookie banner, auto-updating legal pages, and optional visitor resolution."
+>
+  <section class="section-tight">
+    <div class="container-content mx-auto max-w-3xl text-center">
+      <span class="eyebrow justify-center">Features</span>
+      <h1 class="mt-4 font-display text-[clamp(2.2rem,4.5vw,3.4rem)] font-extrabold leading-[1.05] tracking-tight text-[color:var(--color-ink)]">
+        One plugin. Three tools free, one that scales with you.
+      </h1>
+      <p class="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-[color:var(--color-ink-2)]">
+        CartConsent replaces a stack of paid plugins with one that's built for modern WooCommerce —
+        HPOS-ready, Blocks-compatible, and consent-first by design.
+      </p>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container-content grid gap-6 md:grid-cols-2">
+      {FEATURES.map((f) => (
+        <a href={`/features/${f.slug}/`} class="card group flex flex-col gap-4 p-8 transition-shadow hover:shadow-lg">
+          <div class="flex items-center gap-3">
+            <span class="grid size-12 shrink-0 place-items-center rounded-xl text-[color:var(--color-on-brand)]" style="background: var(--color-brand)">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={icons[f.icon]} />
+            </span>
+            <span class={`rounded-full px-2.5 py-0.5 text-[11px] font-bold ${f.free ? "text-[color:var(--color-free)]" : "text-[color:var(--color-brand)]"}`} style={f.free ? "background:var(--color-free-soft)" : "background:var(--color-brand-soft)"}>
+              {f.free ? "Free" : "Paid add-on"}
+            </span>
+          </div>
+          <div>
+            <h2 class="font-display text-xl font-bold text-[color:var(--color-ink)]">{f.name}</h2>
+            <p class="mt-1 text-sm font-medium text-[color:var(--color-brand)]">{f.tagline}</p>
+          </div>
+          <p class="text-sm leading-relaxed text-[color:var(--color-ink-2)]">{detail[f.slug]}</p>
+          <span class="mt-auto inline-block text-sm font-semibold text-[color:var(--color-brand)] group-hover:underline">Explore {f.name.toLowerCase()} →</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="section-dark section-tight">
+    <div class="container-content text-center">
+      <h2 class="mx-auto max-w-2xl display-2 text-[color:var(--color-on-inverse)]">See all four working together.</h2>
+      <p class="mx-auto mt-4 max-w-xl text-lg text-[color:var(--color-on-inverse-muted)]">
+        Try the live WooCommerce demo store, or install the free plugin and be recovering carts in minutes.
+      </p>
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <a href="/demo/" class="btn-primary">Open the live demo</a>
+        <a href={SITE.github} class="btn-ghost border border-[color:var(--color-on-inverse-muted)]/30 text-[color:var(--color-on-inverse)]">Get the free plugin</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

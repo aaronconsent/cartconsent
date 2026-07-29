@@ -1,0 +1,54 @@
+---
+import FeatureLayout from "~/layouts/FeatureLayout.astro";
+import type { FeatureData } from "~/layouts/FeatureLayout.astro";
+
+const data: FeatureData = {
+  slug: "legal-documents",
+  name: "Legal documents",
+  tagline: "Privacy, cookie, and terms pages that keep themselves current.",
+  free: true,
+  metaTitle: "Auto-Updating Legal Pages for WooCommerce — CartConsent",
+  metaDescription:
+    "Generate Privacy, Cookie, and Terms pages from your details and a live tracker scan — or drop in your Termageddon embed. Free, and they stay current as the law changes.",
+  icon: `<path d="M6 2h9l5 5v15a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/><path d="M14 2v6h6"/>`,
+  intro:
+    "Your store's Privacy Policy, Cookie Policy, and Terms — generated from your details and a live scan of your actual trackers, then kept up to date automatically. Or bring your own attorney-maintained Termageddon policy.",
+  problem: {
+    title: "Copy-pasted policies go stale the day you publish them",
+    body: "A generator that bakes text into a page can't update when the law — or your tracker stack — changes. So it drifts out of compliance silently.",
+  },
+  capabilities: [
+    { title: "Render, don't bake", body: "Your page stores only a block; the wording is composed at render time from your profile and the latest scan, so it's never stale." },
+    { title: "Live disclosure table", body: "The third-party technologies section is generated from an automatic scan of your store and updates itself as your site changes." },
+    { title: "Three documents", body: "Privacy Policy, Cookie Policy, and Terms of Use — created as real WordPress pages with one click." },
+    { title: "Bring your Termageddon policy", body: "Prefer attorney-maintained, jurisdiction-specific documents? Paste your Termageddon embed code and CartConsent serves it — self-updating from Termageddon." },
+    { title: "One-click page creation", body: "Creates the pages, sets your WordPress privacy-policy page, and adds footer links if you have a footer menu." },
+    { title: "Review clock", body: "Generated documents flag themselves for review when the template changes, your trackers drift, or eleven months pass." },
+    { title: "Consent-record disclosure", body: "Your privacy page accurately describes how consent is recorded, GPC is honored, and data is retained — matching what the plugin actually does." },
+    { title: "Detach any time", body: "Freeze a document to static text you own and maintain whenever you want full manual control." },
+    { title: "Yours, always", body: "The documents live in your own site. There's no tier that locks you out of your own legal pages." },
+  ],
+  how: [
+    { title: "Fill in your details", body: "Business name, contact, and address — stored as data, never baked into the page text." },
+    { title: "Create the pages", body: "One click creates the Privacy, Cookie, and Terms pages and wires them into WordPress and your footer." },
+    { title: "Choose the source", body: "Keep the generated version, or switch any document to your Termageddon embed. Either way it stays current on its own." },
+  ],
+  highlight: {
+    title: "Auto-updating, or attorney-maintained — your call.",
+    body: "CartConsent generates solid, scan-accurate documents for free. When you want law-firm-grade, jurisdiction-specific policies, paste your Termageddon embed and we render that instead — no second plugin, no double cookie banner.",
+  },
+  faqs: [
+    { q: "Are the generated policies legal advice?", a: "No. They're strong, scan-accurate starting documents with safe defaults, but how you configure and use them — and whether your sends are lawful in your market — is between you and your counsel." },
+    { q: "How do updates reach my live page?", a: "Generated documents render fresh on every load, so a plugin update or a new tracker scan improves them with no action from you. Termageddon-sourced documents fetch the current version from Termageddon automatically." },
+    { q: "Do I need the Termageddon plugin too?", a: "No — that plugin is the cookie banner, which CartConsent already provides. For Termageddon documents you only need your policy embed code, pasted into CartConsent." },
+    { q: "Can I edit the wording myself?", a: "Yes — detach any document to static text and edit it like any WordPress page. You're never locked out." },
+  ],
+  related: [
+    { name: "Cookie consent banner", href: "/features/cookie-consent/" },
+    { name: "Abandoned cart recovery", href: "/features/cart-recovery/" },
+    { name: "Docs", href: "/resources/docs/" },
+    { name: "Pricing", href: "/pricing/" },
+  ],
+};
+---
+<FeatureLayout data={data} />

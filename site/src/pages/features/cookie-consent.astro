@@ -1,0 +1,54 @@
+---
+import FeatureLayout from "~/layouts/FeatureLayout.astro";
+import type { FeatureData } from "~/layouts/FeatureLayout.astro";
+
+const data: FeatureData = {
+  slug: "cookie-consent",
+  name: "Cookie consent banner",
+  tagline: "A banner that actually blocks trackers — not just a cookie notice.",
+  free: true,
+  metaTitle: "Cookie Consent Banner for WooCommerce — CartConsent",
+  metaDescription:
+    "A fast, WCAG 2.2-AA cookie consent banner with real script blocking, Google Consent Mode v2, GPC honoring, and tamper-evident consent records. Free, no metering.",
+  icon: `<path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6l7-3z"/>`,
+  intro:
+    "A complete, un-metered consent management platform built in. Everything CookieYes and Complianz charge for — including Global Privacy Control, which several states legally require — is free here.",
+  problem: {
+    title: "A cookie notice isn't consent",
+    body: "Most 'banners' just show text while the trackers fire anyway. That's the exposure regulators actually act on.",
+  },
+  capabilities: [
+    { title: "Real script blocking", body: "Analytics, ad, and pixel scripts are held until the visitor consents — enqueued and known third-party tags are gated, not just cosmetically hidden." },
+    { title: "Google Consent Mode v2", body: "Default-denied signals are wired in for compliant measurement, updated the moment a visitor chooses." },
+    { title: "GPC & Do Not Track", body: "Honored automatically. Global Privacy Control is legally required in California, Colorado, and Connecticut — and paywalled almost everywhere else." },
+    { title: "Region-aware rules", body: "Opt-in, opt-out, or notice is applied by the visitor's location, detected from your CDN headers — no IP database to maintain." },
+    { title: "Tamper-evident records", body: "Every choice is stored in a hash-chained log in your own database, unlimited, with CSV export and chain verification." },
+    { title: "WCAG 2.2 AA", body: "Focus-trapped, fully keyboard-operable, screen-reader announced — and Reject is always as easy as Accept. No dark patterns." },
+    { title: "Preference center", body: "Per-category toggles that default to your region's policy — no pre-ticked marketing consent in opt-in regions." },
+    { title: "Zero layout shift", body: "A fixed-position banner with the blocking engine inlined, so nothing extra loads before paint." },
+    { title: "Caching-plugin safe", body: "Works with WP Rocket, LiteSpeed, W3TC, and friends — detected and excluded automatically." },
+  ],
+  how: [
+    { title: "Activate", body: "The banner is live the moment you activate the plugin. The setup wizard sets your region and styles it to your theme." },
+    { title: "Scan your site", body: "A local scan finds the trackers actually on your store and classifies them, so blocking and disclosures match reality." },
+    { title: "Style & ship", body: "Set colors, position, and copy. Add the reopen-preferences link to your footer and you're compliant and consistent." },
+  ],
+  highlight: {
+    title: "The features you're legally required to have shouldn't be the paywall.",
+    body: "GPC honoring, Consent Mode, script blocking, and unlimited consent records are free and un-metered. We make money on visitor resolution — never by locking your compliance behind a plan.",
+  },
+  faqs: [
+    { q: "Do you honor Global Privacy Control?", a: "Yes, at no cost. GPC honoring is a legal requirement in CA, CO, and CT, and the major competitors charge for it. We honor GPC on both the client and the server." },
+    { q: "Will it break my forms or booking widget?", a: "No. Unrecognized scripts are allowed by default and flagged for your review, rather than silently blocked, so your store keeps working." },
+    { q: "Is there a pageview limit?", a: "No. The banner, blocking, Consent Mode, and consent records are permanent and un-metered — no pageview cap, no branding." },
+    { q: "Does it replace CookieYes / Complianz?", a: "Yes, for the vast majority of WooCommerce stores. We deliberately don't ship IAB TCF or a 3,000-vendor database — those serve EU adtech publishers, not merchants." },
+  ],
+  related: [
+    { name: "Legal documents", href: "/features/legal-documents/" },
+    { name: "Abandoned cart recovery", href: "/features/cart-recovery/" },
+    { name: "Live demo", href: "/demo/" },
+    { name: "Docs", href: "/resources/docs/" },
+  ],
+};
+---
+<FeatureLayout data={data} />

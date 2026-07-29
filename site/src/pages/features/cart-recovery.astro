@@ -1,0 +1,54 @@
+---
+import FeatureLayout from "~/layouts/FeatureLayout.astro";
+import type { FeatureData } from "~/layouts/FeatureLayout.astro";
+
+const data: FeatureData = {
+  slug: "cart-recovery",
+  name: "Abandoned cart recovery",
+  tagline: "Win back the checkouts you already earned.",
+  free: true,
+  metaTitle: "Abandoned Cart Recovery for WooCommerce — CartConsent",
+  metaDescription:
+    "Free WooCommerce abandoned-cart recovery: multi-step sequences, segmentation, A/B subjects, single-use coupons, and an exit-intent popup — captured on a lawful basis.",
+  icon: `<circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2.5 3h2.2l2.1 11.2a1.8 1.8 0 0 0 1.8 1.4h8.4a1.8 1.8 0 0 0 1.8-1.4L21 7H6"/>`,
+  intro:
+    "A complete recovery engine — the kind other plugins charge a monthly subscription for — free, and built to actually land in the inbox because every capture carries a lawful basis.",
+  problem: {
+    title: "Most recovery plugins get you flagged as spam",
+    body: "They grab the email as the shopper types, before consent exists. Your sends get filtered and your audiences rejected.",
+  },
+  capabilities: [
+    { title: "Multi-step sequences", body: "Stagger reminders over hours and days, each with its own delay, copy, and coupon. Sequences pause the instant a shopper buys." },
+    { title: "Segmentation", body: "Route carts into different flows by cart value, products, categories, or country — the right message to the right shopper." },
+    { title: "A/B subject testing", body: "Give any step several subject lines and CartConsent splits sends automatically, then reports the winner." },
+    { title: "Single-use coupons", body: "Mint a recovery coupon locked to the shopper's email, so a shared link can't be abused." },
+    { title: "Exit-intent popup", body: "Catch a leaving shopper with a cart-saver popup and a double opt-in email, so a never-confirmed address is never mailed." },
+    { title: "Lawful-basis capture", body: "Emails are captured only from a submitted checkout — never keystroke-sniffed — and every cart is stamped with its consent basis and region." },
+    { title: "One-click cart restore", body: "Recovery links rehydrate the exact cart (variations included) and drop the shopper back at checkout." },
+    { title: "Revenue dashboard", body: "See carts captured, recovery rate, and dollars recovered — with per-sequence performance." },
+    { title: "Your own SMTP", body: "Sends go through wp_mail, so your existing deliverability stack applies, with CAN-SPAM footer and one-click unsubscribe built in." },
+  ],
+  how: [
+    { title: "Install & run the wizard", body: "A 3-step setup sets your region, sender, and first recovery sequence. HPOS and Cart/Checkout Blocks are supported out of the box." },
+    { title: "Carts capture themselves", body: "When a shopper submits checkout but doesn't pay, the cart is captured with its lawful basis and enters the matching sequence." },
+    { title: "Recover on autopilot", body: "Timed emails (and optional web push) send with a restore link. Buy, and the sequence stops and the revenue is attributed." },
+  ],
+  highlight: {
+    title: "Consent is why it works.",
+    body: "Because we only ever store shoppers on a lawful basis and encrypt those emails at rest, your recovery mail reaches the inbox and your retargeting audiences don't get bounced. Compliance isn't a tax here — it's the deliverability advantage.",
+  },
+  faqs: [
+    { q: "Is cart recovery really free?", a: "Yes — sequences, segmentation, A/B testing, coupons, the popup, and the dashboard are all free, with no order or contact limits." },
+    { q: "Does it capture emails before checkout?", a: "No. We deliberately capture only from a submitted checkout, so an address is never stored on someone else's behalf. The exit-intent popup captures with an explicit consent tick and double opt-in." },
+    { q: "Will the emails send from my domain?", a: "Yes, through wp_mail, so whatever SMTP you already use is used — with an honest From, physical address, and one-click List-Unsubscribe baked in." },
+    { q: "Does it work with the Checkout Blocks?", a: "Yes. Capture and recovery work on both the classic checkout and the Cart/Checkout Blocks, and orders are read HPOS-safely." },
+  ],
+  related: [
+    { name: "Cookie consent banner", href: "/features/cookie-consent/" },
+    { name: "Visitor resolution", href: "/features/visitor-resolution/" },
+    { name: "Live demo", href: "/demo/" },
+    { name: "Docs", href: "/resources/docs/" },
+  ],
+};
+---
+<FeatureLayout data={data} />

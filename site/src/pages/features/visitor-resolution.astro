@@ -1,0 +1,53 @@
+---
+import FeatureLayout from "~/layouts/FeatureLayout.astro";
+import type { FeatureData } from "~/layouts/FeatureLayout.astro";
+
+const data: FeatureData = {
+  slug: "visitor-resolution",
+  name: "Visitor resolution",
+  tagline: "Put a name and email to the shoppers who leave without buying.",
+  free: false,
+  metaTitle: "Visitor Resolution for WooCommerce — CartConsent",
+  metaDescription:
+    "Identify the anonymous shoppers who abandon your WooCommerce store — by name and email, on a consented basis, from your own traffic. Monthly plans from $0.60 per resolution.",
+  icon: `<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>`,
+  intro:
+    "Most abandoning shoppers never enter an email, so recovery can't reach them. Visitor resolution identifies those anonymous visitors from your own consented traffic — turning dead-end abandonment into a named lead you can follow up.",
+  problem: {
+    title: "You can't recover a cart with no email",
+    body: "The majority of shoppers bounce before the address field. Standard cart recovery has nothing to send to — that revenue just disappears.",
+  },
+  capabilities: [
+    { title: "Name anonymous shoppers", body: "Resolve an abandoning visitor to a real person — name and business email — so an otherwise-lost cart becomes a lead." },
+    { title: "From your own traffic", body: "Resolution runs on visitors to your store, on a consented basis. It's not a purchased list or scraped data." },
+    { title: "Straight into recovery", body: "Resolved contacts flow into your dashboard and can feed the same recovery sequences and audiences you already run." },
+    { title: "Pay per result", body: "You're billed only for successful resolutions — attempts that don't resolve don't count against your plan." },
+    { title: "Tiered pricing", body: "Monthly plans of 500, 1,000, or 2,500 resolutions, getting cheaper per resolution as you scale — down to $0.60." },
+    { title: "Consent-gated", body: "Identity is only ever attached on a lawful basis, and GPC and opt-outs suppress it — the same discipline as the rest of the plugin." },
+    { title: "No lock-in", body: "Month-to-month. Cancel or change tiers any time; the free plugin keeps working regardless." },
+    { title: "Deliverability-safe", body: "Because leads are consented and first-party, your outreach reaches inboxes and your audiences aren't rejected." },
+  ],
+  how: [
+    { title: "Add your plan", body: "Pick 500, 1,000, or 2,500 resolutions a month. Enter your Consent Resolve Site ID and API key to switch it on." },
+    { title: "Resolve on abandonment", body: "When a consented visitor abandons, CartConsent resolves them to a named contact and adds it to your leads." },
+    { title: "Follow up", body: "Route the lead into a recovery sequence, an email, or an ad audience — and watch resolution pay for itself." },
+  ],
+  highlight: {
+    title: "The one thing worth paying for.",
+    body: "Everything else in CartConsent is free because it runs on data you already have. Resolution is different — it's net-new information with a real per-lookup cost, so it's the single feature we charge for, priced as low as $0.60 a result.",
+  },
+  faqs: [
+    { q: "How is this consented?", a: "Resolution only ever attaches identity on a lawful basis, from your own traffic, and GPC signals and opt-outs suppress it — the same consent model that governs the rest of the plugin." },
+    { q: "What counts as a resolution?", a: "One successfully identified anonymous visitor. If a visitor can't be resolved to a real contact, it doesn't count against your plan." },
+    { q: "What does it cost?", a: "Monthly plans: 500 for $400, 1,000 for $700, or 2,500 for $1,500 — from $0.80 down to $0.60 per resolution. See the pricing page for details." },
+    { q: "Do I need it to use CartConsent?", a: "No. The plugin — cart recovery, cookie banner, and legal pages — is fully free without it. Resolution is an optional add-on for when you want to reach anonymous abandoners." },
+  ],
+  related: [
+    { name: "Pricing", href: "/pricing/" },
+    { name: "Abandoned cart recovery", href: "/features/cart-recovery/" },
+    { name: "Live demo", href: "/demo/" },
+    { name: "Docs", href: "/resources/docs/" },
+  ],
+};
+---
+<FeatureLayout data={data} />
