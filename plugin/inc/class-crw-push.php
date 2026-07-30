@@ -33,7 +33,7 @@ class CRW_Push {
 	 * Whether push is usable (enabled + crypto + VAPID keys).
 	 */
 	public static function ready() {
-		return CRW_Hosted::active() && CRW_Options::get( 'push.enabled', false ) && CRW_Push_Crypto::available() && '' !== self::vapid_public_b64();
+		return CRW_Options::get( 'push.enabled', false ) && CRW_Push_Crypto::available() && '' !== self::vapid_public_b64();
 	}
 
 	/**

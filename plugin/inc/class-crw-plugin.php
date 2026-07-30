@@ -19,12 +19,15 @@ class CRW_Plugin {
 		add_action( 'init', array( $this, 'load_textdomain' ) );
 		$this->maybe_upgrade();
 
-		// Consent surface: the hosted Consent Resolve javascript + cookie banner,
-		// exclusively — activated by the API key. The formerly-bundled local
-		// banner/records/privacy modules (CRW_Frontend/CRW_Consent/CRW_Rest/
-		// CRW_Rights) are retired; those surfaces live in the Consent Resolve
-		// dashboard now.
+		// Consent surface. The bundled cookie banner is FREE FOREVER and serves
+		// by default; connecting a Consent Resolve API key upgrades the site to
+		// the hosted javascript + banner, which then serves exclusively (the
+		// free banner stands down). Records + privacy-request admin surfaces
+		// live in the hosted dashboard. (CRW_Rights stays retired.)
 		( new CRW_Hosted() )->register();
+		( new CRW_Consent() )->register();
+		( new CRW_Rest() )->register();
+		( new CRW_Frontend() )->register();
 
 		// Cart recovery.
 		( new CRW_Capture() )->register();

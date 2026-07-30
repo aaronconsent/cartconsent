@@ -4,7 +4,7 @@ Tags: woocommerce, abandoned cart, cart recovery, gdpr, retargeting
 Requires at least: 6.4
 Tested up to: 6.7
 Requires PHP: 8.1
-Stable tag: 1.1.0
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -56,6 +56,11 @@ No. That's the whole point. A shopper with no lawful basis to email is never sto
 Yes — they go through wp_mail, so whatever mail/SMTP setup your store uses is used, with the deliverability essentials (honest From, physical address, one-click List-Unsubscribe) built in.
 
 == Changelog ==
+
+= 1.2.0 =
+* The built-in cookie banner is back — free forever, serving by default with no account required (banner + preference center, script blocking, Consent Mode v2, GPC, consent records). Cart recovery is likewise fully functional on the free plan.
+* Connecting a Consent Resolve API key is now an optional upgrade: it swaps the free banner for the hosted Consent Resolve javascript + banner (which then serves exclusively) and unlocks visitor resolution credits.
+* Banner & Settings screen restored for styling the free banner. Consent Records and Privacy Requests remain in the hosted Consent Resolve dashboard.
 
 = 1.1.0 =
 * CartConsent now uses the Consent Resolve javascript and cookie banner exclusively, activated by your API key (Connection screen). Without a connection the banner is not served and capture, sends, popup, and push pause. Consent Records and Privacy Requests moved to your Consent Resolve dashboard.

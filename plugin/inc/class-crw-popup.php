@@ -35,9 +35,6 @@ class CRW_Popup {
 		if ( is_admin() || ! function_exists( 'is_woocommerce' ) ) {
 			return;
 		}
-		if ( ! CRW_Hosted::active() ) {
-			return;
-		}
 		if ( ! CRW_Options::get( 'popup.enabled', false ) || ! CRW_Options::get( 'capture.enabled', true ) ) {
 			return;
 		}
@@ -87,9 +84,6 @@ class CRW_Popup {
 	 * @param WP_REST_Request $req Request.
 	 */
 	public function capture( $req ) {
-		if ( ! CRW_Hosted::active() ) {
-			return new WP_REST_Response( array( 'ok' => false ), 403 );
-		}
 		if ( ! $this->rate_ok() ) {
 			return new WP_REST_Response( array( 'ok' => false, 'reason' => 'rate' ), 429 );
 		}

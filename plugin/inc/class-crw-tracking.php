@@ -27,9 +27,6 @@ class CRW_Tracking {
 	 * Option-dependent wiring (runs on init; all hooks below fire after init).
 	 */
 	public function wire() {
-		if ( ! CRW_Hosted::active() ) {
-			return;
-		}
 		if ( ! CRW_Options::get( 'tracking.events', true ) ) {
 			return;
 		}

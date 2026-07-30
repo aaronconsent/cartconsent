@@ -32,6 +32,10 @@ class CRW_Frontend {
 		if ( ! CRW_Options::get( 'banner.enabled', true ) ) {
 			return;
 		}
+		// Connected? The hosted Consent Resolve banner serves exclusively.
+		if ( CRW_Hosted::active() ) {
+			return;
+		}
 		// If Consent Resolve core is active it owns consent + blocking end-to-end.
 		if ( class_exists( 'CR_Frontend' ) || class_exists( 'CR_Consent' ) ) {
 			return;

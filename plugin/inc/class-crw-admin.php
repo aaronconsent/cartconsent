@@ -31,6 +31,7 @@ class CRW_Admin {
 		add_menu_page( __( 'CartConsent', 'cartconsent' ), __( 'CartConsent', 'cartconsent' ), self::CAP, self::SLUG, array( $this, 'page_dashboard' ), 'dashicons-shield', 56 );
 		add_submenu_page( self::SLUG, __( 'Dashboard', 'cartconsent' ), __( 'Dashboard', 'cartconsent' ), self::CAP, self::SLUG, array( $this, 'page_dashboard' ) );
 		add_submenu_page( self::SLUG, __( 'Setup Wizard', 'cartconsent' ), __( 'Setup Wizard', 'cartconsent' ), self::CAP, 'crw-wizard', array( 'CRW_Wizard', 'render' ) );
+		add_submenu_page( self::SLUG, __( 'Banner & Settings', 'cartconsent' ), __( 'Banner & Settings', 'cartconsent' ), self::CAP, 'crw-banner', array( 'CRW_Cmp_Admin', 'render_banner' ) );
 		// Consent Records + Privacy Requests live in the hosted Consent Resolve
 		// dashboard now (linked from the Dashboard tiles) — no local pages.
 		add_submenu_page( self::SLUG, __( 'Cart Recovery', 'cartconsent' ), __( 'Cart Recovery', 'cartconsent' ), self::CAP, 'crw-carts', array( $this, 'page_carts' ) );
@@ -66,11 +67,11 @@ class CRW_Admin {
 		echo '<div class="wrap crw-wrap"><h1>' . esc_html__( 'CartConsent', 'cartconsent' ) . '</h1>';
 		$this->flash();
 
-		// Hard gate: without the API key the module does not run.
+		// Free tier is fully functional; connecting is the upgrade path.
 		if ( ! $active ) {
-			echo '<div class="crw-card crw-connect-cta"><h2 style="margin-top:0">' . esc_html__( 'Connect Consent Resolve to activate CartConsent', 'cartconsent' ) . '</h2>';
-			echo '<p>' . esc_html__( 'This version of CartConsent uses the Consent Resolve javascript and cookie banner exclusively, activated by your API key. Until you connect, the cookie banner is not served and cart capture, recovery sends, the popup, and web push are paused.', 'cartconsent' ) . '</p>';
-			echo '<p><a class="button button-primary button-hero" href="' . esc_url( admin_url( 'admin.php?page=crw-connection' ) ) . '">' . esc_html__( 'Connect your account', 'cartconsent' ) . '</a> <a class="button" href="' . esc_url( CRW_Hosted::dashboard_url() ) . '" target="_blank" rel="noopener">' . esc_html__( 'Get an API key', 'cartconsent' ) . ' &#8599;</a></p></div>';
+			echo '<div class="crw-card crw-connect-cta"><h2 style="margin-top:0">' . esc_html__( 'You are on the free banner — everything works, free forever', 'cartconsent' ) . '</h2>';
+			echo '<p>' . esc_html__( 'The built-in cookie banner and cart recovery are live. Connect a Consent Resolve API key to upgrade to the hosted banner (managed rules, records, and privacy requests in your dashboard) and to add visitor resolution — naming the shoppers who abandon anonymously.', 'cartconsent' ) . '</p>';
+			echo '<p><a class="button button-primary" href="' . esc_url( admin_url( 'admin.php?page=crw-connection' ) ) . '">' . esc_html__( 'Connect Consent Resolve', 'cartconsent' ) . '</a> <a class="button" href="' . esc_url( CRW_Hosted::dashboard_url() ) . '" target="_blank" rel="noopener">' . esc_html__( 'Learn about visitor resolution', 'cartconsent' ) . ' &#8599;</a></p></div>';
 		}
 
 		// 1) Stats.
@@ -105,15 +106,15 @@ class CRW_Admin {
 	private function status_strip( $active ) {
 		$credits = $active ? CRW_Connection::credits() : null;
 		if ( null === $credits ) {
-			$credit_item = array( $active ? null : false, $active ? __( 'Credits: n/a', 'cartconsent' ) : __( 'Credits: connect first', 'cartconsent' ) );
+			$credit_item = array( null, $active ? __( 'Credits: n/a', 'cartconsent' ) : __( 'Credits: connect to add resolution', 'cartconsent' ) );
 		} else {
 			$credit_item = array( $credits > 0, sprintf( /* translators: %s number */ __( 'Credits available: %s', 'cartconsent' ), number_format_i18n( $credits ) ) );
 		}
 		$items = array(
-			array( $active, $active ? __( 'Cookie banner active (Consent Resolve)', 'cartconsent' ) : __( 'Cookie banner inactive — connect your API key', 'cartconsent' ) ),
-			array( $active, $active ? __( 'Connected to Consent Resolve', 'cartconsent' ) : __( 'Not connected to Consent Resolve', 'cartconsent' ) ),
+			array( (bool) CRW_Options::get( 'banner.enabled', true ), $active ? __( 'Cookie banner active (Consent Resolve hosted)', 'cartconsent' ) : __( 'Cookie banner active (built-in, free)', 'cartconsent' ) ),
+			array( $active ? true : null, $active ? __( 'Connected to Consent Resolve', 'cartconsent' ) : __( 'Not connected — free plan', 'cartconsent' ) ),
 			$credit_item,
-			array( $active && (bool) CRW_Options::get( 'capture.enabled', true ), __( 'Capture active', 'cartconsent' ) ),
+			array( (bool) CRW_Options::get( 'capture.enabled', true ), __( 'Capture active', 'cartconsent' ) ),
 			array( (bool) wp_next_scheduled( CRW_Install::CRON_HOOK ), __( 'Recovery queue scheduled', 'cartconsent' ) ),
 			array( '' !== trim( (string) CRW_Options::get( 'emails.from_email', '' ) ) || (bool) get_option( 'admin_email' ), __( 'Sender address set', 'cartconsent' ) ),
 			array( '' !== trim( (string) get_option( 'woocommerce_store_address', '' ) ), __( 'Store address (for CAN-SPAM)', 'cartconsent' ) ),
@@ -150,7 +151,7 @@ class CRW_Admin {
 			array( 'dashicons-admin-settings', __( 'Recovery Settings', 'cartconsent' ), admin_url( 'admin.php?page=crw-settings' ), false,
 				$sequences > 0 ? sprintf( /* translators: %s count */ _n( '%s sequence live', '%s sequences live', $sequences, 'cartconsent' ), number_format_i18n( $sequences ) ) : __( 'Set up your first sequence', 'cartconsent' ), $sequences > 0 ? '' : 'todo' ),
 			array( 'dashicons-admin-network', __( 'Connection', 'cartconsent' ), admin_url( 'admin.php?page=crw-connection' ), false,
-				$active ? __( 'Connected', 'cartconsent' ) : __( 'Connect your API key', 'cartconsent' ), $active ? 'go' : 'todo' ),
+				$active ? __( 'Connected', 'cartconsent' ) : __( 'Optional — hosted banner + resolution', 'cartconsent' ), $active ? 'go' : '' ),
 			array( 'dashicons-welcome-learn-more', __( 'Setup Wizard', 'cartconsent' ), admin_url( 'admin.php?page=crw-wizard' ), false,
 				$setup_done ? __( 'Completed', 'cartconsent' ) : __( 'Run the 3-step setup', 'cartconsent' ), $setup_done ? 'go' : 'todo' ),
 			array( 'dashicons-shield-alt', __( 'Consent Records', 'cartconsent' ), $hosted, true,

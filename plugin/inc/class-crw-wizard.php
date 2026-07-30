@@ -36,14 +36,14 @@ class CRW_Wizard {
 		if ( isset( $_GET['crw_msg'] ) && 'wizard' === $_GET['crw_msg'] ) { // phpcs:ignore WordPress.Security.NonceVerification
 			echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'All set! Your cookie banner and cart recovery are live.', 'cartconsent' ) . '</p></div>';
 		}
-		echo '<p class="description" style="max-width:75ch">' . esc_html__( 'Three quick things and you are live: connect your Consent Resolve account (this activates the cookie banner and recovery), who your recovery emails come from, and when a cart counts as abandoned. You can change everything later.', 'cartconsent' ) . '</p>';
+		echo '<p class="description" style="max-width:75ch">' . esc_html__( 'Your free cookie banner is already live. Three quick things to finish: optionally connect Consent Resolve, set who your recovery emails come from, and choose when a cart counts as abandoned. You can change everything later.', 'cartconsent' ) . '</p>';
 
 		echo '<form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '">';
 		wp_nonce_field( 'crw_save_wizard' );
 		echo '<input type="hidden" name="action" value="crw_save_wizard">';
 
-		echo '<div class="crw-card"><h2>' . esc_html__( '1. Connect Consent Resolve', 'cartconsent' ) . '</h2>';
-		echo '<p class="description">' . esc_html__( 'Your API key activates CartConsent: the hosted cookie banner, capture, and recovery all switch on with it.', 'cartconsent' ) . ' <a href="' . esc_url( CRW_Hosted::dashboard_url() ) . '" target="_blank" rel="noopener">' . esc_html__( 'Get an API key', 'cartconsent' ) . ' &#8599;</a></p>';
+		echo '<div class="crw-card"><h2>' . esc_html__( '1. Connect Consent Resolve (optional)', 'cartconsent' ) . '</h2>';
+		echo '<p class="description">' . esc_html__( 'Optional. The free built-in banner is already serving; connecting swaps it for the hosted Consent Resolve banner and unlocks visitor resolution.', 'cartconsent' ) . ' <a href="' . esc_url( CRW_Hosted::dashboard_url() ) . '" target="_blank" rel="noopener">' . esc_html__( 'Get an API key', 'cartconsent' ) . ' &#8599;</a></p>';
 		echo '<p><label>' . esc_html__( 'Site ID', 'cartconsent' ) . '<br><input type="text" name="conn_site_id" value="' . esc_attr( $conn['site_id'] ) . '" class="regular-text"></label></p>';
 		if ( defined( 'CONSENT_RESOLVE_WOO_API_KEY' ) ) {
 			echo '<p>' . esc_html__( 'API key: set via CONSENT_RESOLVE_WOO_API_KEY in wp-config.php.', 'cartconsent' ) . '</p>';
