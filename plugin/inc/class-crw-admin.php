@@ -70,7 +70,7 @@ class CRW_Admin {
 		// Free tier is fully functional; connecting is the upgrade path.
 		if ( ! $active ) {
 			echo '<div class="crw-card crw-connect-cta"><h2 style="margin-top:0">' . esc_html__( 'You are on the free banner — everything works, free forever', 'cartconsent' ) . '</h2>';
-			echo '<p>' . esc_html__( 'The built-in cookie banner is live and quietly measuring your store — abandoned carts, consent choices, and what they are worth. Connect a Consent Resolve API key to unlock cart recovery, the hosted banner, and visitor resolution — naming the shoppers who abandon anonymously.', 'cartconsent' ) . '</p>';
+			echo '<p>' . esc_html__( 'The built-in cookie banner and cart recovery are live and quietly working — abandoned carts counted, consented shoppers emailed. Connect a Consent Resolve API key to unlock the hosted banner and visitor resolution — naming the shoppers who abandon anonymously.', 'cartconsent' ) . '</p>';
 			echo '<p><a class="button button-primary" href="' . esc_url( admin_url( 'admin.php?page=crw-connection' ) ) . '">' . esc_html__( 'Connect Consent Resolve', 'cartconsent' ) . '</a> <a class="button" href="' . esc_url( CRW_Hosted::dashboard_url() ) . '" target="_blank" rel="noopener">' . esc_html__( 'Learn about visitor resolution', 'cartconsent' ) . ' &#8599;</a></p></div>';
 		}
 
@@ -94,16 +94,18 @@ class CRW_Admin {
 		} else {
 			$anon    = class_exists( 'CRW_Estimates' ) ? CRW_Estimates::anon_30d() : array( 'n' => 0, 'cents' => 0 );
 			$consent = $this->consent_stats_30d();
-			$store   = $this->store_30d();
-			$avg     = $anon['n'] > 0 ? (int) round( $anon['cents'] / $anon['n'] ) : 0;
 
 			// No recovery-performance cards here: capturing and recovering carts is
 			// a connected superpower, so those numbers don't exist on the free plan.
+			$sends  = CRW_Events::count( 'email_sent', 30 );
+			$clicks = CRW_Events::count( 'recovery_clicked', 30 );
+			$ctr    = $sends > 0 ? (int) round( $clicks / $sends * 100 ) : 0;
+
 			echo '<div class="crw-cards">';
-			$this->card( number_format_i18n( $anon['n'] ), __( 'Abandoned carts observed', 'cartconsent' ) );
-			$this->card( $this->money( (int) $anon['cents'] ), __( 'Abandoned cart value', 'cartconsent' ) );
-			$this->card( $this->money( $avg ), __( 'Avg abandoned cart', 'cartconsent' ) );
-			$this->card( number_format_i18n( $store['orders'] ), __( 'Store orders', 'cartconsent' ) );
+			$this->card( number_format_i18n( $anon['n'] ), __( 'Abandoned Carts', 'cartconsent' ) );
+			$this->card( number_format_i18n( $sends ), __( 'Emails Sent', 'cartconsent' ) );
+			$this->card( $ctr . '%', __( 'Click Through', 'cartconsent' ) );
+			$this->card( number_format_i18n( $recovered ), __( 'Carts Saved', 'cartconsent' ), $recovered > 0 ? 'good' : '' );
 			echo '</div>';
 
 			echo '<div class="crw-cards">';
@@ -111,7 +113,7 @@ class CRW_Admin {
 			$this->card( $consent['accept_rate'] . '%', __( 'Banner % Rate', 'cartconsent' ), $consent['accept_rate'] >= 50 ? 'good' : '' );
 			echo '</div>';
 
-			echo '<p class="description" style="margin:2px 0 0">' . esc_html__( 'This is everything the free plugin observes on its own: abandoned carts counted (not captured), and every consent choice recorded. Connect Consent Resolve to unlock cart recovery — capturing consented shoppers, winning carts back, and naming anonymous visitors.', 'cartconsent' ) . '</p>';
+			echo '<p class="description" style="margin:2px 0 0">' . esc_html__( 'Abandoned carts are counted from guest sessions on your own store; recovery emails go to the shoppers who left their email at checkout. Connect Consent Resolve to identify the anonymous rest.', 'cartconsent' ) . '</p>';
 		}
 
 
