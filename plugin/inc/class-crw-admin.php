@@ -128,7 +128,7 @@ class CRW_Admin {
 				: __( 'Estimated lost revenue — what visitor resolution could have won back if the Pro version was enabled', 'cartconsent' ) ) . '</div>';
 			echo '<div class="crw-est-math">' . esc_html( sprintf(
 				/* translators: 1: count 2: money 3: resolution rate 4: recovery rate */
-				__( 'Based on %1$s anonymous carts worth %2$s × %3$d%% assumed resolution rate × %4$d%% recovery rate.', 'cartconsent' ),
+				__( 'Based on %1$s anonymous carts worth %2$s × %3$d%% assumed resolution rate × %4$d%% assumed recovery rate for resolved carts.', 'cartconsent' ),
 				number_format_i18n( $est['anon_count'] ),
 				$this->money( $est['anon_cents'] ),
 				(int) round( $est['res_rate'] * 100 ),
@@ -383,11 +383,11 @@ class CRW_Admin {
 			echo '</div>';
 			echo '<p class="description">' . esc_html( sprintf(
 				/* translators: 1: money 2: resolution rate 3: recovery rate */
-				__( 'Math: %1$s in anonymous carts × %2$d%% assumed resolution rate (editable in Settings → Retargeting & Data) × %3$d%% recovery rate', 'cartconsent' ),
+				__( 'Math: %1$s in anonymous carts × %2$d%% assumed resolution rate × %3$d%% assumed recovery rate for resolved carts (both editable in Settings → Retargeting & Data)', 'cartconsent' ),
 				$this->money( $est['anon_cents'] ),
 				(int) round( $est['res_rate'] * 100 ),
 				(int) round( $est['rec_rate'] * 100 )
-			) ) . ( $est['rec_measured'] ? ' ' . esc_html__( '(your store\'s measured rate).', 'cartconsent' ) : ' ' . esc_html__( '(a conservative default until your store has measured recoveries).', 'cartconsent' ) ) . ' ' . esc_html__( 'Anonymous carts are counted from guest sessions on your own store — no personal data is read or stored.', 'cartconsent' ) . '</p>';
+			) ) . ' ' . esc_html__( 'Resolved shoppers get a reminder for the exact cart they built, while intent is fresh — which is why their assumed rate is higher than a cold send.', 'cartconsent' ) . ' ' . esc_html__( 'Anonymous carts are counted from guest sessions on your own store — no personal data is read or stored.', 'cartconsent' ) . '</p>';
 			if ( ! CRW_Hosted::active() ) {
 				echo '<p><a class="button button-primary" href="' . esc_url( admin_url( 'admin.php?page=crw-connection' ) ) . '">' . esc_html__( 'Connect Consent Resolve to start resolving', 'cartconsent' ) . '</a></p>';
 			} elseif ( ! CRW_Connection::credits() ) {
@@ -582,7 +582,8 @@ class CRW_Admin {
 
 		// Lost-revenue estimate assumption.
 		echo '<div class="crw-card"><h2>' . esc_html__( 'Lost-revenue estimate', 'cartconsent' ) . '</h2>';
-		echo '<p><label>' . esc_html__( 'Assumed visitor-resolution rate (%)', 'cartconsent' ) . ' <input type="number" min="1" max="100" name="estimates[resolution_rate]" value="' . esc_attr( (int) CRW_Options::get( 'estimates.resolution_rate', 20 ) ) . '" class="small-text"></label><br><span class="description">' . esc_html__( 'Used only for the clearly-labeled "estimated lost revenue" figures on the Dashboard and Analytics screens: anonymous carts observed × this rate × your measured recovery rate. It never mixes into measured revenue.', 'cartconsent' ) . '</span></p>';
+		echo '<p><label>' . esc_html__( 'Assumed visitor-resolution rate (%)', 'cartconsent' ) . ' <input type="number" min="1" max="100" name="estimates[resolution_rate]" value="' . esc_attr( (int) CRW_Options::get( 'estimates.resolution_rate', 20 ) ) . '" class="small-text"></label> ';
+		echo '<label>' . esc_html__( 'Assumed recovery rate for resolved carts (%)', 'cartconsent' ) . ' <input type="number" min="1" max="100" name="estimates[pro_recovery_rate]" value="' . esc_attr( (int) CRW_Options::get( 'estimates.pro_recovery_rate', 10 ) ) . '" class="small-text"></label><br><span class="description">' . esc_html__( 'Used only for the clearly-labeled "estimated lost revenue" figures on the Dashboard and Analytics screens: anonymous carts observed × resolution rate × resolved-cart recovery rate. Estimates never mix into measured revenue.', 'cartconsent' ) . '</span></p>';
 		echo '</div>';
 
 		echo '</div>'; // last tab panel
@@ -701,7 +702,8 @@ class CRW_Admin {
 		$s['popup']['button']          = sanitize_text_field( (string) ( $in['popup']['button'] ?? '' ) );
 
 		$s['retention_days'] = max( 1, (int) ( $in['retention_days'] ?? 60 ) );
-		$s['estimates']['resolution_rate'] = max( 1, min( 100, (int) ( $in['estimates']['resolution_rate'] ?? 20 ) ) );
+		$s['estimates']['resolution_rate']   = max( 1, min( 100, (int) ( $in['estimates']['resolution_rate'] ?? 20 ) ) );
+		$s['estimates']['pro_recovery_rate'] = max( 1, min( 100, (int) ( $in['estimates']['pro_recovery_rate'] ?? 10 ) ) );
 
 		CRW_Options::save( $s );
 		wp_safe_redirect( add_query_arg( array( 'page' => 'crw-settings', 'crw_msg' => 'saved' ), admin_url( 'admin.php' ) ) );

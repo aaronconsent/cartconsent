@@ -4,7 +4,7 @@ Tags: woocommerce, abandoned cart, cart recovery, gdpr, retargeting
 Requires at least: 6.4
 Tested up to: 6.7
 Requires PHP: 8.1
-Stable tag: 1.4.5
+Stable tag: 1.5.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -56,6 +56,9 @@ No. That's the whole point. A shopper with no lawful basis to email is never sto
 Yes — they go through wp_mail, so whatever mail/SMTP setup your store uses is used, with the deliverability essentials (honest From, physical address, one-click List-Unsubscribe) built in.
 
 == Changelog ==
+
+= 1.5.0 =
+* Smarter lost-revenue estimate: the recovery factor for resolved carts is now its own merchant-editable assumption (default 10% — the benchmark for intent-triggered cart email), independent of the free tier's measured funnel. Resolved shoppers get a reminder for the exact cart they built while intent is fresh, so capping the estimate at the free-tier rate undersold it.
 
 = 1.4.5 =
 * Free-plan estimate card now says what it means: "…what visitor resolution could have won back if the Pro version was enabled."

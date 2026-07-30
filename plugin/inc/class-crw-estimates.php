@@ -120,17 +120,15 @@ class CRW_Estimates {
 			return null;
 		}
 
-		$f         = CRW_Carts_Store::funnel();
-		$captured  = (int) ( $f['captured'] ?? 0 );
-		$recovered = (int) ( $f['recovered'] ?? 0 );
-		// Measured recovery rate; a young store with no outcomes yet uses a
-		// deliberately conservative 10% and the UI says so.
-		$rec_rate     = $captured > 0 && $recovered > 0 ? $recovered / $captured : 0.10;
-		$rec_measured = $captured > 0 && $recovered > 0;
-
+		// Both factors are explicit, merchant-editable assumptions. The recovery
+		// rate for RESOLVED carts is deliberately independent of the free tier's
+		// measured funnel: a resolved shopper gets a reminder for the exact cart
+		// they built, sent while intent is fresh — the industry benchmark for
+		// intent-triggered cart email is ~10%.
 		$res_rate = max( 1, min( 100, (int) CRW_Options::get( 'estimates.resolution_rate', 20 ) ) ) / 100;
+		$rec_rate = max( 1, min( 100, (int) CRW_Options::get( 'estimates.pro_recovery_rate', 10 ) ) ) / 100;
 
-		return self::estimate_from( (int) $anon['n'], (int) $anon['cents'], $res_rate, $rec_rate, $rec_measured );
+		return self::estimate_from( (int) $anon['n'], (int) $anon['cents'], $res_rate, $rec_rate, false );
 	}
 
 	/**

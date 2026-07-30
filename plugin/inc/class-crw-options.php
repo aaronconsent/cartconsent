@@ -83,7 +83,7 @@ class CRW_Options {
 			),
 			'retention_days' => 60,
 			// --- Lost-revenue estimate (assumption is merchant-editable) ---------
-			'estimates' => array( 'resolution_rate' => 20 ),
+			'estimates' => array( 'resolution_rate' => 20, 'pro_recovery_rate' => 10 ),
 
 			// --- Built-in consent banner (works standalone; stands down if
 			//     Consent Resolve core is active) --------------------------------
