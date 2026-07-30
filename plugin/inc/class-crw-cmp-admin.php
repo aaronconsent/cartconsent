@@ -157,7 +157,8 @@ class CRW_Cmp_Admin {
 			echo '<div class="notice notice-info inline"><p>' . esc_html__( 'Consent Resolve (the standalone CMP plugin) is active, so it is handling your consent banner. These settings apply only if you deactivate it.', 'cartconsent' ) . '</p></div>';
 		}
 		if ( CRW_Hosted::active() ) {
-			echo '<div class="notice notice-info inline"><p>' . esc_html__( 'You are connected to Consent Resolve, so the hosted banner is serving. These free-banner settings apply whenever you are not connected.', 'cartconsent' ) . '</p></div>';
+			self::render_banner_pro();
+			return;
 		}
 		if ( isset( $_GET['crw_msg'] ) && 'banner' === $_GET['crw_msg'] ) { // phpcs:ignore WordPress.Security.NonceVerification
 			echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Banner settings saved.', 'cartconsent' ) . '</p></div>';
@@ -235,4 +236,29 @@ class CRW_Cmp_Admin {
 	}
 
 
+
+	/**
+	 * Banner screen when Pro is enabled: the free-banner options don't apply
+	 * (the hosted Consent Resolve javascript serves the banner), so show the
+	 * embed snippet + instructions instead.
+	 */
+	private static function render_banner_pro() {
+		$snippet = CRW_Hosted::embed_snippet();
+		echo '<div class="notice notice-success inline"><p><strong>' . esc_html__( 'Pro is enabled.', 'cartconsent' ) . '</strong> ' . esc_html__( 'The Consent Resolve javascript serves your cookie banner, so the free-banner settings are hidden. Banner design, consent rules, records, and privacy requests are managed in your Consent Resolve dashboard.', 'cartconsent' ) . '</p></div>';
+
+		echo '<div class="crw-card" style="max-width:820px"><h2 style="margin-top:0">' . esc_html__( 'Your Consent Resolve javascript', 'cartconsent' ) . '</h2>';
+		echo '<p class="description" style="max-width:75ch">' . esc_html__( 'CartConsent already adds this snippet to every page of this store automatically — there is nothing you need to do here. Copy it when you want the same banner and consent tracking somewhere this plugin does not reach: a landing page outside WordPress, a headless storefront, or another property on your account.', 'cartconsent' ) . '</p>';
+		echo '<textarea id="crw-embed" readonly rows="4" class="large-text code" style="font-size:12px" onclick="this.select()">' . esc_textarea( $snippet ) . '</textarea>';
+		echo '<p><button type="button" class="button button-primary" id="crw-copy-embed">' . esc_html__( 'Copy to clipboard', 'cartconsent' ) . '</button> <span id="crw-copy-done" style="display:none;color:#1d7f43;font-weight:600">&#10003; ' . esc_html__( 'Copied', 'cartconsent' ) . '</span></p>';
+
+		echo '<h3>' . esc_html__( 'How to place it', 'cartconsent' ) . '</h3><ol style="max-width:75ch">';
+		echo '<li>' . esc_html__( 'Copy the snippet above.', 'cartconsent' ) . '</li>';
+		echo '<li>' . esc_html__( 'Paste it as high as possible inside the <head> of the page — before your analytics and marketing tags — so consent loads before anything it governs.', 'cartconsent' ) . '</li>';
+		echo '<li>' . esc_html__( 'Publish. The banner, consent rules, and records for that page are managed from your Consent Resolve dashboard, same as this store.', 'cartconsent' ) . '</li></ol>';
+		echo '<p><a class="button" href="' . esc_url( CRW_Hosted::dashboard_url() ) . '" target="_blank" rel="noopener">' . esc_html__( 'Open the Consent Resolve dashboard', 'cartconsent' ) . ' &#8599;</a> <a class="button" href="' . esc_url( admin_url( 'admin.php?page=crw-connection' ) ) . '">' . esc_html__( 'Connection settings', 'cartconsent' ) . '</a></p>';
+		echo '</div>';
+
+		echo '<script>document.getElementById("crw-copy-embed").addEventListener("click",function(){var t=document.getElementById("crw-embed");t.select();var done=function(){var d=document.getElementById("crw-copy-done");d.style.display="inline";setTimeout(function(){d.style.display="none";},2000);};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t.value).then(done);}else{document.execCommand("copy");done();}});</script>';
+		echo '</div>';
+	}
 }

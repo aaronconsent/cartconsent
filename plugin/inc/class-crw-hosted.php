@@ -48,6 +48,16 @@ class CRW_Hosted {
 	}
 
 	/**
+	 * The copy-paste embed snippet for the connected site — exactly what
+	 * inject_tag() outputs, so the admin display can never drift from reality.
+	 */
+	public static function embed_snippet() {
+		$c = CRW_Connection::config();
+		return '<script src="' . self::CDN . '" async></script>' . "\n"
+			. '<script>window.ConsentResolveQ=window.ConsentResolveQ||[];window.ConsentResolveQ.push(["init",' . wp_json_encode( array( 'siteId' => $c['site_id'] ) ) . ']);window.ConsentResolveQ.push(["page"]);</script>';
+	}
+
+	/**
 	 * Inject the hosted Consent Resolve tag (banner + consent + identity).
 	 */
 	public function inject_tag() {
