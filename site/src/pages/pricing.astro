@@ -36,6 +36,10 @@ const faqs = [
     a: "The whole plugin: cart recovery, the cookie banner, and the legal pages — forever, with no order limits, no contact metering, and no branding. You can run a complete, compliant recovery program without paying us a cent.",
   },
   {
+    q: "What is Pro, and why is it free?",
+    a: "Pro is a free Consent Resolve account connected to the plugin. It upgrades you to the hosted banner (rules managed as laws change, records and privacy requests in one dashboard) and adds consent-clean retargeting audiences that protect your ROAS. It's free because it's how you later add visitor resolution — the only thing we charge for.",
+  },
+  {
     q: "So what am I paying for with a plan?",
     a: "Visitor resolution — putting a name and email to the anonymous shoppers who abandon without ever entering their address. It's the one thing that carries a real per-lookup cost, so it's the one thing we charge for.",
   },
@@ -94,11 +98,12 @@ const schema = [
     <div class="container-content mx-auto max-w-3xl text-center">
       <span class="eyebrow justify-center">Pricing</span>
       <h1 class="mt-4 font-display text-[clamp(2.2rem,4.5vw,3.5rem)] font-extrabold leading-[1.05] tracking-tight text-[color:var(--color-ink)]">
-        The plugin is free. You only pay to <span class="text-[color:var(--color-brand)]">name</span> your anonymous shoppers.
+        Free. Pro is free too. You only pay to <span class="text-[color:var(--color-brand)]">name</span> your anonymous shoppers.
       </h1>
       <p class="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-[color:var(--color-ink-2)]">
-        Cart recovery, the cookie banner, and your legal pages cost nothing — no order limits, no
-        metering. The only paid feature is visitor resolution, and only when you want it.
+        The complete privacy banner, cart recovery, and legal pages cost nothing — and connecting a
+        Consent Resolve account (Pro) is free too. The only paid feature is visitor resolution,
+        and only when you want it.
       </p>
       <div class="mt-8 flex flex-wrap justify-center gap-3">
         <a href="#free" class="btn-primary">Get the free plugin</a>
@@ -134,6 +139,46 @@ const schema = [
               {freeIncludes.map((f) => (
                 <li class="flex items-start gap-2.5 text-sm text-[color:var(--color-ink-2)]">
                   <svg class="mt-0.5 shrink-0" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-free)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                  <span>{f}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- PRO — ALSO FREE -->
+  <section class="section-tight">
+    <div class="container-content">
+      <div class="card-elevated mx-auto max-w-4xl overflow-hidden ring-1 ring-[color:var(--color-brand-soft)]">
+        <div class="grid md:grid-cols-[1fr_1.2fr]">
+          <div class="flex flex-col justify-center gap-4 border-b border-[color:var(--color-rule)] p-8 md:border-b-0 md:border-r">
+            <span class="inline-flex w-fit items-center gap-1.5 rounded-full bg-[color:var(--color-brand-soft)] px-3 py-1 text-xs font-bold text-[color:var(--color-brand)]">Pro — also free</span>
+            <div class="flex items-baseline gap-2">
+              <span class="font-display text-5xl font-extrabold text-[color:var(--color-ink)]">$0</span>
+              <span class="text-[color:var(--color-ink-muted)]">/ month</span>
+            </div>
+            <p class="text-sm leading-relaxed text-[color:var(--color-ink-2)]">
+              Connect a free Consent Resolve account and your banner gets superpowers — no card,
+              no trial clock. It's also the doorway to visitor resolution when you want it.
+            </p>
+            <a href="/resources/docs/quick-start/#resolution" class="btn-primary mt-2">How to connect</a>
+          </div>
+          <div class="p-8">
+            <h2 class="font-display text-lg font-bold text-[color:var(--color-ink)]">The superpowers</h2>
+            <ul class="mt-4 space-y-2.5">
+              {[
+                "Hosted Consent Resolve banner — consent rules managed and updated for you as laws change",
+                "Consent records + privacy requests in one dashboard, across every store you run",
+                "Consent-clean retargeting audiences pushed to Meta and Google — signals ad platforms trust, protecting your ROAS",
+                "Opt-out propagation handled end-to-end",
+                "Unlocks visitor resolution the moment you add a plan",
+              ].map((f) => (
+                <li class="flex items-start gap-2.5 text-sm text-[color:var(--color-ink-2)]">
+                  <svg class="mt-0.5 shrink-0" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-brand)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
                   <span>{f}</span>
                 </li>
               ))}

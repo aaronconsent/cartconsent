@@ -36,8 +36,8 @@ export const PRIMARY_NAV: NavItem[] = [
     label: "Features",
     href: "/features/",
     children: [
+      { label: "Free privacy banner", href: "/features/cookie-consent/", desc: "GDPR/CCPA banner + real script blocking, free forever" },
       { label: "Abandoned cart recovery", href: "/features/cart-recovery/", desc: "Win back checkouts, on a lawful basis" },
-      { label: "Cookie consent banner", href: "/features/cookie-consent/", desc: "GDPR/CCPA banner + script blocking" },
       { label: "Legal documents", href: "/features/legal-documents/", desc: "Auto-updating privacy, cookie & terms pages" },
       { label: "Visitor resolution", href: "/features/visitor-resolution/", desc: "Name the shoppers who don't buy" },
       { label: "All features →", href: "/features/" },
@@ -51,17 +51,17 @@ export const PRIMARY_NAV: NavItem[] = [
 /** The four feature pages, in order — reused by the Features hub, nav, and footer. */
 export const FEATURES = [
   {
+    slug: "cookie-consent",
+    name: "Free privacy banner",
+    tagline: "A complete consent platform — free forever, no account.",
+    icon: "shield",
+    free: true,
+  },
+  {
     slug: "cart-recovery",
     name: "Abandoned cart recovery",
     tagline: "Win back the checkouts you already earned.",
     icon: "cart",
-    free: true,
-  },
-  {
-    slug: "cookie-consent",
-    name: "Cookie consent banner",
-    tagline: "A fast, accessible GDPR/CCPA banner that actually blocks trackers.",
-    icon: "shield",
     free: true,
   },
   {
@@ -89,8 +89,8 @@ export const PLANS = [
 
 export const FOOTER_NAV = {
   product: [
+    { label: "Free privacy banner", href: "/features/cookie-consent/" },
     { label: "Abandoned cart recovery", href: "/features/cart-recovery/" },
-    { label: "Cookie consent banner", href: "/features/cookie-consent/" },
     { label: "Legal documents", href: "/features/legal-documents/" },
     { label: "Visitor resolution", href: "/features/visitor-resolution/" },
     { label: "Live demo", href: "/demo/" },

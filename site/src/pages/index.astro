@@ -39,17 +39,17 @@ const steps = [
 const features = [
   {
     tag: "Free",
+    title: "Free privacy banner",
+    body: "A complete consent platform: banner + preference center, real script blocking for 58 services, Consent Mode v2, GPC honoring, and tamper-evident records — unbranded, un-metered, no account.",
+    href: "/features/cookie-consent/",
+    icon: `<path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6l7-3z"/>`,
+  },
+  {
+    tag: "Free",
     title: "Abandoned cart recovery",
     body: "Multi-step sequences, segmentation, A/B subjects, single-use coupons, exit-intent popup with double opt-in, and a revenue-recovered dashboard.",
     href: "/features/cart-recovery/",
     icon: `<circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2.5 3h2.2l2.1 11.2a1.8 1.8 0 0 0 1.8 1.4h8.4a1.8 1.8 0 0 0 1.8-1.4L21 7H6"/>`,
-  },
-  {
-    tag: "Free",
-    title: "Cookie consent banner",
-    body: "A fast, WCAG 2.2-AA banner with real script blocking, Google Consent Mode v2, GPC honoring, and tamper-evident consent records — no metering.",
-    href: "/features/cookie-consent/",
-    icon: `<path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6l7-3z"/>`,
   },
   {
     tag: "Free",
@@ -73,8 +73,12 @@ const faqs = [
     a: "Yes. Cart recovery, the cookie banner, and the legal pages are free forever — no order limits, no contact metering, no branding. The only paid thing is visitor resolution, which is optional and usage-priced.",
   },
   {
+    q: "What's the difference between Free and Pro?",
+    a: "Both are free. Free runs the complete built-in privacy banner and cart recovery with no account. Pro is a free Consent Resolve account that upgrades you to the hosted banner (rules managed as laws change, records and privacy requests in one dashboard) and unlocks the superpowers: consent-clean retargeting audiences that protect your ROAS, and visitor resolution.",
+  },
+  {
     q: "What exactly do I pay for, then?",
-    a: "Visitor resolution — identifying the anonymous shoppers who leave without buying, so you can follow up. It's a monthly plan priced per resolution (from $0.60), and you only need it if you want it.",
+    a: "Only visitor resolution — identifying the anonymous shoppers who leave without buying, so recovery can reach them. It's a monthly plan priced per resolution (from $0.60), and you only need it if you want it.",
   },
   {
     q: "How is this different from Retainful or AutomateWoo?",
@@ -106,9 +110,10 @@ const faqs = [
           Recover more carts. <span class="text-[color:var(--color-brand)]">Pay nothing</span> to start.
         </h1>
         <p class="mt-5 max-w-xl text-lg leading-relaxed text-[color:var(--color-ink-2)]">
-          CartConsent brings abandoned-cart recovery, a real cookie-consent banner, and
-          auto-updating legal pages to WooCommerce in one plugin — for free. The only thing
-          you ever pay for is visitor resolution, and only when you want it.
+          CartConsent gives WooCommerce a complete free privacy banner — real script blocking,
+          Consent Mode v2, GPC — plus abandoned-cart recovery and auto-updating legal pages,
+          in one plugin. Even Pro is free. The only thing you ever pay for is visitor
+          resolution, and only when you want it.
         </p>
         <div class="mt-8 flex flex-wrap items-center gap-3">
           <a href="/pricing/#free" class="btn-primary">Get the free plugin</a>
@@ -212,6 +217,55 @@ const faqs = [
     </div>
   </section>
 
+  <!-- FREE BANNER SPOTLIGHT -->
+  <section class="section">
+    <div class="container-content grid items-center gap-12 lg:grid-cols-[0.95fr_1.05fr]">
+      <div class="card-elevated overflow-hidden">
+        <div class="flex items-center gap-1.5 border-b border-[color:var(--color-rule)] bg-[color:var(--color-bg)] px-4 py-3">
+          <span class="size-2.5 rounded-full bg-[color:var(--color-rule)]"></span>
+          <span class="size-2.5 rounded-full bg-[color:var(--color-rule)]"></span>
+          <span class="size-2.5 rounded-full bg-[color:var(--color-rule)]"></span>
+          <span class="ml-2 font-mono text-xs text-[color:var(--color-ink-muted)]">yourstore.com</span>
+        </div>
+        <div class="p-6">
+          <div class="rounded-2xl border border-[color:var(--color-rule)] bg-[color:var(--color-bg-alt)] p-5 shadow-sm">
+            <div class="font-display text-base font-bold text-[color:var(--color-ink)]">We value your privacy</div>
+            <p class="mt-1.5 text-sm leading-relaxed text-[color:var(--color-ink-2)]">We use cookies to improve your experience, analyze traffic, and for marketing. Accept all, reject non-essential, or choose what to allow.</p>
+            <div class="mt-4 grid gap-2">
+              <span class="rounded-lg border border-[color:var(--color-rule)] py-2 text-center text-sm font-semibold text-[color:var(--color-ink)]">Reject non-essential</span>
+              <span class="rounded-lg py-2 text-center text-sm font-bold text-[color:var(--color-on-brand)]" style="background:var(--color-brand)">Accept all</span>
+            </div>
+            <div class="mt-3 flex gap-4 text-xs font-semibold text-[color:var(--color-brand)]"><span>Preferences</span><span class="text-[color:var(--color-ink-muted)]">Do Not Sell or Share My Personal Information</span></div>
+          </div>
+          <div class="mt-4 grid grid-cols-3 gap-2 text-center">
+            {[["58","services blocked"],["5","banner layouts"],["0","pageview limits"]].map(([n, l]) => (
+              <div class="rounded-xl bg-[color:var(--color-bg)] p-3">
+                <div class="font-display text-xl font-bold text-[color:var(--color-ink)]">{n}</div>
+                <div class="text-xs text-[color:var(--color-ink-muted)]">{l}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div>
+        <span class="eyebrow">Free forever</span>
+        <h2 class="mt-4 display-2 text-[color:var(--color-ink)]">A complete privacy banner. Actually free.</h2>
+        <p class="mt-4 text-lg leading-relaxed text-[color:var(--color-ink-2)]">
+          Live the moment you activate: an accessible (WCAG 2.2 AA) banner and preference
+          center, <strong class="text-[color:var(--color-ink)]">real script blocking for 58 services</strong>,
+          Google Consent Mode v2 and Microsoft UET defaults, Global Privacy Control honored,
+          and <strong class="text-[color:var(--color-ink)]">tamper-evident consent records</strong> in your own
+          database. Region-aware for US opt-out, EU/UK opt-in, and Canada — auto-detected per visitor.
+        </p>
+        <p class="mt-3 text-lg leading-relaxed text-[color:var(--color-ink-2)]">
+          No account. No pageview metering. No vendor branding. The compliance features the law
+          requires shouldn't be the paywall.
+        </p>
+        <a href="/features/cookie-consent/" class="btn-primary mt-6">Explore the free banner →</a>
+      </div>
+    </div>
+  </section>
+
   <!-- PLAN (3 steps) -->
   <section id="how-it-works" class="section">
     <div class="container-content">
@@ -255,6 +309,33 @@ const faqs = [
             </div>
           </a>
         ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- THE STORY: FREE -> PRO (FREE) -> RESOLUTION -->
+  <section class="section-tight bg-[color:var(--color-bg-alt)]">
+    <div class="container-content">
+      <div class="mx-auto max-w-2xl text-center">
+        <span class="eyebrow justify-center">How the free thing makes money</span>
+        <h2 class="mt-4 display-2 text-[color:var(--color-ink)]">Free. Then Pro — also free. Pay only for results.</h2>
+      </div>
+      <div class="mx-auto mt-12 grid max-w-5xl gap-6 md:grid-cols-3">
+        <div class="card p-7">
+          <span class="rounded-full px-2.5 py-0.5 text-[11px] font-bold text-[color:var(--color-free)]" style="background:var(--color-free-soft)">Free</span>
+          <h3 class="mt-3 font-display text-xl font-bold text-[color:var(--color-ink)]">The plugin</h3>
+          <p class="mt-2 text-sm leading-relaxed text-[color:var(--color-ink-2)]">The complete privacy banner and the full cart-recovery engine — sequences, coupons, popup, analytics. No account, forever.</p>
+        </div>
+        <div class="card p-7 ring-2 ring-[color:var(--color-brand)]">
+          <span class="rounded-full bg-[color:var(--color-brand-soft)] px-2.5 py-0.5 text-[11px] font-bold text-[color:var(--color-brand)]">Pro — also free</span>
+          <h3 class="mt-3 font-display text-xl font-bold text-[color:var(--color-ink)]">Connect Consent Resolve</h3>
+          <p class="mt-2 text-sm leading-relaxed text-[color:var(--color-ink-2)]">A free account gives your banner superpowers: the hosted banner with rules managed as laws change, consent records and privacy requests in one dashboard, and consent-clean retargeting audiences that protect your ROAS.</p>
+        </div>
+        <div class="card p-7">
+          <span class="rounded-full bg-[color:var(--color-brand-soft)] px-2.5 py-0.5 text-[11px] font-bold text-[color:var(--color-brand)]">Pay per result</span>
+          <h3 class="mt-3 font-display text-xl font-bold text-[color:var(--color-ink)]">Visitor resolution</h3>
+          <p class="mt-2 text-sm leading-relaxed text-[color:var(--color-ink-2)]">The one paid add-on: name the shoppers who abandon anonymously so recovery can reach them — from $0.60 a resolution, month to month.</p>
+        </div>
       </div>
     </div>
   </section>
