@@ -96,29 +96,25 @@ class CRW_Admin {
 			$consent = $this->consent_stats_30d();
 			$optin   = $this->optin_rate();
 			$store   = $this->store_30d();
+			$avg     = $anon['n'] > 0 ? (int) round( $anon['cents'] / $anon['n'] ) : 0;
 
+			// No recovery-performance cards here: capturing and recovering carts is
+			// a connected superpower, so those numbers don't exist on the free plan.
 			echo '<div class="crw-cards">';
-			$this->card( number_format_i18n( $captured ), __( 'Consented carts captured', 'cartconsent' ) );
-			$this->card( number_format_i18n( $recovered ), __( 'Recovered', 'cartconsent' ) );
-			$this->card( $rate . '%', __( 'Recovery rate', 'cartconsent' ), $rate >= 10 ? 'good' : '' );
-			$this->card( $this->money( (int) ( $f['recovered_cents'] ?? 0 ) ), __( 'Revenue recovered', 'cartconsent' ), 'good' );
-			echo '</div>';
-
-			echo '<div class="crw-cards">';
-			$this->card( number_format_i18n( $anon['n'] ), __( 'Anonymous shoppers with carts (30d)', 'cartconsent' ) );
-			$this->card( $this->money( (int) $anon['cents'] ), __( 'Anonymous cart value (30d)', 'cartconsent' ) );
-			$this->card( number_format_i18n( (int) ( $f['open'] ?? 0 ) ), __( 'Abandoned carts in progress', 'cartconsent' ) );
-			$this->card( $this->money( (int) ( $f['open_cents'] ?? 0 ) ), __( 'Open cart value', 'cartconsent' ) );
+			$this->card( number_format_i18n( $anon['n'] ), __( 'Abandoned carts observed (30d)', 'cartconsent' ) );
+			$this->card( $this->money( (int) $anon['cents'] ), __( 'Abandoned cart value (30d)', 'cartconsent' ) );
+			$this->card( $this->money( $avg ), __( 'Avg abandoned cart', 'cartconsent' ) );
+			$this->card( number_format_i18n( $store['orders'] ), __( 'Store orders (30d)', 'cartconsent' ) );
 			echo '</div>';
 
 			echo '<div class="crw-cards">';
 			$this->card( number_format_i18n( $consent['total'] ), __( 'Consent choices (30d)', 'cartconsent' ) );
 			$this->card( $consent['accept_rate'] . '%', __( 'Banner accept rate (30d)', 'cartconsent' ), $consent['accept_rate'] >= 50 ? 'good' : '' );
 			$this->card( $optin . '%', __( 'Checkout opt-in rate', 'cartconsent' ) );
-			$this->card( number_format_i18n( $store['orders'] ), __( 'Store orders (30d)', 'cartconsent' ) );
+			$this->card( number_format_i18n( class_exists( 'CRW_Consent' ) ? CRW_Consent::count() : 0 ), __( 'Consent records (all time)', 'cartconsent' ) );
 			echo '</div>';
 
-			echo '<p class="description" style="margin:2px 0 0">' . esc_html__( 'This is everything the free plugin captures on its own: shoppers who consented, and anonymous shoppers counted — but not identified. Connect Consent Resolve to put names to them.', 'cartconsent' ) . '</p>';
+			echo '<p class="description" style="margin:2px 0 0">' . esc_html__( 'This is everything the free plugin observes on its own: abandoned carts counted (not captured), and every consent choice recorded. Connect Consent Resolve to unlock cart recovery — capturing consented shoppers, winning carts back, and naming anonymous visitors.', 'cartconsent' ) . '</p>';
 		}
 
 

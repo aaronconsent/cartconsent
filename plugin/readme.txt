@@ -4,7 +4,7 @@ Tags: woocommerce, abandoned cart, cart recovery, gdpr, retargeting
 Requires at least: 6.4
 Tested up to: 6.7
 Requires PHP: 8.1
-Stable tag: 1.4.0
+Stable tag: 1.4.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -56,6 +56,9 @@ No. That's the whole point. A shopper with no lawful basis to email is never sto
 Yes — they go through wp_mail, so whatever mail/SMTP setup your store uses is used, with the deliverability essentials (honest From, physical address, one-click List-Unsubscribe) built in.
 
 == Changelog ==
+
+= 1.4.1 =
+* Free-plan dashboard refined: recovery-performance cards (carts captured, recovered, recovery rate, revenue recovered) only appear when connected — the free view shows what the plugin observes on its own: abandoned carts counted with their value, store orders, and your consent activity.
 
 = 1.4.0 =
 * The Dashboard now adapts to your plan. On the free plan it shows everything the plugin captures on its own — consented carts and recovery performance, anonymous shoppers counted (not identified) with their cart value, banner accept rate, checkout opt-in rate, and your store's 30-day order pulse. Connected, it shows the full picture as before.
