@@ -70,7 +70,7 @@ class CRW_Admin {
 		// Free tier is fully functional; connecting is the upgrade path.
 		if ( ! $active ) {
 			echo '<div class="crw-card crw-connect-cta"><h2 style="margin-top:0">' . esc_html__( 'You are on the free banner — everything works, free forever', 'cartconsent' ) . '</h2>';
-			echo '<p>' . esc_html__( 'The built-in cookie banner and cart recovery are live. Connect a Consent Resolve API key to upgrade to the hosted banner (managed rules, records, and privacy requests in your dashboard) and to add visitor resolution — naming the shoppers who abandon anonymously.', 'cartconsent' ) . '</p>';
+			echo '<p>' . esc_html__( 'The built-in cookie banner is live and quietly measuring your store — abandoned carts, consent choices, and what they are worth. Connect a Consent Resolve API key to unlock cart recovery, the hosted banner, and visitor resolution — naming the shoppers who abandon anonymously.', 'cartconsent' ) . '</p>';
 			echo '<p><a class="button button-primary" href="' . esc_url( admin_url( 'admin.php?page=crw-connection' ) ) . '">' . esc_html__( 'Connect Consent Resolve', 'cartconsent' ) . '</a> <a class="button" href="' . esc_url( CRW_Hosted::dashboard_url() ) . '" target="_blank" rel="noopener">' . esc_html__( 'Learn about visitor resolution', 'cartconsent' ) . ' &#8599;</a></p></div>';
 		}
 
