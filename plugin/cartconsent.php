@@ -3,7 +3,7 @@
  * Plugin Name:       CartConsent — Abandoned Cart Recovery for WooCommerce
  * Plugin URI:        https://cartconsent.com
  * Description:       Free abandoned-cart recovery, cookie consent, and auto-updating legal pages for WooCommerce. Capture abandoning shoppers on a lawful basis and win back carts — without emailing people who never opted in. Pay only for optional visitor resolution.
- * Version:           1.4.2
+ * Version:           1.4.3
  * Requires at least: 6.4
  * Requires PHP:      8.1
  * Requires Plugins:  woocommerce
@@ -21,7 +21,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'CRW_VERSION', '1.4.2' );
+define( 'CRW_VERSION', '1.4.3' );
 define( 'CRW_FILE', __FILE__ );
 define( 'CRW_DIR', plugin_dir_path( __FILE__ ) );
 define( 'CRW_URL', plugin_dir_url( __FILE__ ) );

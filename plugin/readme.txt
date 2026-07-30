@@ -4,7 +4,7 @@ Tags: woocommerce, abandoned cart, cart recovery, gdpr, retargeting
 Requires at least: 6.4
 Tested up to: 6.7
 Requires PHP: 8.1
-Stable tag: 1.4.2
+Stable tag: 1.4.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -56,6 +56,9 @@ No. That's the whole point. A shopper with no lawful basis to email is never sto
 Yes — they go through wp_mail, so whatever mail/SMTP setup your store uses is used, with the deliverability essentials (honest From, physical address, one-click List-Unsubscribe) built in.
 
 == Changelog ==
+
+= 1.4.3 =
+* Free-plan dashboard: consent row simplified to Total Consents and Banner % Rate.
 
 = 1.4.2 =
 * Cleaner stat labels — the "(30d)" suffixes are gone; rolling-window stats keep their 30-day windows, and the Analytics screen notes the period once.

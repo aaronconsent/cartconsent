@@ -94,7 +94,6 @@ class CRW_Admin {
 		} else {
 			$anon    = class_exists( 'CRW_Estimates' ) ? CRW_Estimates::anon_30d() : array( 'n' => 0, 'cents' => 0 );
 			$consent = $this->consent_stats_30d();
-			$optin   = $this->optin_rate();
 			$store   = $this->store_30d();
 			$avg     = $anon['n'] > 0 ? (int) round( $anon['cents'] / $anon['n'] ) : 0;
 
@@ -108,10 +107,8 @@ class CRW_Admin {
 			echo '</div>';
 
 			echo '<div class="crw-cards">';
-			$this->card( number_format_i18n( $consent['total'] ), __( 'Consent choices', 'cartconsent' ) );
-			$this->card( $consent['accept_rate'] . '%', __( 'Banner accept rate', 'cartconsent' ), $consent['accept_rate'] >= 50 ? 'good' : '' );
-			$this->card( $optin . '%', __( 'Checkout opt-in rate', 'cartconsent' ) );
-			$this->card( number_format_i18n( class_exists( 'CRW_Consent' ) ? CRW_Consent::count() : 0 ), __( 'Consent records (all time)', 'cartconsent' ) );
+			$this->card( number_format_i18n( $consent['total'] ), __( 'Total Consents', 'cartconsent' ) );
+			$this->card( $consent['accept_rate'] . '%', __( 'Banner % Rate', 'cartconsent' ), $consent['accept_rate'] >= 50 ? 'good' : '' );
 			echo '</div>';
 
 			echo '<p class="description" style="margin:2px 0 0">' . esc_html__( 'This is everything the free plugin observes on its own: abandoned carts counted (not captured), and every consent choice recorded. Connect Consent Resolve to unlock cart recovery — capturing consented shoppers, winning carts back, and naming anonymous visitors.', 'cartconsent' ) . '</p>';
@@ -722,17 +719,6 @@ class CRW_Admin {
 			'total'       => (int) ( $row['total'] ?? 0 ),
 			'accept_rate' => $decided > 0 ? (int) round( $grants / $decided * 100 ) : 0,
 		);
-	}
-
-	/**
-	 * Share of captured carts with an explicit checkout opt-in.
-	 */
-	private function optin_rate() {
-		global $wpdb;
-		$t   = $wpdb->prefix . 'crw_carts';
-		$row = $wpdb->get_row( "SELECT COUNT(*) AS total, SUM(consent_basis='optin') AS optin FROM {$t} WHERE consent_basis IN ('optin','legitimate')", ARRAY_A ); // phpcs:ignore WordPress.DB
-		$total = (int) ( $row['total'] ?? 0 );
-		return $total > 0 ? (int) round( (int) $row['optin'] / $total * 100 ) : 0;
 	}
 
 	/**
