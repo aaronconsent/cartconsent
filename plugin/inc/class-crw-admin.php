@@ -425,7 +425,7 @@ class CRW_Admin {
 		foreach ( array( 'opt_out' => __( 'US-style opt-out (soft opt-in allowed)', 'cartconsent' ), 'opt_in' => __( 'EU-style opt-in (require checkbox)', 'cartconsent' ) ) as $v => $l ) {
 			echo '<option value="' . esc_attr( $v ) . '" ' . selected( $consent['fallback_model'], $v, false ) . '>' . esc_html( $l ) . '</option>';
 		}
-		echo '</select><br><span class="description">' . esc_html__( 'Install Consent Resolve to detect each visitor\'s region automatically.', 'cartconsent' ) . '</span></p>';
+		echo '</select><br><span class="description">' . esc_html__( 'Each visitor\'s region is detected automatically from your CDN\'s geo headers.', 'cartconsent' ) . '</span></p>';
 		$this->toggle( 'consent[checkout_checkbox]', __( 'Show a marketing-consent checkbox at checkout', 'cartconsent' ), $consent['checkout_checkbox'] );
 		echo '<p><label>' . esc_html__( 'Checkbox label', 'cartconsent' ) . '<br><input type="text" name="consent[checkbox_label]" value="' . esc_attr( $consent['checkbox_label'] ) . '" class="large-text"></label></p>';
 		$this->toggle( 'consent[honor_gpc]', __( 'Honor Global Privacy Control (suppress soft opt-ins + audiences)', 'cartconsent' ), $consent['honor_gpc'] );
