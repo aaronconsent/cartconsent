@@ -15,8 +15,9 @@ defined( 'ABSPATH' ) || exit;
  */
 class CRW_Hosted {
 
-	const CDN       = 'https://cdn.consentresolve.com/consentresolve.js';
-	const DASHBOARD = 'https://app.consentresolve.com/';
+	const CDN         = 'https://cdn.consentresolve.com/consentresolve.js';
+	const DASHBOARD   = 'https://app.consentresolve.com/';
+	const SETTINGS_ID = 'NToLbWs-EAo6fS'; // Usercentrics settings for this product (fixed; siteId varies per store).
 
 	/**
 	 * Hook up.
@@ -48,13 +49,16 @@ class CRW_Hosted {
 	}
 
 	/**
-	 * The copy-paste embed snippet for the connected site — exactly what
-	 * inject_tag() outputs, so the admin display can never drift from reality.
+	 * The embed snippet for the connected site — the platform's exact tag
+	 * format. Single source of truth: inject_tag() outputs this verbatim, so
+	 * the admin's copy-paste display can never drift from reality. The loader
+	 * is deliberately synchronous: the inline init right after it needs the
+	 * ConsentResolve global to exist.
 	 */
 	public static function embed_snippet() {
 		$c = CRW_Connection::config();
-		return '<script src="' . self::CDN . '" async></script>' . "\n"
-			. '<script>window.ConsentResolveQ=window.ConsentResolveQ||[];window.ConsentResolveQ.push(["init",' . wp_json_encode( array( 'siteId' => $c['site_id'] ) ) . ']);window.ConsentResolveQ.push(["page"]);</script>';
+		return '<script src="' . self::CDN . '"></script>'
+			. "<script>ConsentResolve.init({siteId:'" . esc_js( $c['site_id'] ) . "',usercentricsSettingsId:'" . esc_js( self::SETTINGS_ID ) . "',gcm:true});ConsentResolve.page();</script>";
 	}
 
 	/**
@@ -64,12 +68,7 @@ class CRW_Hosted {
 		if ( is_admin() || ! self::active() ) {
 			return;
 		}
-		$c = CRW_Connection::config();
 		echo "\n<!-- CartConsent (Consent Resolve) -->\n";
-		printf( '<script src="%s" async></script>' . "\n", esc_url( self::CDN ) );
-		printf(
-			'<script>window.ConsentResolveQ=window.ConsentResolveQ||[];window.ConsentResolveQ.push(["init",%s]);window.ConsentResolveQ.push(["page"]);</script>' . "\n",
-			wp_json_encode( array( 'siteId' => $c['site_id'] ) ) // phpcs:ignore WordPress.Security.EscapeOutput -- JSON of a sanitized ID.
-		);
+		echo self::embed_snippet() . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput -- fixed markup + esc_js()'d ids.
 	}
 }
