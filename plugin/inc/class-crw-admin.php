@@ -74,20 +74,52 @@ class CRW_Admin {
 			echo '<p><a class="button button-primary" href="' . esc_url( admin_url( 'admin.php?page=crw-connection' ) ) . '">' . esc_html__( 'Connect Consent Resolve', 'cartconsent' ) . '</a> <a class="button" href="' . esc_url( CRW_Hosted::dashboard_url() ) . '" target="_blank" rel="noopener">' . esc_html__( 'Learn about visitor resolution', 'cartconsent' ) . ' &#8599;</a></p></div>';
 		}
 
-		// 1) Stats.
-		echo '<div class="crw-cards">';
-		$this->card( number_format_i18n( $captured ), __( 'Carts captured', 'cartconsent' ) );
-		$this->card( number_format_i18n( $recovered ), __( 'Recovered', 'cartconsent' ) );
-		$this->card( $rate . '%', __( 'Recovery rate', 'cartconsent' ), $rate >= 10 ? 'good' : '' );
-		$this->card( $this->money( (int) ( $f['recovered_cents'] ?? 0 ) ), __( 'Revenue recovered', 'cartconsent' ), 'good' );
-		echo '</div>';
+		// 1) Stats — the free view shows what the plugin captures on its own
+		// (consented shoppers + anonymous COUNTS); the connected view shows the
+		// full picture.
+		if ( $active ) {
+			echo '<div class="crw-cards">';
+			$this->card( number_format_i18n( $captured ), __( 'Carts captured', 'cartconsent' ) );
+			$this->card( number_format_i18n( $recovered ), __( 'Recovered', 'cartconsent' ) );
+			$this->card( $rate . '%', __( 'Recovery rate', 'cartconsent' ), $rate >= 10 ? 'good' : '' );
+			$this->card( $this->money( (int) ( $f['recovered_cents'] ?? 0 ) ), __( 'Revenue recovered', 'cartconsent' ), 'good' );
+			echo '</div>';
 
-		echo '<div class="crw-cards">';
-		$this->card( $this->money( (int) ( $f['open_cents'] ?? 0 ) ), __( 'Open cart value', 'cartconsent' ) );
-		$this->card( number_format_i18n( (int) ( $f['open'] ?? 0 ) ), __( 'Open carts', 'cartconsent' ) );
-		$this->card( number_format_i18n( CRW_Events::count( 'email_sent', 30 ) ), __( 'Emails sent (30d)', 'cartconsent' ) );
-		$this->card( number_format_i18n( CRW_Events::count( 'recovery_clicked', 30 ) ), __( 'Recovery clicks (30d)', 'cartconsent' ) );
-		echo '</div>';
+			echo '<div class="crw-cards">';
+			$this->card( $this->money( (int) ( $f['open_cents'] ?? 0 ) ), __( 'Open cart value', 'cartconsent' ) );
+			$this->card( number_format_i18n( (int) ( $f['open'] ?? 0 ) ), __( 'Open carts', 'cartconsent' ) );
+			$this->card( number_format_i18n( CRW_Events::count( 'email_sent', 30 ) ), __( 'Emails sent (30d)', 'cartconsent' ) );
+			$this->card( number_format_i18n( CRW_Events::count( 'recovery_clicked', 30 ) ), __( 'Recovery clicks (30d)', 'cartconsent' ) );
+			echo '</div>';
+		} else {
+			$anon    = class_exists( 'CRW_Estimates' ) ? CRW_Estimates::anon_30d() : array( 'n' => 0, 'cents' => 0 );
+			$consent = $this->consent_stats_30d();
+			$optin   = $this->optin_rate();
+			$store   = $this->store_30d();
+
+			echo '<div class="crw-cards">';
+			$this->card( number_format_i18n( $captured ), __( 'Consented carts captured', 'cartconsent' ) );
+			$this->card( number_format_i18n( $recovered ), __( 'Recovered', 'cartconsent' ) );
+			$this->card( $rate . '%', __( 'Recovery rate', 'cartconsent' ), $rate >= 10 ? 'good' : '' );
+			$this->card( $this->money( (int) ( $f['recovered_cents'] ?? 0 ) ), __( 'Revenue recovered', 'cartconsent' ), 'good' );
+			echo '</div>';
+
+			echo '<div class="crw-cards">';
+			$this->card( number_format_i18n( $anon['n'] ), __( 'Anonymous shoppers with carts (30d)', 'cartconsent' ) );
+			$this->card( $this->money( (int) $anon['cents'] ), __( 'Anonymous cart value (30d)', 'cartconsent' ) );
+			$this->card( number_format_i18n( (int) ( $f['open'] ?? 0 ) ), __( 'Abandoned carts in progress', 'cartconsent' ) );
+			$this->card( $this->money( (int) ( $f['open_cents'] ?? 0 ) ), __( 'Open cart value', 'cartconsent' ) );
+			echo '</div>';
+
+			echo '<div class="crw-cards">';
+			$this->card( number_format_i18n( $consent['total'] ), __( 'Consent choices (30d)', 'cartconsent' ) );
+			$this->card( $consent['accept_rate'] . '%', __( 'Banner accept rate (30d)', 'cartconsent' ), $consent['accept_rate'] >= 50 ? 'good' : '' );
+			$this->card( $optin . '%', __( 'Checkout opt-in rate', 'cartconsent' ) );
+			$this->card( number_format_i18n( $store['orders'] ), __( 'Store orders (30d)', 'cartconsent' ) );
+			echo '</div>';
+
+			echo '<p class="description" style="margin:2px 0 0">' . esc_html__( 'This is everything the free plugin captures on its own: shoppers who consented, and anonymous shoppers counted — but not identified. Connect Consent Resolve to put names to them.', 'cartconsent' ) . '</p>';
+		}
 
 
 		// Estimated lost revenue — measured anonymous carts × assumed resolution
@@ -679,10 +711,57 @@ class CRW_Admin {
 		exit;
 	}
 
+	/**
+	 * Banner consent activity, last 30 days (grants vs rejects + accept rate).
+	 */
+	private function consent_stats_30d() {
+		global $wpdb;
+		$t     = $wpdb->prefix . 'crw_consent_records';
+		$since = gmdate( 'Y-m-d H:i:s', time() - 30 * DAY_IN_SECONDS );
+		$row   = $wpdb->get_row( $wpdb->prepare( "SELECT COUNT(*) AS total, SUM(event_type='grant') AS grants, SUM(event_type IN ('reject','withdraw')) AS rejects FROM {$t} WHERE created_at >= %s", $since ), ARRAY_A ); // phpcs:ignore WordPress.DB
+		$grants  = (int) ( $row['grants'] ?? 0 );
+		$rejects = (int) ( $row['rejects'] ?? 0 );
+		$decided = $grants + $rejects;
+		return array(
+			'total'       => (int) ( $row['total'] ?? 0 ),
+			'accept_rate' => $decided > 0 ? (int) round( $grants / $decided * 100 ) : 0,
+		);
+	}
+
+	/**
+	 * Share of captured carts with an explicit checkout opt-in.
+	 */
+	private function optin_rate() {
+		global $wpdb;
+		$t   = $wpdb->prefix . 'crw_carts';
+		$row = $wpdb->get_row( "SELECT COUNT(*) AS total, SUM(consent_basis='optin') AS optin FROM {$t} WHERE consent_basis IN ('optin','legitimate')", ARRAY_A ); // phpcs:ignore WordPress.DB
+		$total = (int) ( $row['total'] ?? 0 );
+		return $total > 0 ? (int) round( (int) $row['optin'] / $total * 100 ) : 0;
+	}
+
+	/**
+	 * Store pulse from WooCommerce's own analytics table (fail-soft to 0).
+	 */
+	private function store_30d() {
+		global $wpdb;
+		$t = $wpdb->prefix . 'wc_order_stats';
+		if ( $t !== $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $t ) ) ) { // phpcs:ignore WordPress.DB
+			return array( 'orders' => 0 );
+		}
+		$since = gmdate( 'Y-m-d H:i:s', time() - 30 * DAY_IN_SECONDS );
+		return array(
+			'orders' => (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$t} WHERE parent_id = 0 AND date_created >= %s", $since ) ), // phpcs:ignore WordPress.DB
+		);
+	}
+
 	private function flash() {
 		$m = isset( $_GET['crw_msg'] ) ? sanitize_key( wp_unslash( $_GET['crw_msg'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification
 		if ( 'saved' === $m ) {
 			echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Settings saved.', 'cartconsent' ) . '</p></div>';
+		} elseif ( 'connected' === $m ) {
+			echo '<div class="notice notice-success is-dismissible"><p><strong>' . esc_html__( 'Superpowers enabled!', 'cartconsent' ) . '</strong> ' . esc_html__( 'You are now seeing the connected view — hosted banner, full analytics, and visitor resolution ready.', 'cartconsent' ) . '</p></div>';
+		} elseif ( 'free' === $m ) {
+			echo '<div class="notice notice-info is-dismissible"><p>' . esc_html__( 'Back on the free view — everything below is what the free plugin captures on its own.', 'cartconsent' ) . '</p></div>';
 		}
 	}
 

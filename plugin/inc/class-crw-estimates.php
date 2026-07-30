@@ -115,11 +115,8 @@ class CRW_Estimates {
 	 * Returns null when there is nothing observed yet.
 	 */
 	public static function estimate() {
-		global $wpdb;
-		$events = $wpdb->prefix . 'crw_events';
-		$since  = gmdate( 'Y-m-d H:i:s', time() - 30 * DAY_IN_SECONDS );
-		$anon   = $wpdb->get_row( $wpdb->prepare( "SELECT COUNT(*) AS n, COALESCE(SUM(value_cents),0) AS cents FROM {$events} WHERE type = %s AND created_at >= %s", self::EVENT_TYPE, $since ), ARRAY_A ); // phpcs:ignore WordPress.DB
-		if ( empty( $anon ) || (int) $anon['n'] < 1 ) {
+		$anon = self::anon_30d();
+		if ( (int) $anon['n'] < 1 ) {
 			return null;
 		}
 
@@ -158,6 +155,17 @@ class CRW_Estimates {
 			'resolvable'        => $resolvable,
 			'recoverable_cents' => $recoverable_cents,
 		);
+	}
+
+	/**
+	 * Anonymous carts observed in the last 30 days: [ n, cents ].
+	 */
+	public static function anon_30d() {
+		global $wpdb;
+		$events = $wpdb->prefix . 'crw_events';
+		$since  = gmdate( 'Y-m-d H:i:s', time() - 30 * DAY_IN_SECONDS );
+		$row    = $wpdb->get_row( $wpdb->prepare( "SELECT COUNT(*) AS n, COALESCE(SUM(value_cents),0) AS cents FROM {$events} WHERE type = %s AND created_at >= %s", self::EVENT_TYPE, $since ), ARRAY_A ); // phpcs:ignore WordPress.DB
+		return array( 'n' => (int) ( $row['n'] ?? 0 ), 'cents' => (int) ( $row['cents'] ?? 0 ) );
 	}
 
 	/* ----------------------------------------------------------- seen store */

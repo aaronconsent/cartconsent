@@ -76,16 +76,36 @@ class CRW_Cmp_Admin {
 			echo '<p><span style="color:#8a8a8a;font-weight:600">&#9675; ' . esc_html__( 'Not connected — running the free built-in banner. Everything works; connect to upgrade.', 'cartconsent' ) . '</span> <a href="' . esc_url( CRW_Hosted::dashboard_url() ) . '" target="_blank" rel="noopener">' . esc_html__( 'Get an API key', 'cartconsent' ) . ' &#8599;</a></p>';
 		}
 
+		$demo = defined( 'CARTCONSENT_DEMO' ) && CARTCONSENT_DEMO;
+		// Demo site: sample credentials are pre-filled so a visitor can flip the
+		// switch and watch the dashboard change.
+		$site_val = $c['site_id'];
+		$key_val  = $c['api_key'];
+		if ( $demo && ! $active ) {
+			$site_val = $site_val ? $site_val : 'demo-summit-outfitters';
+			$key_val  = $key_val ? $key_val : 'demo-sample-api-key-2026';
+			echo '<div class="notice notice-info inline"><p>' . esc_html__( 'Demo store: a sample Site ID and API key are pre-filled below. Click the button to see the connected experience.', 'cartconsent' ) . '</p></div>';
+		}
 		echo '<form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '">';
 		wp_nonce_field( 'crw_save_connection' );
 		echo '<input type="hidden" name="action" value="crw_save_connection">';
-		echo '<p><label>' . esc_html__( 'Site ID', 'cartconsent' ) . '<br><input type="text" name="connection[site_id]" value="' . esc_attr( $c['site_id'] ) . '" class="regular-text"></label></p>';
+		echo '<p><label>' . esc_html__( 'Site ID', 'cartconsent' ) . '<br><input type="text" name="connection[site_id]" value="' . esc_attr( $site_val ) . '" class="regular-text"></label></p>';
 		if ( $const ) {
 			echo '<p>' . esc_html__( 'API key: set via CONSENT_RESOLVE_WOO_API_KEY in wp-config.php.', 'cartconsent' ) . '</p>';
 		} else {
-			echo '<p><label>' . esc_html__( 'API key', 'cartconsent' ) . '<br><input type="password" name="connection[api_key]" value="' . esc_attr( $c['api_key'] ) . '" class="regular-text" autocomplete="off"></label></p>';
+			echo '<p><label>' . esc_html__( 'API key', 'cartconsent' ) . '<br><input type="password" name="connection[api_key]" value="' . esc_attr( $key_val ) . '" class="regular-text" autocomplete="off"></label></p>';
 		}
-		echo '<p><button class="button button-primary">' . esc_html__( 'Save connection', 'cartconsent' ) . '</button></p></form></div>';
+		if ( $demo && ! $active ) {
+			echo '<p><button class="button button-primary button-hero">' . esc_html__( 'See what happens when you enable it →', 'cartconsent' ) . '</button></p></form></div>';
+		} else {
+			echo '<p><button class="button button-primary">' . esc_html__( 'Save connection', 'cartconsent' ) . '</button></p></form></div>';
+		}
+		if ( $demo && $active ) {
+			echo '<form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '" style="margin:-6px 0 14px">';
+			wp_nonce_field( 'crw_save_connection' );
+			echo '<input type="hidden" name="action" value="crw_save_connection"><input type="hidden" name="demo_reset" value="1">';
+			echo '<button class="button">' . esc_html__( '← Switch back to the free view', 'cartconsent' ) . '</button></form>';
+		}
 
 		echo '<div class="crw-card" style="max-width:760px"><h2 style="margin-top:0">' . esc_html__( 'Consent Records & Privacy Requests', 'cartconsent' ) . '</h2>';
 		echo '<p class="description">' . esc_html__( 'Consent records and data-subject requests are managed in your Consent Resolve dashboard alongside the banner.', 'cartconsent' ) . '</p>';
@@ -98,14 +118,30 @@ class CRW_Cmp_Admin {
 	 */
 	public static function save_connection() {
 		self::guard( 'crw_save_connection' );
+		$demo = defined( 'CARTCONSENT_DEMO' ) && CARTCONSENT_DEMO;
+		$o    = CRW_Options::all();
+		if ( $demo && ! empty( $_POST['demo_reset'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+			$o['connection']['site_id'] = '';
+			$o['connection']['api_key'] = '';
+			CRW_Options::save( $o );
+			delete_transient( 'crw_credits' );
+			wp_safe_redirect( add_query_arg( array( 'page' => 'crw-dashboard', 'crw_msg' => 'free' ), admin_url( 'admin.php' ) ) );
+			exit;
+		}
 		$in = wp_unslash( $_POST['connection'] ?? array() ); // phpcs:ignore WordPress.Security.ValidationSanitization
-		$o  = CRW_Options::all();
+		$was_connected              = CRW_Connection::is_connected();
 		$o['connection']['site_id'] = sanitize_text_field( $in['site_id'] ?? '' );
 		if ( ! defined( 'CONSENT_RESOLVE_WOO_API_KEY' ) && isset( $in['api_key'] ) ) {
 			$o['connection']['api_key'] = sanitize_text_field( $in['api_key'] );
 		}
 		CRW_Options::save( $o );
 		delete_transient( 'crw_credits' ); // New key → refetch credits.
+		// On the demo (and on any first-time connect), land on the Dashboard so
+		// the before/after is immediately visible.
+		if ( CRW_Connection::is_connected() && ( $demo || ! $was_connected ) ) {
+			wp_safe_redirect( add_query_arg( array( 'page' => 'crw-dashboard', 'crw_msg' => 'connected' ), admin_url( 'admin.php' ) ) );
+			exit;
+		}
 		wp_safe_redirect( add_query_arg( array( 'page' => 'crw-connection', 'crw_msg' => 'conn' ), admin_url( 'admin.php' ) ) );
 		exit;
 	}
