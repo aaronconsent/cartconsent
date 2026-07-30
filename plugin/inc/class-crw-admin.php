@@ -123,7 +123,9 @@ class CRW_Admin {
 		if ( $est && $est['recoverable_cents'] > 0 ) {
 			echo '<div class="crw-card crw-est"><span class="crw-est-badge">' . esc_html__( 'Estimate', 'cartconsent' ) . '</span>';
 			echo '<div class="crw-est-value">' . esc_html( $this->money( $est['recoverable_cents'] ) ) . '</div>';
-			echo '<div class="crw-est-label">' . esc_html__( 'Estimated lost revenue — what visitor resolution could have won back', 'cartconsent' ) . '</div>';
+			echo '<div class="crw-est-label">' . esc_html( $active
+				? __( 'Estimated lost revenue — what visitor resolution could have won back', 'cartconsent' )
+				: __( 'Estimated lost revenue — what visitor resolution could have won back if the Pro version was enabled', 'cartconsent' ) ) . '</div>';
 			echo '<div class="crw-est-math">' . esc_html( sprintf(
 				/* translators: 1: count 2: money 3: resolution rate 4: recovery rate */
 				__( 'Based on %1$s anonymous carts worth %2$s × %3$d%% assumed resolution rate × %4$d%% recovery rate.', 'cartconsent' ),
