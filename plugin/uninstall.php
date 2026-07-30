@@ -15,10 +15,12 @@ foreach ( array( 'crw_carts', 'crw_suppression', 'crw_events', 'crw_consent_reco
 	$wpdb->query( "DROP TABLE IF EXISTS {$table}" ); // phpcs:ignore WordPress.DB
 }
 
-foreach ( array( 'crw_settings', 'crw_db_version', 'crw_unsub_secret', 'crw_crypto_secret', 'crw_vapid', 'crw_purged_today', 'crw_setup_complete' ) as $opt ) {
+foreach ( array( 'crw_settings', 'crw_db_version', 'crw_unsub_secret', 'crw_crypto_secret', 'crw_vapid', 'crw_purged_today', 'crw_setup_complete', 'crw_anon_seen' ) as $opt ) {
 	delete_option( $opt );
 }
 delete_transient( 'crw_purged_today' );
+delete_transient( 'crw_anon_scanned' );
+delete_transient( 'crw_credits' );
 
 foreach ( array( 'administrator', 'shop_manager' ) as $role_name ) {
 	$role = get_role( $role_name );

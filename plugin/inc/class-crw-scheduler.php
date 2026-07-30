@@ -31,6 +31,11 @@ class CRW_Scheduler {
 	 * Process one batch.
 	 */
 	public function run() {
+		// Observe anonymous guest carts for the lost-revenue estimate (hourly,
+		// cheap, PII-free) — even when capture is toggled off.
+		if ( class_exists( 'CRW_Estimates' ) ) {
+			CRW_Estimates::maybe_scan();
+		}
 		if ( ! CRW_Options::get( 'capture.enabled', true ) ) {
 			return;
 		}

@@ -51,3 +51,13 @@ crw_set( array( 'coupon.type' => 'percent', 'coupon.amount' => 10 ) );
 crw_check( 'percent label', '10%' === CRW_Recovery::coupon_label() );
 crw_set( array( 'coupon.type' => 'fixed_cart', 'coupon.amount' => 15 ) );
 crw_check( 'fixed label uses currency symbol', '$15' === CRW_Recovery::coupon_label() );
+
+crw_group( 'Lost-revenue estimate math' );
+$e = CRW_Estimates::estimate_from( 200, 900000, 0.20, 0.28 );
+crw_check( 'resolvable = anon x res rate (200 x 0.20 = 40)', 40 === $e['resolvable'] );
+crw_check( 'recoverable = value x res x rec (9000 x .2 x .28 = $504)', 50400 === $e['recoverable_cents'] );
+crw_check( 'factors echoed back for the UI', 0.20 === $e['res_rate'] && 0.28 === $e['rec_rate'] && 200 === $e['anon_count'] );
+$z = CRW_Estimates::estimate_from( 0, 0, 0.20, 0.10 );
+crw_check( 'zero pool -> zero estimate', 0 === $z['resolvable'] && 0 === $z['recoverable_cents'] );
+$r = CRW_Estimates::estimate_from( 10, 12345, 0.20, 0.10, false );
+crw_check( 'fallback recovery rate flagged unmeasured', false === $r['rec_measured'] );

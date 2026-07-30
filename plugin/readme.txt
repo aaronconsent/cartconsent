@@ -4,7 +4,7 @@ Tags: woocommerce, abandoned cart, cart recovery, gdpr, retargeting
 Requires at least: 6.4
 Tested up to: 6.7
 Requires PHP: 8.1
-Stable tag: 1.2.0
+Stable tag: 1.3.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -56,6 +56,9 @@ No. That's the whole point. A shopper with no lawful basis to email is never sto
 Yes — they go through wp_mail, so whatever mail/SMTP setup your store uses is used, with the deliverability essentials (honest From, physical address, one-click List-Unsubscribe) built in.
 
 == Changelog ==
+
+= 1.3.0 =
+* New: estimated lost revenue. The plugin counts anonymous guest carts on your own store (locally, no personal data read or stored) and shows a clearly-labeled estimate of what visitor resolution could have won back — anonymous cart value × an adjustable assumed resolution rate (default 20%) × your store's measured recovery rate. Shown on the Dashboard and, with its full math, on Recovery Analytics. Estimates are never blended into measured revenue.
 
 = 1.2.0 =
 * The built-in cookie banner is back — free forever, serving by default with no account required (banner + preference center, script blocking, Consent Mode v2, GPC, consent records). Cart recovery is likewise fully functional on the free plan.

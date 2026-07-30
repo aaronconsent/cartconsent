@@ -183,6 +183,7 @@ class CRW_Capture {
 		if ( $id ) {
 			$order->update_meta_data( '_crw_cart_id', $id );
 			$order->save();
+			CRW_Estimates::mark_session_captured();
 		}
 	}
 

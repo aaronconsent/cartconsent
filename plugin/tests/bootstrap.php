@@ -54,6 +54,7 @@ require $inc . 'class-crw-carts-store.php';
 require $inc . 'class-crw-segments.php';
 require $inc . 'class-crw-push-crypto.php';
 require $inc . 'class-crw-push-store.php';
+require $inc . 'class-crw-estimates.php';
 require $inc . 'class-crw-unsubscribe.php';
 require $inc . 'class-crw-popup.php';
 require $inc . 'class-crw-recovery.php';

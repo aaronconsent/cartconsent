@@ -82,6 +82,8 @@ class CRW_Options {
 				'button'        => __( 'Save my cart', 'cartconsent' ),
 			),
 			'retention_days' => 60,
+			// --- Lost-revenue estimate (assumption is merchant-editable) ---------
+			'estimates' => array( 'resolution_rate' => 20 ),
 
 			// --- Built-in consent banner (works standalone; stands down if
 			//     Consent Resolve core is active) --------------------------------
