@@ -88,8 +88,8 @@ class CRW_Admin {
 			echo '<div class="crw-cards">';
 			$this->card( $this->money( (int) ( $f['open_cents'] ?? 0 ) ), __( 'Open cart value', 'cartconsent' ) );
 			$this->card( number_format_i18n( (int) ( $f['open'] ?? 0 ) ), __( 'Open carts', 'cartconsent' ) );
-			$this->card( number_format_i18n( CRW_Events::count( 'email_sent', 30 ) ), __( 'Emails sent (30d)', 'cartconsent' ) );
-			$this->card( number_format_i18n( CRW_Events::count( 'recovery_clicked', 30 ) ), __( 'Recovery clicks (30d)', 'cartconsent' ) );
+			$this->card( number_format_i18n( CRW_Events::count( 'email_sent', 30 ) ), __( 'Emails sent', 'cartconsent' ) );
+			$this->card( number_format_i18n( CRW_Events::count( 'recovery_clicked', 30 ) ), __( 'Recovery clicks', 'cartconsent' ) );
 			echo '</div>';
 		} else {
 			$anon    = class_exists( 'CRW_Estimates' ) ? CRW_Estimates::anon_30d() : array( 'n' => 0, 'cents' => 0 );
@@ -101,15 +101,15 @@ class CRW_Admin {
 			// No recovery-performance cards here: capturing and recovering carts is
 			// a connected superpower, so those numbers don't exist on the free plan.
 			echo '<div class="crw-cards">';
-			$this->card( number_format_i18n( $anon['n'] ), __( 'Abandoned carts observed (30d)', 'cartconsent' ) );
-			$this->card( $this->money( (int) $anon['cents'] ), __( 'Abandoned cart value (30d)', 'cartconsent' ) );
+			$this->card( number_format_i18n( $anon['n'] ), __( 'Abandoned carts observed', 'cartconsent' ) );
+			$this->card( $this->money( (int) $anon['cents'] ), __( 'Abandoned cart value', 'cartconsent' ) );
 			$this->card( $this->money( $avg ), __( 'Avg abandoned cart', 'cartconsent' ) );
-			$this->card( number_format_i18n( $store['orders'] ), __( 'Store orders (30d)', 'cartconsent' ) );
+			$this->card( number_format_i18n( $store['orders'] ), __( 'Store orders', 'cartconsent' ) );
 			echo '</div>';
 
 			echo '<div class="crw-cards">';
-			$this->card( number_format_i18n( $consent['total'] ), __( 'Consent choices (30d)', 'cartconsent' ) );
-			$this->card( $consent['accept_rate'] . '%', __( 'Banner accept rate (30d)', 'cartconsent' ), $consent['accept_rate'] >= 50 ? 'good' : '' );
+			$this->card( number_format_i18n( $consent['total'] ), __( 'Consent choices', 'cartconsent' ) );
+			$this->card( $consent['accept_rate'] . '%', __( 'Banner accept rate', 'cartconsent' ), $consent['accept_rate'] >= 50 ? 'good' : '' );
 			$this->card( $optin . '%', __( 'Checkout opt-in rate', 'cartconsent' ) );
 			$this->card( number_format_i18n( class_exists( 'CRW_Consent' ) ? CRW_Consent::count() : 0 ), __( 'Consent records (all time)', 'cartconsent' ) );
 			echo '</div>';
@@ -124,7 +124,7 @@ class CRW_Admin {
 		if ( $est && $est['recoverable_cents'] > 0 ) {
 			echo '<div class="crw-card crw-est"><span class="crw-est-badge">' . esc_html__( 'Estimate', 'cartconsent' ) . '</span>';
 			echo '<div class="crw-est-value">' . esc_html( $this->money( $est['recoverable_cents'] ) ) . '</div>';
-			echo '<div class="crw-est-label">' . esc_html__( 'Estimated lost revenue (30d) — what visitor resolution could have won back', 'cartconsent' ) . '</div>';
+			echo '<div class="crw-est-label">' . esc_html__( 'Estimated lost revenue — what visitor resolution could have won back', 'cartconsent' ) . '</div>';
 			echo '<div class="crw-est-math">' . esc_html( sprintf(
 				/* translators: 1: count 2: money 3: resolution rate 4: recovery rate */
 				__( 'Based on %1$s anonymous carts worth %2$s × %3$d%% assumed resolution rate × %4$d%% recovery rate.', 'cartconsent' ),
@@ -300,8 +300,8 @@ class CRW_Admin {
 		echo '<p class="description">' . esc_html__( 'Last 30 days unless noted.', 'cartconsent' ) . '</p>';
 
 		echo '<div class="crw-cards">';
-		$this->card( $this->money( (int) $rec30['cents'] ), __( 'Revenue recovered (30d)', 'cartconsent' ), 'good' );
-		$this->card( number_format_i18n( (int) $rec30['n'] ), __( 'Carts recovered (30d)', 'cartconsent' ) );
+		$this->card( $this->money( (int) $rec30['cents'] ), __( 'Revenue recovered', 'cartconsent' ), 'good' );
+		$this->card( number_format_i18n( (int) $rec30['n'] ), __( 'Carts recovered', 'cartconsent' ) );
 		$this->card( $this->money( $avg ), __( 'Avg recovered order', 'cartconsent' ) );
 		$this->card( $ctr . '%', __( 'Click rate (clicks / sends)', 'cartconsent' ), $ctr >= 15 ? 'good' : '' );
 		echo '</div>';
@@ -375,7 +375,7 @@ class CRW_Admin {
 			echo '<p class="description">' . esc_html__( 'Watching your store for anonymous guest carts — figures appear here within a day of normal traffic.', 'cartconsent' ) . '</p>';
 		} else {
 			echo '<div class="crw-cards" style="margin-top:4px">';
-			$this->card( number_format_i18n( $est['anon_count'] ), __( 'Anonymous carts observed (30d)', 'cartconsent' ) );
+			$this->card( number_format_i18n( $est['anon_count'] ), __( 'Anonymous carts observed', 'cartconsent' ) );
 			$this->card( $this->money( $est['anon_cents'] ), __( 'Their combined value', 'cartconsent' ) );
 			$this->card( number_format_i18n( $est['resolvable'] ), sprintf( /* translators: %d rate */ __( 'Est. resolvable at %d%%', 'cartconsent' ), (int) round( $est['res_rate'] * 100 ) ) );
 			$this->card( $this->money( $est['recoverable_cents'] ), __( 'Est. recoverable revenue', 'cartconsent' ), 'good' );
@@ -396,7 +396,7 @@ class CRW_Admin {
 		echo '</div>';
 
 		// --- Channels.
-		echo '<h2 class="crw-section-title">' . esc_html__( 'Channels (30d)', 'cartconsent' ) . '</h2><div class="crw-cards">';
+		echo '<h2 class="crw-section-title">' . esc_html__( 'Channels', 'cartconsent' ) . '</h2><div class="crw-cards">';
 		$this->card( number_format_i18n( $sent30 ), __( 'Recovery emails', 'cartconsent' ) );
 		$this->card( number_format_i18n( CRW_Events::count( 'push_sent', 30 ) ), __( 'Web pushes', 'cartconsent' ) );
 		$this->card( number_format_i18n( CRW_Events::count( 'popup_capture', 30 ) ), __( 'Popup captures', 'cartconsent' ) );
