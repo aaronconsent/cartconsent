@@ -19,11 +19,12 @@ class CRW_Plugin {
 		add_action( 'init', array( $this, 'load_textdomain' ) );
 		$this->maybe_upgrade();
 
-		// Built-in consent surface (banner / records / privacy) — self-contained.
-		( new CRW_Consent() )->register();
-		( new CRW_Frontend() )->register();
-		( new CRW_Rest() )->register();
-		( new CRW_Rights() )->register();
+		// Consent surface: the hosted Consent Resolve javascript + cookie banner,
+		// exclusively — activated by the API key. The formerly-bundled local
+		// banner/records/privacy modules (CRW_Frontend/CRW_Consent/CRW_Rest/
+		// CRW_Rights) are retired; those surfaces live in the Consent Resolve
+		// dashboard now.
+		( new CRW_Hosted() )->register();
 
 		// Cart recovery.
 		( new CRW_Capture() )->register();

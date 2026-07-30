@@ -45,6 +45,11 @@ class CRW_Capture {
 		add_action( 'woocommerce_payment_complete', array( $this, 'recover_from_order' ), 20, 1 );
 		add_action( 'woocommerce_order_status_changed', array( $this, 'recover_on_status' ), 20, 4 );
 
+		// The module is activated by the Consent Resolve API key; without it no
+		// new shoppers are captured (existing carts are only ever cleared, above).
+		if ( ! CRW_Hosted::active() ) {
+			return;
+		}
 		if ( ! CRW_Options::get( 'capture.enabled', true ) ) {
 			return;
 		}

@@ -31,6 +31,9 @@ class CRW_Scheduler {
 	 * Process one batch.
 	 */
 	public function run() {
+		if ( ! CRW_Hosted::active() ) {
+			return; // Module inactive without the Consent Resolve API key.
+		}
 		if ( ! CRW_Options::get( 'capture.enabled', true ) ) {
 			return;
 		}

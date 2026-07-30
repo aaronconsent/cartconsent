@@ -26,29 +26,34 @@ class CRW_Wizard {
 	 * Render the wizard.
 	 */
 	public static function render() {
-		$b   = CRW_Options::get( 'banner' );
-		$em  = CRW_Options::get( 'emails' );
-		$cap = CRW_Options::get( 'capture' );
-		$cp  = CRW_Options::get( 'coupon' );
+		$em   = CRW_Options::get( 'emails' );
+		$cap  = CRW_Options::get( 'capture' );
+		$cp   = CRW_Options::get( 'coupon' );
+		$conn = CRW_Connection::config();
 		$done = (bool) get_option( 'crw_setup_complete' );
 
 		echo '<div class="wrap crw-wrap"><h1>' . esc_html__( 'Setup Wizard', 'cartconsent' ) . '</h1>';
 		if ( isset( $_GET['crw_msg'] ) && 'wizard' === $_GET['crw_msg'] ) { // phpcs:ignore WordPress.Security.NonceVerification
-			echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'All set! Your consent banner and cart recovery are live.', 'cartconsent' ) . '</p></div>';
+			echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'All set! Your cookie banner and cart recovery are live.', 'cartconsent' ) . '</p></div>';
 		}
-		echo '<p class="description" style="max-width:75ch">' . esc_html__( 'Three quick things and you are live: how consent works for your visitors, who your recovery emails come from, and when a cart counts as abandoned. You can change everything later.', 'cartconsent' ) . '</p>';
+		echo '<p class="description" style="max-width:75ch">' . esc_html__( 'Three quick things and you are live: connect your Consent Resolve account (this activates the cookie banner and recovery), who your recovery emails come from, and when a cart counts as abandoned. You can change everything later.', 'cartconsent' ) . '</p>';
 
 		echo '<form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '">';
 		wp_nonce_field( 'crw_save_wizard' );
 		echo '<input type="hidden" name="action" value="crw_save_wizard">';
 
-		echo '<div class="crw-card"><h2>' . esc_html__( '1. Consent', 'cartconsent' ) . '</h2>';
-		printf( '<p><label><input type="checkbox" name="banner_enabled" value="1" %s> %s</label></p>', checked( $b['enabled'], true, false ), esc_html__( 'Show the cookie consent banner (turn off if another CMP handles it)', 'cartconsent' ) );
-		echo '<p><label>' . esc_html__( 'Primary region', 'cartconsent' ) . ' <select name="region">';
-		foreach ( CRW_Regions::labels() as $k => $l ) {
-			echo '<option value="' . esc_attr( $k ) . '" ' . selected( $b['region'], $k, false ) . '>' . esc_html( $l ) . '</option>';
+		echo '<div class="crw-card"><h2>' . esc_html__( '1. Connect Consent Resolve', 'cartconsent' ) . '</h2>';
+		echo '<p class="description">' . esc_html__( 'Your API key activates CartConsent: the hosted cookie banner, capture, and recovery all switch on with it.', 'cartconsent' ) . ' <a href="' . esc_url( CRW_Hosted::dashboard_url() ) . '" target="_blank" rel="noopener">' . esc_html__( 'Get an API key', 'cartconsent' ) . ' &#8599;</a></p>';
+		echo '<p><label>' . esc_html__( 'Site ID', 'cartconsent' ) . '<br><input type="text" name="conn_site_id" value="' . esc_attr( $conn['site_id'] ) . '" class="regular-text"></label></p>';
+		if ( defined( 'CONSENT_RESOLVE_WOO_API_KEY' ) ) {
+			echo '<p>' . esc_html__( 'API key: set via CONSENT_RESOLVE_WOO_API_KEY in wp-config.php.', 'cartconsent' ) . '</p>';
+		} else {
+			echo '<p><label>' . esc_html__( 'API key', 'cartconsent' ) . '<br><input type="password" name="conn_api_key" value="' . esc_attr( $conn['api_key'] ) . '" class="regular-text" autocomplete="off"></label></p>';
 		}
-		echo '</select></label> <span class="description">' . esc_html__( 'Auto-detected per visitor when your CDN passes geo headers.', 'cartconsent' ) . '</span></p></div>';
+		echo CRW_Hosted::active()
+			? '<p><span style="color:#1d7f43;font-weight:600">&#10003; ' . esc_html__( 'Connected.', 'cartconsent' ) . '</span></p>'
+			: '';
+		echo '</div>';
 
 		echo '<div class="crw-card"><h2>' . esc_html__( '2. Sender', 'cartconsent' ) . '</h2>';
 		echo '<p><label>' . esc_html__( 'From name', 'cartconsent' ) . '<br><input type="text" name="from_name" value="' . esc_attr( $em['from_name'] ) . '" class="regular-text" placeholder="' . esc_attr( get_bloginfo( 'name' ) ) . '"></label></p>';
@@ -75,8 +80,10 @@ class CRW_Wizard {
 		}
 		$in = wp_unslash( $_POST ); // phpcs:ignore WordPress.Security.ValidationSanitization
 		$o  = CRW_Options::all();
-		$o['banner']['enabled'] = ! empty( $in['banner_enabled'] );
-		$o['banner']['region']  = array_key_exists( ( $in['region'] ?? '' ), CRW_Regions::profiles() ) ? $in['region'] : 'us';
+		$o['connection']['site_id'] = sanitize_text_field( $in['conn_site_id'] ?? '' );
+		if ( ! defined( 'CONSENT_RESOLVE_WOO_API_KEY' ) && isset( $in['conn_api_key'] ) ) {
+			$o['connection']['api_key'] = sanitize_text_field( $in['conn_api_key'] );
+		}
 		$o['emails']['from_name']  = sanitize_text_field( $in['from_name'] ?? '' );
 		$o['emails']['from_email'] = sanitize_email( $in['from_email'] ?? '' );
 		$o['capture']['abandon_after_minutes'] = max( 5, (int) ( $in['abandon_after'] ?? 30 ) );

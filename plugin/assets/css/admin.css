@@ -12,3 +12,36 @@
 .crw-card h2 { margin-top: 0; }
 .crw-step { border: 1px solid #eceef2; border-radius: 10px; padding: 4px 16px 12px; margin: 12px 0; background: #fbfbfc; }
 .crw-step h4 { margin: 12px 0 6px; }
+
+/* --- 1.1.0: dashboard status + icon nav, analytics visuals, settings tabs --- */
+.crw-section-title { margin: 26px 0 6px; font-size: 15px; }
+.crw-card-title { margin: 0 0 10px; font-size: 15px; }
+.crw-connect-cta { border-left: 4px solid #7f54b3; }
+
+.crw-nav-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 12px; margin: 12px 0 24px; }
+.crw-nav-tile { display: flex; flex-direction: column; gap: 6px; background: #fff; border: 1px solid #e2e4ea; border-radius: 12px; padding: 16px 16px 14px; text-decoration: none; color: #1d2327; transition: box-shadow .15s ease, border-color .15s ease; }
+.crw-nav-tile:hover { border-color: #7f54b3; box-shadow: 0 4px 14px rgba(127, 84, 179, .12); color: #1d2327; }
+.crw-nav-tile .dashicons { font-size: 26px; width: 26px; height: 26px; color: #7f54b3; }
+.crw-nav-label { font-weight: 600; font-size: 14px; }
+.crw-nav-step { font-size: 12px; color: #646970; }
+.crw-nav-step.is-todo { color: #a3282a; font-weight: 600; }
+.crw-nav-step.is-go { color: #1d7f43; font-weight: 600; }
+
+.crw-chart { width: 100%; height: 150px; display: block; }
+.crw-funnel { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+.crw-funnel-row { display: grid; grid-template-columns: 220px 1fr 70px 50px; gap: 10px; align-items: center; }
+.crw-funnel-label { font-weight: 600; font-size: 13px; }
+.crw-funnel-bar { background: #f0edf5; border-radius: 999px; height: 18px; overflow: hidden; }
+.crw-funnel-bar > span { display: block; height: 100%; background: #7f54b3; border-radius: 999px; }
+.crw-funnel-n { text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; }
+.crw-funnel-pct { text-align: right; color: #646970; font-size: 12px; font-variant-numeric: tabular-nums; }
+@media (max-width: 782px) { .crw-funnel-row { grid-template-columns: 130px 1fr 60px 44px; } }
+
+.crw-tabs { display: flex; gap: 4px; margin: 6px 0 0; border-bottom: 1px solid #dcdcde; flex-wrap: wrap; }
+.crw-tab-btn { appearance: none; border: 1px solid transparent; border-bottom: 0; background: transparent; padding: 10px 16px; font-size: 13px; font-weight: 600; color: #50575e; cursor: pointer; border-radius: 8px 8px 0 0; }
+.crw-tab-btn:hover { color: #7f54b3; }
+.crw-tab-btn.is-active { background: #fff; border-color: #dcdcde; color: #7f54b3; position: relative; top: 1px; }
+.crw-tab-panel { animation: crwFade .12s ease; }
+@keyframes crwFade { from { opacity: .4; } to { opacity: 1; } }
+
+.crw-savebar { position: sticky; bottom: 0; background: rgba(255, 255, 255, .95); backdrop-filter: blur(4px); border-top: 1px solid #dcdcde; margin: 18px -20px 0; padding: 12px 20px; display: flex; align-items: center; gap: 12px; z-index: 5; }

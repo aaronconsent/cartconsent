@@ -31,9 +31,8 @@ class CRW_Admin {
 		add_menu_page( __( 'CartConsent', 'cartconsent' ), __( 'CartConsent', 'cartconsent' ), self::CAP, self::SLUG, array( $this, 'page_dashboard' ), 'dashicons-shield', 56 );
 		add_submenu_page( self::SLUG, __( 'Dashboard', 'cartconsent' ), __( 'Dashboard', 'cartconsent' ), self::CAP, self::SLUG, array( $this, 'page_dashboard' ) );
 		add_submenu_page( self::SLUG, __( 'Setup Wizard', 'cartconsent' ), __( 'Setup Wizard', 'cartconsent' ), self::CAP, 'crw-wizard', array( 'CRW_Wizard', 'render' ) );
-		add_submenu_page( self::SLUG, __( 'Banner & Settings', 'cartconsent' ), __( 'Banner & Settings', 'cartconsent' ), self::CAP, 'crw-banner', array( 'CRW_Cmp_Admin', 'render_banner' ) );
-		add_submenu_page( self::SLUG, __( 'Consent Records', 'cartconsent' ), __( 'Consent Records', 'cartconsent' ), self::CAP, 'crw-records', array( 'CRW_Cmp_Admin', 'render_records' ) );
-		add_submenu_page( self::SLUG, __( 'Privacy Requests', 'cartconsent' ), __( 'Privacy Requests', 'cartconsent' ), self::CAP, 'crw-privacy', array( 'CRW_Cmp_Admin', 'render_privacy' ) );
+		// Consent Records + Privacy Requests live in the hosted Consent Resolve
+		// dashboard now (linked from the Dashboard tiles) — no local pages.
 		add_submenu_page( self::SLUG, __( 'Cart Recovery', 'cartconsent' ), __( 'Cart Recovery', 'cartconsent' ), self::CAP, 'crw-carts', array( $this, 'page_carts' ) );
 		add_submenu_page( self::SLUG, __( 'Analytics', 'cartconsent' ), __( 'Analytics', 'cartconsent' ), self::CAP, 'crw-analytics', array( $this, 'page_analytics' ) );
 		add_submenu_page( self::SLUG, __( 'Cart Recovery Settings', 'cartconsent' ), __( 'Cart Recovery Settings', 'cartconsent' ), self::CAP, 'crw-settings', array( $this, 'page_settings' ) );
@@ -62,11 +61,19 @@ class CRW_Admin {
 		$captured  = (int) ( $f['captured'] ?? 0 );
 		$recovered = (int) ( $f['recovered'] ?? 0 );
 		$rate      = $captured > 0 ? round( $recovered / $captured * 100 ) : 0;
+		$active    = CRW_Hosted::active();
 
-		echo '<div class="wrap crw-wrap"><h1>' . esc_html__( 'Cart Recovery', 'cartconsent' ) . '</h1>';
+		echo '<div class="wrap crw-wrap"><h1>' . esc_html__( 'CartConsent', 'cartconsent' ) . '</h1>';
 		$this->flash();
-		$this->health_strip();
 
+		// Hard gate: without the API key the module does not run.
+		if ( ! $active ) {
+			echo '<div class="crw-card crw-connect-cta"><h2 style="margin-top:0">' . esc_html__( 'Connect Consent Resolve to activate CartConsent', 'cartconsent' ) . '</h2>';
+			echo '<p>' . esc_html__( 'This version of CartConsent uses the Consent Resolve javascript and cookie banner exclusively, activated by your API key. Until you connect, the cookie banner is not served and cart capture, recovery sends, the popup, and web push are paused.', 'cartconsent' ) . '</p>';
+			echo '<p><a class="button button-primary button-hero" href="' . esc_url( admin_url( 'admin.php?page=crw-connection' ) ) . '">' . esc_html__( 'Connect your account', 'cartconsent' ) . '</a> <a class="button" href="' . esc_url( CRW_Hosted::dashboard_url() ) . '" target="_blank" rel="noopener">' . esc_html__( 'Get an API key', 'cartconsent' ) . ' &#8599;</a></p></div>';
+		}
+
+		// 1) Stats.
 		echo '<div class="crw-cards">';
 		$this->card( number_format_i18n( $captured ), __( 'Carts captured', 'cartconsent' ) );
 		$this->card( number_format_i18n( $recovered ), __( 'Recovered', 'cartconsent' ) );
@@ -81,50 +88,91 @@ class CRW_Admin {
 		$this->card( number_format_i18n( CRW_Events::count( 'recovery_clicked', 30 ) ), __( 'Recovery clicks (30d)', 'cartconsent' ) );
 		echo '</div>';
 
-		// Consent posture — the differentiator, stated plainly.
-		echo '<div class="crw-card crw-note"><h2 style="margin-top:0">' . esc_html__( 'Your consent posture', 'cartconsent' ) . '</h2>';
-		echo '<p>' . esc_html( $this->posture_text() ) . '</p>';
-		echo '<p class="description">' . esc_html__( 'CartConsent only stores and emails shoppers with a lawful basis, stamps that basis on every record, and auto-purges the rest. This is why recovery emails land in the inbox — not the spam folder.', 'cartconsent' ) . '</p></div>';
+		// 2) Status — below the stats.
+		$this->status_strip( $active );
 
-		echo '<p><a class="button button-primary" href="' . esc_url( admin_url( 'admin.php?page=crw-carts' ) ) . '">' . esc_html__( 'View abandoned carts', 'cartconsent' ) . '</a> <a class="button" href="' . esc_url( admin_url( 'admin.php?page=crw-settings' ) ) . '">' . esc_html__( 'Settings', 'cartconsent' ) . '</a></p>';
+		// 3) Icon navigation with next steps.
+		$this->nav_grid( $active );
+
 		echo '</div>';
 	}
 
 	/**
-	 * A one-line description of the active consent behavior.
+	 * Status strip: connection, banner, credits, then operational checks.
+	 *
+	 * @param bool $active Module active.
 	 */
-	private function posture_text() {
-		$basis = CRW_Options::get( 'consent.basis', 'jurisdiction' );
-		$map   = array(
-			'optin_only'   => __( 'Emailing only shoppers who explicitly opt in (strictest).', 'cartconsent' ),
-			'jurisdiction' => __( 'Region-aware: opt-out regions get a soft opt-in with unsubscribe; opt-in regions (EU/UK) require an explicit checkbox.', 'cartconsent' ),
-			'all_unsub'    => __( 'Emailing everyone who leaves an address, always with a one-click unsubscribe.', 'cartconsent' ),
-		);
-		$txt = $map[ $basis ] ?? '';
-		if ( CRW_Options::get( 'consent.honor_gpc', true ) ) {
-			$txt .= ' ' . __( 'Global Privacy Control is honored.', 'cartconsent' );
+	private function status_strip( $active ) {
+		$credits = $active ? CRW_Connection::credits() : null;
+		if ( null === $credits ) {
+			$credit_item = array( $active ? null : false, $active ? __( 'Credits: n/a', 'cartconsent' ) : __( 'Credits: connect first', 'cartconsent' ) );
+		} else {
+			$credit_item = array( $credits > 0, sprintf( /* translators: %s number */ __( 'Credits available: %s', 'cartconsent' ), number_format_i18n( $credits ) ) );
 		}
-		return $txt;
-	}
-
-	/**
-	 * Health strip.
-	 */
-	private function health_strip() {
 		$items = array(
-			array( (bool) CRW_Options::get( 'capture.enabled', true ), __( 'Capture active', 'cartconsent' ) ),
+			array( $active, $active ? __( 'Cookie banner active (Consent Resolve)', 'cartconsent' ) : __( 'Cookie banner inactive — connect your API key', 'cartconsent' ) ),
+			array( $active, $active ? __( 'Connected to Consent Resolve', 'cartconsent' ) : __( 'Not connected to Consent Resolve', 'cartconsent' ) ),
+			$credit_item,
+			array( $active && (bool) CRW_Options::get( 'capture.enabled', true ), __( 'Capture active', 'cartconsent' ) ),
 			array( (bool) wp_next_scheduled( CRW_Install::CRON_HOOK ), __( 'Recovery queue scheduled', 'cartconsent' ) ),
 			array( '' !== trim( (string) CRW_Options::get( 'emails.from_email', '' ) ) || (bool) get_option( 'admin_email' ), __( 'Sender address set', 'cartconsent' ) ),
 			array( '' !== trim( (string) get_option( 'woocommerce_store_address', '' ) ), __( 'Store address (for CAN-SPAM)', 'cartconsent' ) ),
 			array( CRW_Crypto::available(), __( 'Email encryption available', 'cartconsent' ) ),
 		);
-		echo '<div class="crw-health">';
+		echo '<h2 class="crw-section-title">' . esc_html__( 'Status', 'cartconsent' ) . '</h2><div class="crw-health">';
 		foreach ( $items as $it ) {
+			$color = null === $it[0] ? '#8a8a8a' : ( $it[0] ? '#1d7f43' : '#a3282a' );
+			$mark  = null === $it[0] ? '&#9675;' : ( $it[0] ? '&#10003;' : '&#9679;' );
+			printf( '<div class="crw-health-item"><span style="color:%s">%s</span> %s</div>', $color, $mark, esc_html( $it[1] ) ); // phpcs:ignore WordPress.Security.EscapeOutput
+		}
+		echo '</div>';
+	}
+
+	/**
+	 * Icon-based navigation to the rest of the plugin, each tile carrying its
+	 * next step. Consent Records + Privacy Requests link out to the hosted
+	 * Consent Resolve dashboard.
+	 *
+	 * @param bool $active Module active.
+	 */
+	private function nav_grid( $active ) {
+		$open       = (int) ( CRW_Carts_Store::funnel()['open'] ?? 0 );
+		$rec30      = number_format_i18n( CRW_Events::count( 'recovery_clicked', 30 ) );
+		$sequences  = count( array_filter( CRW_Options::sequences(), static function ( $s ) { return ! empty( $s['enabled'] ) && ! empty( $s['steps'] ); } ) );
+		$setup_done = (bool) get_option( 'crw_setup_complete' );
+		$hosted     = CRW_Hosted::dashboard_url();
+
+		$tiles = array(
+			array( 'dashicons-cart', __( 'Cart Recovery', 'cartconsent' ), admin_url( 'admin.php?page=crw-carts' ), false,
+				$open > 0 ? sprintf( /* translators: %s count */ _n( '%s cart in progress', '%s carts in progress', $open, 'cartconsent' ), number_format_i18n( $open ) ) : __( 'No open carts right now', 'cartconsent' ), $open > 0 ? 'go' : '' ),
+			array( 'dashicons-chart-bar', __( 'Recovery Analytics', 'cartconsent' ), admin_url( 'admin.php?page=crw-analytics' ), false,
+				sprintf( /* translators: %s count */ __( '%s recovery clicks in 30 days', 'cartconsent' ), $rec30 ), '' ),
+			array( 'dashicons-admin-settings', __( 'Recovery Settings', 'cartconsent' ), admin_url( 'admin.php?page=crw-settings' ), false,
+				$sequences > 0 ? sprintf( /* translators: %s count */ _n( '%s sequence live', '%s sequences live', $sequences, 'cartconsent' ), number_format_i18n( $sequences ) ) : __( 'Set up your first sequence', 'cartconsent' ), $sequences > 0 ? '' : 'todo' ),
+			array( 'dashicons-admin-network', __( 'Connection', 'cartconsent' ), admin_url( 'admin.php?page=crw-connection' ), false,
+				$active ? __( 'Connected', 'cartconsent' ) : __( 'Connect your API key', 'cartconsent' ), $active ? 'go' : 'todo' ),
+			array( 'dashicons-welcome-learn-more', __( 'Setup Wizard', 'cartconsent' ), admin_url( 'admin.php?page=crw-wizard' ), false,
+				$setup_done ? __( 'Completed', 'cartconsent' ) : __( 'Run the 3-step setup', 'cartconsent' ), $setup_done ? 'go' : 'todo' ),
+			array( 'dashicons-shield-alt', __( 'Consent Records', 'cartconsent' ), $hosted, true,
+				__( 'View in Consent Resolve', 'cartconsent' ), '' ),
+			array( 'dashicons-lock', __( 'Privacy Requests', 'cartconsent' ), $hosted, true,
+				__( 'View in Consent Resolve', 'cartconsent' ), '' ),
+			array( 'dashicons-dashboard', __( 'Consent Resolve', 'cartconsent' ), $hosted, true,
+				__( 'Open your dashboard', 'cartconsent' ), '' ),
+		);
+
+		echo '<h2 class="crw-section-title">' . esc_html__( 'Everything else', 'cartconsent' ) . '</h2><div class="crw-nav-grid">';
+		foreach ( $tiles as $t ) {
+			list( $icon, $label, $url, $ext, $step, $tone ) = $t;
 			printf(
-				'<div class="crw-health-item"><span style="color:%s">%s</span> %s</div>',
-				$it[0] ? '#1d7f43' : '#a3282a',
-				$it[0] ? '&#10003;' : '&#9679;',
-				esc_html( $it[1] )
+				'<a class="crw-nav-tile" href="%s"%s><span class="dashicons %s" aria-hidden="true"></span><span class="crw-nav-label">%s%s</span><span class="crw-nav-step %s">%s</span></a>',
+				esc_url( $url ),
+				$ext ? ' target="_blank" rel="noopener"' : '',
+				esc_attr( $icon ),
+				esc_html( $label ),
+				$ext ? ' <span aria-hidden="true">&#8599;</span>' : '',
+				esc_attr( $tone ? 'is-' . $tone : '' ),
+				esc_html( $step )
 			);
 		}
 		echo '</div>';
@@ -188,15 +236,95 @@ class CRW_Admin {
 	 * Recovery analytics: channels, per-sequence performance, and A/B splits.
 	 */
 	public function page_analytics() {
-		echo '<div class="wrap crw-wrap"><h1>' . esc_html__( 'Recovery Analytics', 'cartconsent' ) . '</h1>';
-		echo '<p class="description">' . esc_html__( 'Last 30 days.', 'cartconsent' ) . '</p>';
+		global $wpdb;
+		$carts_t  = $wpdb->prefix . 'crw_carts';
+		$events_t = $wpdb->prefix . 'crw_events';
+		$since    = gmdate( 'Y-m-d H:i:s', time() - 30 * DAY_IN_SECONDS );
 
-		// Channels.
-		echo '<h2>' . esc_html__( 'Channels', 'cartconsent' ) . '</h2><div class="crw-cards">';
-		$this->card( number_format_i18n( CRW_Events::count( 'email_sent', 30 ) ), __( 'Recovery emails', 'cartconsent' ) );
+		// --- 30-day KPIs.
+		$rec30 = $wpdb->get_row( $wpdb->prepare( "SELECT COUNT(*) AS n, COALESCE(SUM(recovered_cents),0) AS cents FROM {$carts_t} WHERE status='recovered' AND updated_at >= %s", $since ), ARRAY_A ); // phpcs:ignore WordPress.DB
+		$sent30   = CRW_Events::count( 'email_sent', 30 );
+		$clicks30 = CRW_Events::count( 'recovery_clicked', 30 );
+		$ctr      = $sent30 > 0 ? round( $clicks30 / $sent30 * 100 ) : 0;
+		$avg      = (int) $rec30['n'] > 0 ? (int) round( (int) $rec30['cents'] / (int) $rec30['n'] ) : 0;
+
+		echo '<div class="wrap crw-wrap"><h1>' . esc_html__( 'Recovery Analytics', 'cartconsent' ) . '</h1>';
+		echo '<p class="description">' . esc_html__( 'Last 30 days unless noted.', 'cartconsent' ) . '</p>';
+
+		echo '<div class="crw-cards">';
+		$this->card( $this->money( (int) $rec30['cents'] ), __( 'Revenue recovered (30d)', 'cartconsent' ), 'good' );
+		$this->card( number_format_i18n( (int) $rec30['n'] ), __( 'Carts recovered (30d)', 'cartconsent' ) );
+		$this->card( $this->money( $avg ), __( 'Avg recovered order', 'cartconsent' ) );
+		$this->card( $ctr . '%', __( 'Click rate (clicks / sends)', 'cartconsent' ), $ctr >= 15 ? 'good' : '' );
+		echo '</div>';
+
+		// --- Daily recovered revenue, 30-day bar chart (inline SVG, no libs).
+		$daily = $wpdb->get_results( $wpdb->prepare( "SELECT DATE(updated_at) AS d, SUM(recovered_cents) AS cents FROM {$carts_t} WHERE status='recovered' AND updated_at >= %s GROUP BY DATE(updated_at)", $since ), OBJECT_K ); // phpcs:ignore WordPress.DB
+		$max   = 0;
+		$days  = array();
+		for ( $i = 29; $i >= 0; $i-- ) {
+			$key          = gmdate( 'Y-m-d', time() - $i * DAY_IN_SECONDS );
+			$cents        = isset( $daily[ $key ] ) ? (int) $daily[ $key ]->cents : 0;
+			$days[ $key ] = $cents;
+			$max          = max( $max, $cents );
+		}
+		echo '<div class="crw-card"><h2 class="crw-card-title">' . esc_html__( 'Recovered revenue by day', 'cartconsent' ) . '</h2>';
+		if ( 0 === $max ) {
+			echo '<p class="description">' . esc_html__( 'No recovered revenue in the last 30 days yet — this chart fills in as sequences win carts back.', 'cartconsent' ) . '</p>';
+		} else {
+			$w = 30 * 24;
+			echo '<svg class="crw-chart" viewBox="0 0 ' . (int) $w . ' 140" role="img" aria-label="' . esc_attr__( 'Daily recovered revenue, last 30 days', 'cartconsent' ) . '" preserveAspectRatio="none">';
+			$x = 0;
+			foreach ( $days as $key => $cents ) {
+				$h = $max > 0 ? max( 2, (int) round( $cents / $max * 120 ) ) : 2;
+				$y = 130 - $h;
+				printf(
+					'<rect x="%d" y="%d" width="18" height="%d" rx="2" fill="%s"><title>%s — %s</title></rect>',
+					(int) $x + 3, (int) $y, (int) $h,
+					$cents > 0 ? '#7f54b3' : '#e4e0ea',
+					esc_html( mysql2date( get_option( 'date_format' ), $key . ' 00:00:00' ) ),
+					esc_html( $this->money( $cents ) )
+				);
+				$x += 24;
+			}
+			echo '<line x1="0" y1="130" x2="' . (int) $w . '" y2="130" stroke="#dcdcde" stroke-width="1"/>';
+			echo '</svg>';
+			echo '<p class="description">' . esc_html( sprintf( /* translators: %s money */ __( 'Best day: %s.', 'cartconsent' ), $this->money( max( $days ) ) ) ) . '</p>';
+		}
+		echo '</div>';
+
+		// --- Funnel: captured → emailed → clicked → recovered (lifetime).
+		$fun = $wpdb->get_row( "SELECT
+			SUM(status IN ('abandoned','lost','recovered','unsubscribed','active')) AS captured,
+			SUM(CASE WHEN emails_sent > 0 AND status IN ('abandoned','lost','recovered','unsubscribed') THEN 1 ELSE 0 END) AS emailed,
+			SUM(status='recovered') AS recovered
+			FROM {$carts_t}", ARRAY_A ); // phpcs:ignore WordPress.DB
+		$clicked = (int) $wpdb->get_var( "SELECT COUNT(DISTINCT cart_id) FROM {$events_t} WHERE type='recovery_clicked'" ); // phpcs:ignore WordPress.DB
+		$stages  = array(
+			array( __( 'Carts captured', 'cartconsent' ), (int) ( $fun['captured'] ?? 0 ) ),
+			array( __( 'Entered a sequence (emailed)', 'cartconsent' ), (int) ( $fun['emailed'] ?? 0 ) ),
+			array( __( 'Clicked a recovery link', 'cartconsent' ), $clicked ),
+			array( __( 'Recovered', 'cartconsent' ), (int) ( $fun['recovered'] ?? 0 ) ),
+		);
+		$top = max( 1, $stages[0][1] );
+		echo '<div class="crw-card"><h2 class="crw-card-title">' . esc_html__( 'Where shoppers drop off', 'cartconsent' ) . '</h2><div class="crw-funnel">';
+		foreach ( $stages as $i => $s ) {
+			$pct  = (int) round( $s[1] / $top * 100 );
+			$conv = $i > 0 && $stages[ $i - 1 ][1] > 0 ? (int) round( $s[1] / $stages[ $i - 1 ][1] * 100 ) : 100;
+			printf(
+				'<div class="crw-funnel-row"><span class="crw-funnel-label">%s</span><span class="crw-funnel-bar"><span style="width:%d%%"></span></span><span class="crw-funnel-n">%s</span><span class="crw-funnel-pct">%s</span></div>',
+				esc_html( $s[0] ), max( 2, $pct ), esc_html( number_format_i18n( $s[1] ) ),
+				$i > 0 ? esc_html( $conv . '%' ) : '&nbsp;'
+			);
+		}
+		echo '</div><p class="description">' . esc_html__( 'The percentage on each row is conversion from the previous stage. A weak "clicked" row usually means subject lines; a weak "recovered" row usually means the offer or checkout friction.', 'cartconsent' ) . '</p></div>';
+
+		// --- Channels.
+		echo '<h2 class="crw-section-title">' . esc_html__( 'Channels (30d)', 'cartconsent' ) . '</h2><div class="crw-cards">';
+		$this->card( number_format_i18n( $sent30 ), __( 'Recovery emails', 'cartconsent' ) );
 		$this->card( number_format_i18n( CRW_Events::count( 'push_sent', 30 ) ), __( 'Web pushes', 'cartconsent' ) );
 		$this->card( number_format_i18n( CRW_Events::count( 'popup_capture', 30 ) ), __( 'Popup captures', 'cartconsent' ) );
-		$this->card( number_format_i18n( CRW_Events::count( 'recovery_clicked', 30 ) ), __( 'Recovery clicks', 'cartconsent' ) );
+		$this->card( number_format_i18n( $clicks30 ), __( 'Recovery clicks', 'cartconsent' ) );
 		echo '</div>';
 
 		// Per-sequence.
@@ -261,6 +389,20 @@ class CRW_Admin {
 		wp_nonce_field( 'crw_save_settings' );
 		echo '<input type="hidden" name="action" value="crw_save_settings">';
 
+		// Tab navigation — same form, sections shown one group at a time.
+		$tabs = array(
+			'capture'  => __( 'Capture & Consent', 'cartconsent' ),
+			'emails'   => __( 'Emails & Sequences', 'cartconsent' ),
+			'channels' => __( 'Coupon, Popup & Push', 'cartconsent' ),
+			'data'     => __( 'Retargeting & Data', 'cartconsent' ),
+		);
+		echo '<nav class="crw-tabs" role="tablist">';
+		foreach ( $tabs as $key => $label ) {
+			printf( '<button type="button" class="crw-tab-btn" role="tab" data-tab="%s">%s</button>', esc_attr( $key ), esc_html( $label ) );
+		}
+		echo '</nav>';
+
+		echo '<div class="crw-tab-panel" data-panel="capture">';
 		// Capture.
 		echo '<div class="crw-card"><h2>' . esc_html__( 'Capture', 'cartconsent' ) . '</h2>';
 		$this->toggle( 'capture[enabled]', __( 'Capture abandoning shoppers', 'cartconsent' ), $capture['enabled'] );
@@ -289,6 +431,8 @@ class CRW_Admin {
 		$this->toggle( 'consent[honor_gpc]', __( 'Honor Global Privacy Control (suppress soft opt-ins + audiences)', 'cartconsent' ), $consent['honor_gpc'] );
 		echo '</div>';
 
+		echo '</div><div class="crw-tab-panel" data-panel="emails">';
+
 		// Emails.
 		echo '<div class="crw-card"><h2>' . esc_html__( 'Emails', 'cartconsent' ) . '</h2>';
 		echo '<p><label>' . esc_html__( 'From name', 'cartconsent' ) . '<br><input type="text" name="emails[from_name]" value="' . esc_attr( $emails['from_name'] ) . '" class="regular-text" placeholder="' . esc_attr( get_bloginfo( 'name' ) ) . '"></label></p>';
@@ -308,6 +452,8 @@ class CRW_Admin {
 		echo '<p><button type="button" class="button" id="crw-add-seq">+ ' . esc_html__( 'Add sequence', 'cartconsent' ) . '</button></p>';
 		$this->sequences_js( count( $seqs ) );
 		echo '</div>';
+
+		echo '</div><div class="crw-tab-panel" data-panel="channels">';
 
 		// Coupon.
 		echo '<div class="crw-card"><h2>' . esc_html__( 'Recovery coupon', 'cartconsent' ) . '</h2>';
@@ -340,6 +486,8 @@ class CRW_Admin {
 		echo '<p><label>' . esc_html__( 'Button', 'cartconsent' ) . '<br><input type="text" name="popup[button]" value="' . esc_attr( $pop['button'] ) . '" class="regular-text"></label></p>';
 		echo '</div>';
 
+		echo '</div><div class="crw-tab-panel" data-panel="data">';
+
 		// Retargeting.
 		echo '<div class="crw-card"><h2>' . esc_html__( 'Retargeting', 'cartconsent' ) . '</h2>';
 		$this->toggle( 'tracking[consent_mode]', __( 'Set Google Consent Mode v2 defaults', 'cartconsent' ), $tracking['consent_mode'] );
@@ -355,8 +503,27 @@ class CRW_Admin {
 		echo '<p><label>' . esc_html__( 'Delete abandoned carts after (days)', 'cartconsent' ) . ' <input type="number" min="1" name="retention_days" value="' . esc_attr( (int) CRW_Options::get( 'retention_days', 60 ) ) . '" class="small-text"></label><br><span class="description">' . esc_html__( 'Captures with no lawful basis to email are dropped within 24 hours automatically (data minimization).', 'cartconsent' ) . '</span></p>';
 		echo '</div>';
 
-		echo '<p><button class="button button-primary button-hero">' . esc_html__( 'Save settings', 'cartconsent' ) . '</button></p>';
-		echo '</form></div>';
+		echo '</div>'; // last tab panel
+
+		// Sticky save bar — visible from every tab.
+		echo '<div class="crw-savebar"><button class="button button-primary button-hero">' . esc_html__( 'Save settings', 'cartconsent' ) . '</button> <span class="description">' . esc_html__( 'Saves every tab at once.', 'cartconsent' ) . '</span></div>';
+		echo '</form>';
+
+		// Tabs: show one panel at a time; remember the choice in the URL hash.
+		echo '<script>(function(){
+			var btns = document.querySelectorAll(".crw-tab-btn");
+			var panels = document.querySelectorAll(".crw-tab-panel");
+			function show(key){
+				panels.forEach(function(p){ p.style.display = p.dataset.panel === key ? "" : "none"; });
+				btns.forEach(function(b){ b.classList.toggle("is-active", b.dataset.tab === key); b.setAttribute("aria-selected", b.dataset.tab === key ? "true" : "false"); });
+				if (history.replaceState) { history.replaceState(null, "", "#" + key); }
+			}
+			btns.forEach(function(b){ b.addEventListener("click", function(){ show(b.dataset.tab); }); });
+			var initial = (location.hash || "#capture").slice(1);
+			var valid = Array.prototype.some.call(btns, function(b){ return b.dataset.tab === initial; });
+			show(valid ? initial : "capture");
+		})();</script>';
+		echo '</div>';
 	}
 
 	/* ------------------------------------------------------------- save + ui */

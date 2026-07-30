@@ -39,6 +39,25 @@ class CRW_Connection {
 	}
 
 	/**
+	 * Available resolution credits, cached for 10 minutes. Returns an int, or
+	 * null when the edge is unreachable / not yet provisioned (fail-open: the
+	 * dashboard shows "n/a" rather than an error).
+	 */
+	public static function credits() {
+		if ( ! self::is_connected() ) {
+			return null;
+		}
+		$cached = get_transient( 'crw_credits' );
+		if ( false !== $cached ) {
+			return 'na' === $cached ? null : (int) $cached;
+		}
+		$res     = self::signed_request( '/v1/credits', 'POST', array() );
+		$credits = is_array( $res ) && isset( $res['credits'] ) ? (int) $res['credits'] : null;
+		set_transient( 'crw_credits', null === $credits ? 'na' : $credits, 10 * MINUTE_IN_SECONDS );
+		return $credits;
+	}
+
+	/**
 	 * A signed edge request. Returns the decoded body, or null (fail-open).
 	 *
 	 * @param string $path   Path.
